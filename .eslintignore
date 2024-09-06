@@ -1,0 +1,9 @@
+**/*.svg
+**/*.json
+dist
+**/*.config.ts
+**/*.config.js
+**/*.config.mjs
+**/*.config.mts
+.eslintrc.cjs
+types
