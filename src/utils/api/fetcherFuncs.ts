@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { RequestOptions } from "./interfaces";
 import { ApiMethod } from "./apiMethod";
+import { supabase } from "../auth/useAuth";
 
 async function axiosFetch<Response = void, Body = void>(
     requestOptions: RequestOptions<Body>,
@@ -45,13 +46,18 @@ export async function genericRequest<RequestType, ResponseType>(
     requestBody: RequestType,
     url: string,
     method: ApiMethod,
-    authHeader?: Record<string, string>,
 ): Promise<ResponseType> {
+    const session = await supabase.auth.getSession();
+
+    if (session.error != null) {
+        throw session.error;
+    }
+
     const apiResponse = await axiosFetch<ResponseType, RequestType>({
         method,
         url,
         body: requestBody,
-        authHeader,
+        authHeader: { Authorization: `Bearer ${session.data.session?.access_token}` },
     });
 
     return apiResponse.data;
