@@ -1,5 +1,12 @@
-import { DomainUser } from "../../models/domain/User";
-import { CreateUpdateUser } from "../../models/domain/CreateUpdateUser";
+import { AppScoreboard } from "../../models/app/scoreboard/Scoreboard";
+import { AppCreateScoreboard } from "../../models/app/scoreboard/CreateScoreboard";
+import { UUID } from "crypto";
+import { AppUser } from "../../models/app/user/User";
+import { AppCreateUpdateUser } from "../../models/app/user/CreateUpdateUser";
+import { AppUpdateScoreboard } from "../../models/app/scoreboard/UpdateScoreboard";
+import { AppKlaverjasTeam } from "../../models/app/klaverjasTeam/KlaverjasTeam";
+import { AppCreateKlaverjasTeam } from "../../models/app/klaverjasTeam/CreateKlaverjasTeam";
+import { AppUpdateKlaverjasTeam } from "../../models/app/klaverjasTeam/UpdateKlaverjasTeam";
 
 export type RequestOptions<Body> =
     | {
@@ -16,8 +23,23 @@ export type RequestOptions<Body> =
 
 export type ApiRoutes = {
     user: {
-        get: () => Promise<DomainUser>;
-        post: (user: CreateUpdateUser) => Promise<DomainUser>;
-        put: (user: CreateUpdateUser) => Promise<DomainUser>;
+        get: () => Promise<AppUser>;
+        post: (user: AppCreateUpdateUser) => Promise<AppUser>;
+        put: (user: AppCreateUpdateUser) => Promise<AppUser>;
+    };
+    scoreboard: {
+        get: () => Promise<Array<AppScoreboard>>;
+        getById: (id: UUID) => Promise<AppScoreboard>;
+        post: (scoreboard: AppCreateScoreboard) => Promise<AppScoreboard>;
+        put: (scoreboard: AppUpdateScoreboard, id: UUID) => Promise<AppScoreboard>;
+    };
+    klaverjasTeam: {
+        getByScoreboardId: (scoreboardId: UUID) => Promise<Array<AppKlaverjasTeam>>;
+        post: (scoreboardId: UUID, klaverjasTeam: AppCreateKlaverjasTeam) => Promise<AppKlaverjasTeam>;
+        put: (
+            scoreboardId: UUID,
+            klaverjasTeamId: UUID,
+            klaverjasTeam: AppUpdateKlaverjasTeam,
+        ) => Promise<AppKlaverjasTeam>;
     };
 };

@@ -1,10 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CreateUpdateUser } from "../../../models/domain/CreateUpdateUser";
+import { AppCreateUpdateUser } from "../../../models/app/CreateUpdateUser";
 import { useAPI } from "../useAPI";
+import { getUserQueryKey } from "../queries/queryKeyFunctions";
+import { getUserMutationKey } from "./mutationKeyFunctions";
 
 type MutationProps = {
     action: "create" | "update";
-    user: CreateUpdateUser;
+    user: AppCreateUpdateUser;
 };
 
 export function useUserMutation() {
@@ -15,7 +17,7 @@ export function useUserMutation() {
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
-        mutationKey: ["user"],
+        mutationKey: getUserMutationKey(),
         mutationFn: async (mutationProps: MutationProps) => {
             if (mutationProps.action === "create") {
                 return await post(mutationProps.user);
@@ -23,15 +25,15 @@ export function useUserMutation() {
             return await put(mutationProps.user);
         },
         onSuccess: (data) => {
-            queryClient.setQueryData(["user"], data);
+            queryClient.setQueryData(getUserQueryKey(), data);
         },
     });
 
-    async function createUser(user: CreateUpdateUser) {
+    async function createUser(user: AppCreateUpdateUser) {
         await mutation.mutateAsync({ action: "create", user });
     }
 
-    async function updateUser(user: CreateUpdateUser) {
+    async function updateUser(user: AppCreateUpdateUser) {
         await mutation.mutateAsync({ action: "update", user });
     }
 

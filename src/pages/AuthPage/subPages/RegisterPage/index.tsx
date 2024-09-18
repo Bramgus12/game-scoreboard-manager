@@ -1,21 +1,14 @@
 import { KeyboardArrowLeftRounded } from "@mui/icons-material";
 import { Button, TextField, Typography } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import { FormEvent, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import useUserSignupMutation from "utils/auth/mutators/useUserSignupMutation";
 import { useUserMutation } from "../../../../utils/api/mutators/useUserMutation";
+import { useForm } from "react-hook-form";
+import { RegisterForm } from "./interfaces";
 
 export default function RegisterPage() {
     const [searchParams] = useSearchParams();
-
-    const [state, setState] = useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        repeatPassword: "",
-    });
 
     const { mutateAsync } = useUserSignupMutation();
 
@@ -23,58 +16,43 @@ export default function RegisterPage() {
 
     const from = searchParams.get("from");
 
-    async function registerUser(event: FormEvent) {
-        event.preventDefault();
+    const { register, handleSubmit } = useForm<RegisterForm>();
 
+    async function submitUser(data: RegisterForm) {
         const userResult = await mutateAsync({
-            email: state.email,
-            password: state.password,
+            email: data.email,
+            password: data.password,
         });
 
         await createUser({
-            firstName: state.firstName,
-            lastName: state.lastName,
+            firstName: data.firstName,
+            lastName: data.lastName,
         });
 
         if (userResult.session != null) {
-            window.location.href = from ?? "/";
+            window.open(from ?? "/");
         }
     }
 
     return (
-        <form onSubmit={registerUser}>
+        <form onSubmit={handleSubmit(submitUser)}>
             <Grid2 container spacing={5}>
                 <Grid2 xs={12}>
                     <Typography variant="subtitle1">Register a new account to keep track of your games!</Typography>
                 </Grid2>
                 <Grid2 container xs={12} spacing={2} justifyContent="flex-end">
                     <Grid2 xs={12}>
-                        <TextField
-                            label="First Name"
-                            value={state.firstName}
-                            onChange={(event) => {
-                                setState((prevState) => ({ ...prevState, firstName: event.target.value }));
-                            }}
-                        />
+                        <TextField label="First Name" {...register("firstName", { required: true })} />
                     </Grid2>
                     <Grid2 xs={12}>
-                        <TextField
-                            label="Last Name"
-                            value={state.lastName}
-                            onChange={(event) => {
-                                setState((prevState) => ({ ...prevState, lastName: event.target.value }));
-                            }}
-                        />
+                        <TextField label="Last Name" {...register("lastName", { required: true })} />
                     </Grid2>
                     <Grid2 xs={12}>
                         <TextField
                             type="email"
                             autoComplete="userName"
                             label="Email"
-                            value={state.email}
-                            onChange={(event) => {
-                                setState((prevState) => ({ ...prevState, email: event.target.value }));
-                            }}
+                            {...register("email", { required: true })}
                         />
                     </Grid2>
                     <Grid2 xs={12}>
@@ -82,10 +60,7 @@ export default function RegisterPage() {
                             label="Password"
                             autoComplete="new-password"
                             type="password"
-                            value={state.password}
-                            onChange={(event) => {
-                                setState((prevState) => ({ ...prevState, password: event.target.value }));
-                            }}
+                            {...register("password", { required: true })}
                         />
                     </Grid2>
                     <Grid2 xs={12}>
@@ -93,10 +68,7 @@ export default function RegisterPage() {
                             label="Repeat Password"
                             autoComplete="new-password"
                             type="password"
-                            value={state.repeatPassword}
-                            onChange={(event) => {
-                                setState((prevState) => ({ ...prevState, repeatPassword: event.target.value }));
-                            }}
+                            {...register("repeatPassword", { required: true })}
                         />
                     </Grid2>
                     <Grid2 xs>

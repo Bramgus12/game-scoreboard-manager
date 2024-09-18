@@ -1,4 +1,4 @@
-export type CreateUpdateUser = {
+export type DomainCreateUpdateUser = {
     firstName: string;
     lastName: string;
 };
