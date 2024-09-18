@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getScoreboardMutationKey } from "./mutationKeyFunctions";
-import { AppCreateScoreboard } from "../../../models/app/CreateScoreboard";
-import { AppUpdateScoreboard } from "../../../models/app/UpdateScoreboard";
 import { useAPI } from "../useAPI";
 import { getScoreboardQueryKey } from "../queries/queryKeyFunctions";
+import { AppCreateScoreboard } from "../../../models/app/scoreboard/CreateScoreboard";
+import { AppUpdateScoreboard } from "../../../models/app/scoreboard/UpdateScoreboard";
 
 type MutationProps =
     | {

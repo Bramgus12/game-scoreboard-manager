@@ -7,6 +7,8 @@ import { AppUpdateScoreboard } from "../../models/app/scoreboard/UpdateScoreboar
 import { AppKlaverjasTeam } from "../../models/app/klaverjasTeam/KlaverjasTeam";
 import { AppCreateKlaverjasTeam } from "../../models/app/klaverjasTeam/CreateKlaverjasTeam";
 import { AppUpdateKlaverjasTeam } from "../../models/app/klaverjasTeam/UpdateKlaverjasTeam";
+import { AppKlaverjasRound } from "../../models/app/klaverjasRound/KlaverjasRound";
+import { AppCreateKlaverjasRound } from "../../models/app/klaverjasRound/CreateKlaverjasRound";
 
 export type RequestOptions<Body> =
     | {
@@ -41,5 +43,15 @@ export type ApiRoutes = {
             klaverjasTeamId: UUID,
             klaverjasTeam: AppUpdateKlaverjasTeam,
         ) => Promise<AppKlaverjasTeam>;
+    };
+    klaverjasRound: {
+        getByTeamId: (scoreboardId: UUID, teamId: UUID) => Promise<Array<AppKlaverjasRound>>;
+        post: (scoreboardId: UUID, teamId: UUID, klaverjasRound: AppCreateKlaverjasRound) => Promise<AppKlaverjasRound>;
+        put: (
+            scoreboardId: UUID,
+            teamId: UUID,
+            klaverjasRoundId: UUID,
+            klaverjasRound: AppCreateKlaverjasRound,
+        ) => Promise<AppKlaverjasRound>;
     };
 };

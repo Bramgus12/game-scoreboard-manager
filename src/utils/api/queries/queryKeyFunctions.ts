@@ -5,7 +5,7 @@ export function getUserQueryKey() {
 }
 
 export function getScoreboardQueryKey(scoreboardId?: UUID) {
-    return ["scoreboard", scoreboardId != null ? { scoreboardId } : undefined];
+    return ["scoreboard", { scoreboardId }];
 }
 
 export function getScoreboardsQueryKey() {
@@ -13,5 +13,9 @@ export function getScoreboardsQueryKey() {
 }
 
 export function getKlaverjasTeamQueryKey(scoreboardId?: UUID) {
-    return ["klaverjasTeam", scoreboardId != null ? { scoreboardId } : undefined];
+    return ["klaverjasTeam", { scoreboardId }];
+}
+
+export function getKlaverjasRoundQueryKey(scoreboardId?: UUID, klaverjasTeamId?: UUID) {
+    return ["klaverjasRound", { scoreboardId, klaverjasTeamId }];
 }

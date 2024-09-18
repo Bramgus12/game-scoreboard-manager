@@ -1,5 +1,5 @@
-import { DomainScoreboard } from "../models/domain/Scoreboard";
-import { AppScoreboard } from "../models/app/Scoreboard";
+import { DomainScoreboard } from "../models/domain/scoreboard/Scoreboard";
+import { AppScoreboard } from "../models/app/scoreboard/Scoreboard";
 
 export function DomainToAppScoreboard(domainModel: DomainScoreboard): AppScoreboard {
     return {

@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AppCreateUpdateUser } from "../../../models/app/CreateUpdateUser";
 import { useAPI } from "../useAPI";
 import { getUserQueryKey } from "../queries/queryKeyFunctions";
 import { getUserMutationKey } from "./mutationKeyFunctions";
+import { AppCreateUpdateUser } from "../../../models/app/user/CreateUpdateUser";
 
 type MutationProps = {
     action: "create" | "update";

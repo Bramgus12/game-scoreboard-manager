@@ -12,6 +12,9 @@ import { DomainToAppKlaverjasTeam, DomainToAppKlaverjasTeamArray } from "../../m
 import { DomainKlaverjasTeam } from "../../models/domain/klaverjasTeam/KlaverjasTeam";
 import { DomainCreateKlaverjasTeam } from "../../models/domain/klaverjasTeam/CreateKlaverjasTeam";
 import { DomainUpdateKlaverjasTeam } from "../../models/domain/klaverjasTeam/UpdateKlaverjasTeam";
+import { DomainKlaverjasRound } from "../../models/domain/klaverjasRound/KlaverjasRound";
+import { DomainToAppKlaverjasRound, DomainToAppKlaverjasRoundArray } from "../../mappers/klaverjasRound";
+import { DomainCreateKlaverjasRound } from "../../models/domain/klaverjasRound/CreateKlaverjasRound";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -98,6 +101,40 @@ export function useAPI(): ApiRoutes {
                         genericRequest<DomainUpdateKlaverjasTeam, DomainKlaverjasTeam>(
                             klaverjasTeam,
                             `${baseUrl}/scoreboard/${scoreboardId}/klaverjas-team/${klaverjasTeamId}`,
+                            "put",
+                        ),
+                ),
+        },
+        klaverjasRound: {
+            getByTeamId: (scoreboardId, teamId) =>
+                mapAndDoRequestGetDelete(DomainToAppKlaverjasRoundArray, () =>
+                    genericRequest<void, Array<DomainKlaverjasRound>>(
+                        undefined,
+                        `${baseUrl}/scoreboard/${scoreboardId}/klaverjas-team/${teamId}/klaverjas-round`,
+                        "get",
+                    ),
+                ),
+            post: (scoreboardId, teamId, klaverjasRound) =>
+                mapAndDoRequestPostPut(
+                    klaverjasRound,
+                    (appModel) => appModel,
+                    DomainToAppKlaverjasRound,
+                    () =>
+                        genericRequest<DomainCreateKlaverjasRound, DomainKlaverjasRound>(
+                            klaverjasRound,
+                            `${baseUrl}/scoreboard/${scoreboardId}/klaverjas-team/${teamId}/klaverjas-round`,
+                            "post",
+                        ),
+                ),
+            put: (scoreboardId, teamId, klaverjasRoundId, klaverjasRound) =>
+                mapAndDoRequestPostPut(
+                    klaverjasRound,
+                    (appModel) => appModel,
+                    DomainToAppKlaverjasRound,
+                    () =>
+                        genericRequest<DomainCreateKlaverjasRound, DomainKlaverjasRound>(
+                            klaverjasRound,
+                            `${baseUrl}/scoreboard/${scoreboardId}/klaverjas-team/${teamId}/klaverjas-round/${klaverjasRoundId}`,
                             "put",
                         ),
                 ),

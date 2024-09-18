@@ -13,7 +13,7 @@ export default function CreateScoreBoard() {
             </Grid2>
             <Grid2 xs={12}>
                 <Paper elevation={0} sx={{ padding: 2, borderRadius: 4 }}>
-                    <form onSubmit={handleSubmit((data) => console.log(data))}>
+                    <form onSubmit={handleSubmit(() => {})}>
                         <Grid2 container spacing={3}>
                             <Grid2>
                                 <Typography variant="h5">New Klaverjas game</Typography>
