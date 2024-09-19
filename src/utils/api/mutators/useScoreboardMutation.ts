@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getScoreboardMutationKey } from "./mutationKeyFunctions";
 import { useAPI } from "../useAPI";
-import { getScoreboardQueryKey } from "../queries/queryKeyFunctions";
+import { getScoreboardQueryKey, getScoreboardsQueryKey } from "../queries/queryKeyFunctions";
 import { AppCreateScoreboard } from "../../../models/app/scoreboard/CreateScoreboard";
 import { AppUpdateScoreboard } from "../../../models/app/scoreboard/UpdateScoreboard";
+import { AppScoreboard } from "../../../models/app/scoreboard/Scoreboard";
 
 type MutationProps =
     | {
@@ -33,15 +34,25 @@ export default function useScoreboardMutation() {
         },
         onSuccess: (data) => {
             queryClient.setQueryData(getScoreboardQueryKey(data.id), data);
+            queryClient.setQueryData(getScoreboardsQueryKey(), (oldData: Array<AppScoreboard> = []) => {
+                const previousValueIndex = oldData.findIndex((scoreboard) => scoreboard.id === data.id);
+
+                if (previousValueIndex === -1) {
+                    return [...oldData, data];
+                }
+
+                oldData.splice(previousValueIndex, 1, data);
+                return oldData;
+            });
         },
     });
 
-    async function createScoreboard(scoreboard: AppCreateScoreboard) {
-        await mutation.mutateAsync({ action: "create", scoreboard });
+    function createScoreboard(scoreboard: AppCreateScoreboard) {
+        return mutation.mutateAsync({ action: "create", scoreboard });
     }
 
-    async function updateScoreboard(scoreboard: AppUpdateScoreboard) {
-        await mutation.mutateAsync({ action: "update", scoreboard });
+    function updateScoreboard(scoreboard: AppUpdateScoreboard) {
+        return mutation.mutateAsync({ action: "update", scoreboard });
     }
 
     return { createScoreboard, updateScoreboard, mutation };

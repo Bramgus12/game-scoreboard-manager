@@ -2,9 +2,30 @@ import { Button, Divider, Link, Paper, TextField, Typography } from "@mui/materi
 import Grid2 from "@mui/material/Unstable_Grid2";
 import { useForm } from "react-hook-form";
 import { CreateScoreBoardForm } from "./interfaces";
+import useScoreboardMutation from "../../../../../../utils/api/mutators/useScoreboardMutation";
+import { useKlaverjasTeamMutation } from "../../../../../../utils/api/mutators/useKlaverjasTeamMutation";
+import { GAME_TYPE } from "constants/gameType";
+import { TEAM_TYPE } from "constants/teamType";
 
 export default function CreateScoreBoard() {
     const { register, handleSubmit } = useForm<CreateScoreBoardForm>();
+
+    const { createScoreboard } = useScoreboardMutation();
+    const { createKlaverjasTeam } = useKlaverjasTeamMutation();
+
+    async function saveData(data: CreateScoreBoardForm) {
+        const createdScoreboard = await createScoreboard({
+            scoreboardName: data.scoreboardName,
+            gameType: GAME_TYPE.KLAVERJAS,
+        });
+
+        const createdTeams = await createKlaverjasTeam(createdScoreboard.id, [
+            { type: TEAM_TYPE.THEM, name: data.theirTeamName },
+            { type: TEAM_TYPE.US, name: data.ourTeamName },
+        ]);
+
+        console.log(createdTeams);
+    }
 
     return (
         <Grid2 container spacing={2}>
@@ -13,7 +34,7 @@ export default function CreateScoreBoard() {
             </Grid2>
             <Grid2 xs={12}>
                 <Paper elevation={0} sx={{ padding: 2, borderRadius: 4 }}>
-                    <form onSubmit={handleSubmit(() => {})}>
+                    <form onSubmit={handleSubmit(saveData)}>
                         <Grid2 container spacing={3}>
                             <Grid2>
                                 <Typography variant="h5">New Klaverjas game</Typography>
@@ -34,20 +55,14 @@ export default function CreateScoreBoard() {
                                 <Divider />
                             </Grid2>
                             <Grid2 xs={12}>
-                                <Typography variant="h6">Enter the names of the players</Typography>
+                                <Typography variant="h6">Enter the names of the teams</Typography>
                             </Grid2>
                             <Grid2 container spacing={2} xs={12}>
                                 <Grid2 xs={12}>
                                     <Typography variant="body1">Your team:</Typography>
                                 </Grid2>
                                 <Grid2 xs={6}>
-                                    <TextField label="Your name" {...register("us.name1")} />
-                                </Grid2>
-                                <Grid2 xs={6}>
-                                    <TextField
-                                        label="The name of the player that is sitting across from you"
-                                        {...register("us.name2")}
-                                    />
+                                    <TextField label="Your team name" {...register("ourTeamName")} />
                                 </Grid2>
                             </Grid2>
                             <Grid2 container spacing={2} xs={12}>
@@ -55,16 +70,7 @@ export default function CreateScoreBoard() {
                                     <Typography variant="body1">Their team:</Typography>
                                 </Grid2>
                                 <Grid2 xs={6}>
-                                    <TextField
-                                        label="Player that is sitting on your left"
-                                        {...register("them.name1")}
-                                    />
-                                </Grid2>
-                                <Grid2 xs={6}>
-                                    <TextField
-                                        label="Player that is sitting on your right"
-                                        {...register("them.name2")}
-                                    />
+                                    <TextField label="Their team name" {...register("theirTeamName")} />
                                 </Grid2>
                             </Grid2>
                             <Grid2 xs />

@@ -4,6 +4,7 @@ import { AppUpdateKlaverjasRound } from "../../../models/app/klaverjasRound/Upda
 import { useAPI } from "../useAPI";
 import { UUID } from "crypto";
 import { getKlaverjasRoundQueryKey } from "../queries/queryKeyFunctions";
+import { getKlaverjasRoundMutationKey } from "./mutationKeyFunctions";
 
 type MutationProps =
     | {
@@ -27,6 +28,7 @@ export default function useKlaverjasRoundMutation() {
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
+        mutationKey: getKlaverjasRoundMutationKey(),
         mutationFn: (mutationProps: MutationProps) => {
             if (mutationProps.action === "create") {
                 return post(mutationProps.scoreboardId, mutationProps.klaverjasTeamId, mutationProps.klaverjasRound);

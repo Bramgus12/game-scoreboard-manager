@@ -84,9 +84,9 @@ export function useAPI(): ApiRoutes {
                 mapAndDoRequestPostPut(
                     klaverjasTeam,
                     (appModel) => appModel,
-                    DomainToAppKlaverjasTeam,
+                    DomainToAppKlaverjasTeamArray,
                     () =>
-                        genericRequest<DomainCreateKlaverjasTeam, DomainKlaverjasTeam>(
+                        genericRequest<Array<DomainCreateKlaverjasTeam>, Array<DomainKlaverjasTeam>>(
                             klaverjasTeam,
                             `${baseUrl}/scoreboard/${scoreboardId}/klaverjas-team`,
                             "post",

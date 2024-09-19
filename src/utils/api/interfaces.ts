@@ -37,7 +37,7 @@ export type ApiRoutes = {
     };
     klaverjasTeam: {
         getByScoreboardId: (scoreboardId: UUID) => Promise<Array<AppKlaverjasTeam>>;
-        post: (scoreboardId: UUID, klaverjasTeam: AppCreateKlaverjasTeam) => Promise<AppKlaverjasTeam>;
+        post: (scoreboardId: UUID, klaverjasTeams: Array<AppCreateKlaverjasTeam>) => Promise<Array<AppKlaverjasTeam>>;
         put: (
             scoreboardId: UUID,
             klaverjasTeamId: UUID,

@@ -5,3 +5,11 @@ export function getUserMutationKey() {
 export function getScoreboardMutationKey() {
     return ["scoreboard"];
 }
+
+export function getKlaverjasTeamMutationKey() {
+    return ["klaverjasTeam"];
+}
+
+export function getKlaverjasRoundMutationKey() {
+    return ["klaverjasRound"];
+}
