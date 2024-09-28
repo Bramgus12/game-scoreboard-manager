@@ -22,13 +22,24 @@ const theme = createTheme({
     },
     components: {
         MuiTextField: {
-            defaultProps: {
-                InputProps: {
-                    sx: {
-                        borderRadius: 4,
-                    },
+            styleOverrides: {
+                root: {
+                    borderRadius: "16px",
                 },
+            },
+            defaultProps: {
                 fullWidth: true,
+            },
+        },
+        MuiPaper: {
+            styleOverrides: {
+                root: {
+                    borderRadius: "16px",
+                    padding: "16px",
+                },
+            },
+            defaultProps: {
+                elevation: 0,
             },
         },
     },

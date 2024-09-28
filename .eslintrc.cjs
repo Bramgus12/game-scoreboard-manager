@@ -48,12 +48,6 @@ module.exports = {
       "no-process-exit": "off",
       "object-shorthand": "off",
       "class-methods-use-this": "off",
-      "max-len": [
-          "error",
-          {
-              "code": 150
-          }
-      ],
 
       // @typescript
       "@typescript-eslint/indent": "off",

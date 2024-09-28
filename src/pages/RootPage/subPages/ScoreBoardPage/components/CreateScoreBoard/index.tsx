@@ -19,12 +19,10 @@ export default function CreateScoreBoard() {
             gameType: GAME_TYPE.KLAVERJAS,
         });
 
-        const createdTeams = await createKlaverjasTeam(createdScoreboard.id, [
+        await createKlaverjasTeam(createdScoreboard.id, [
             { type: TEAM_TYPE.THEM, name: data.theirTeamName },
             { type: TEAM_TYPE.US, name: data.ourTeamName },
         ]);
-
-        console.log(createdTeams);
     }
 
     return (
@@ -33,7 +31,7 @@ export default function CreateScoreBoard() {
                 <Typography variant="h4">Create New Scoreboard</Typography>
             </Grid2>
             <Grid2 xs={12}>
-                <Paper elevation={0} sx={{ padding: 2, borderRadius: 4 }}>
+                <Paper>
                     <form onSubmit={handleSubmit(saveData)}>
                         <Grid2 container spacing={3}>
                             <Grid2>

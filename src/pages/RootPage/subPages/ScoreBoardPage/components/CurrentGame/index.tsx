@@ -12,13 +12,13 @@ export default function CurrentGame() {
                     <Typography variant="h4">Klaverjas game with: name, name, name, name</Typography>
                 </Grid2>
                 <Grid2 xs={6}>
-                    <Paper elevation={0} sx={{ padding: 2, borderRadius: 4 }}>
+                    <Paper>
                         <KlaverjasTable />
                     </Paper>
                 </Grid2>
                 <Grid2 container xs={6} direction="column">
                     <Grid2>
-                        <Paper elevation={0} sx={{ padding: 2, borderRadius: 4 }}>
+                        <Paper>
                             <Typography variant="h6">Current round no.</Typography>
                             <Typography variant="h2">
                                 <code>13</code>
@@ -26,7 +26,7 @@ export default function CurrentGame() {
                         </Paper>
                     </Grid2>
                     <Grid2>
-                        <Paper elevation={0} sx={{ padding: 2, borderRadius: 4 }}>
+                        <Paper>
                             <Typography variant="h6">Totals</Typography>
                             <Typography variant="h3">
                                 <code>1200 </code>
