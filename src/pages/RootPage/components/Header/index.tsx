@@ -1,6 +1,5 @@
 import { AddRounded, LogoutRounded, ScoreboardRounded } from "@mui/icons-material";
-import { Button, IconButton, Typography } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import { Button, Grid2, IconButton, Typography } from "@mui/material";
 import { useFetcher } from "react-router-dom";
 
 export default function Header() {
@@ -11,7 +10,7 @@ export default function Header() {
             <Grid2 sx={{ height: 46 }}>
                 <ScoreboardRounded color="primary" sx={{ height: 30, width: 30 }} />
             </Grid2>
-            <Grid2 xs>
+            <Grid2 size="grow">
                 <Typography variant="h5">Game Scoreboard Manager</Typography>
             </Grid2>
             <Grid2 container>

@@ -16,6 +16,9 @@ export function getKlaverjasTeamQueryKey(scoreboardId?: UUID) {
     return ["klaverjasTeam", { scoreboardId }];
 }
 
-export function getKlaverjasRoundQueryKey(scoreboardId?: UUID, klaverjasTeamId?: UUID) {
+export function getKlaverjasRoundQueryKey(
+    scoreboardId?: UUID,
+    klaverjasTeamId?: UUID,
+) {
     return ["klaverjasRound", { scoreboardId, klaverjasTeamId }];
 }

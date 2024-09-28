@@ -4,16 +4,25 @@ import { mapAndDoRequestGetDelete, mapAndDoRequestPostPut } from "./mapFunctions
 import { DomainToAppUser } from "../../mappers/user";
 import { DomainCreateUpdateUser } from "../../models/domain/user/CreateUpdateUser";
 import { DomainUser } from "../../models/domain/user/User";
-import { DomainToAppScoreboard, DomainToAppScoreboardArray } from "../../mappers/scoreboard";
+import {
+    DomainToAppScoreboard,
+    DomainToAppScoreboardArray,
+} from "../../mappers/scoreboard";
 import { DomainScoreboard } from "../../models/domain/scoreboard/Scoreboard";
 import { DomainCreateScoreboard } from "../../models/domain/scoreboard/CreateUpdateScoreboard";
 import { DomainUpdateScoreboard } from "../../models/domain/scoreboard/UpdateScoreboard";
-import { DomainToAppKlaverjasTeam, DomainToAppKlaverjasTeamArray } from "../../mappers/klaverjasTeam";
+import {
+    DomainToAppKlaverjasTeam,
+    DomainToAppKlaverjasTeamArray,
+} from "../../mappers/klaverjasTeam";
 import { DomainKlaverjasTeam } from "../../models/domain/klaverjasTeam/KlaverjasTeam";
 import { DomainCreateKlaverjasTeam } from "../../models/domain/klaverjasTeam/CreateKlaverjasTeam";
 import { DomainUpdateKlaverjasTeam } from "../../models/domain/klaverjasTeam/UpdateKlaverjasTeam";
 import { DomainKlaverjasRound } from "../../models/domain/klaverjasRound/KlaverjasRound";
-import { DomainToAppKlaverjasRound, DomainToAppKlaverjasRoundArray } from "../../mappers/klaverjasRound";
+import {
+    DomainToAppKlaverjasRound,
+    DomainToAppKlaverjasRoundArray,
+} from "../../mappers/klaverjasRound";
 import { DomainCreateKlaverjasRound } from "../../models/domain/klaverjasRound/CreateKlaverjasRound";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -27,24 +36,42 @@ export function useAPI(): ApiRoutes {
                     user,
                     (appModel) => appModel,
                     DomainToAppUser,
-                    () => genericRequest<DomainCreateUpdateUser, DomainUser>(user, `${baseUrl}/user`, "post"),
+                    () =>
+                        genericRequest<DomainCreateUpdateUser, DomainUser>(
+                            user,
+                            `${baseUrl}/user`,
+                            "post",
+                        ),
                 ),
             put: (user) =>
                 mapAndDoRequestPostPut(
                     user,
                     (appModel) => appModel,
                     DomainToAppUser,
-                    () => genericRequest<DomainCreateUpdateUser, DomainUser>(user, `${baseUrl}/user`, "put"),
+                    () =>
+                        genericRequest<DomainCreateUpdateUser, DomainUser>(
+                            user,
+                            `${baseUrl}/user`,
+                            "put",
+                        ),
                 ),
         },
         scoreboard: {
             get: () =>
                 mapAndDoRequestGetDelete(DomainToAppScoreboardArray, () =>
-                    genericRequest<void, Array<DomainScoreboard>>(undefined, `${baseUrl}/scoreboard`, "get"),
+                    genericRequest<void, Array<DomainScoreboard>>(
+                        undefined,
+                        `${baseUrl}/scoreboard`,
+                        "get",
+                    ),
                 ),
             getById: (id) =>
                 mapAndDoRequestGetDelete(DomainToAppScoreboard, () =>
-                    genericRequest<void, DomainScoreboard>(undefined, `${baseUrl}/scoreboard/${id}`, "get"),
+                    genericRequest<void, DomainScoreboard>(
+                        undefined,
+                        `${baseUrl}/scoreboard/${id}`,
+                        "get",
+                    ),
                 ),
             post: (scoreboard) =>
                 mapAndDoRequestPostPut(
@@ -86,7 +113,10 @@ export function useAPI(): ApiRoutes {
                     (appModel) => appModel,
                     DomainToAppKlaverjasTeamArray,
                     () =>
-                        genericRequest<Array<DomainCreateKlaverjasTeam>, Array<DomainKlaverjasTeam>>(
+                        genericRequest<
+                            Array<DomainCreateKlaverjasTeam>,
+                            Array<DomainKlaverjasTeam>
+                        >(
                             klaverjasTeam,
                             `${baseUrl}/scoreboard/${scoreboardId}/klaverjas-team`,
                             "post",
@@ -98,7 +128,10 @@ export function useAPI(): ApiRoutes {
                     (appModel) => appModel,
                     DomainToAppKlaverjasTeam,
                     () =>
-                        genericRequest<DomainUpdateKlaverjasTeam, DomainKlaverjasTeam>(
+                        genericRequest<
+                            DomainUpdateKlaverjasTeam,
+                            DomainKlaverjasTeam
+                        >(
                             klaverjasTeam,
                             `${baseUrl}/scoreboard/${scoreboardId}/klaverjas-team/${klaverjasTeamId}`,
                             "put",
@@ -120,7 +153,10 @@ export function useAPI(): ApiRoutes {
                     (appModel) => appModel,
                     DomainToAppKlaverjasRound,
                     () =>
-                        genericRequest<DomainCreateKlaverjasRound, DomainKlaverjasRound>(
+                        genericRequest<
+                            DomainCreateKlaverjasRound,
+                            DomainKlaverjasRound
+                        >(
                             klaverjasRound,
                             `${baseUrl}/scoreboard/${scoreboardId}/klaverjas-team/${teamId}/klaverjas-round`,
                             "post",
@@ -132,7 +168,10 @@ export function useAPI(): ApiRoutes {
                     (appModel) => appModel,
                     DomainToAppKlaverjasRound,
                     () =>
-                        genericRequest<DomainCreateKlaverjasRound, DomainKlaverjasRound>(
+                        genericRequest<
+                            DomainCreateKlaverjasRound,
+                            DomainKlaverjasRound
+                        >(
                             klaverjasRound,
                             `${baseUrl}/scoreboard/${scoreboardId}/klaverjas-team/${teamId}/klaverjas-round/${klaverjasRoundId}`,
                             "put",

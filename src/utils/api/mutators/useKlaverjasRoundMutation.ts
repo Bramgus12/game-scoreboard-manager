@@ -31,7 +31,11 @@ export default function useKlaverjasRoundMutation() {
         mutationKey: getKlaverjasRoundMutationKey(),
         mutationFn: (mutationProps: MutationProps) => {
             if (mutationProps.action === "create") {
-                return post(mutationProps.scoreboardId, mutationProps.klaverjasTeamId, mutationProps.klaverjasRound);
+                return post(
+                    mutationProps.scoreboardId,
+                    mutationProps.klaverjasTeamId,
+                    mutationProps.klaverjasRound,
+                );
             }
             if (mutationProps.action === "update") {
                 return put(
@@ -45,18 +49,39 @@ export default function useKlaverjasRoundMutation() {
         },
         onSuccess: (data, mutationProps) => {
             queryClient.setQueryData(
-                getKlaverjasRoundQueryKey(mutationProps.scoreboardId, mutationProps.klaverjasTeamId),
+                getKlaverjasRoundQueryKey(
+                    mutationProps.scoreboardId,
+                    mutationProps.klaverjasTeamId,
+                ),
                 data,
             );
         },
     });
 
-    function createKlaverjasRound(scoreboardId: UUID, klaverjasTeamId: UUID, klaverjasRound: AppCreateKlaverjasRound) {
-        return mutation.mutateAsync({ action: "create", scoreboardId, klaverjasTeamId, klaverjasRound });
+    function createKlaverjasRound(
+        scoreboardId: UUID,
+        klaverjasTeamId: UUID,
+        klaverjasRound: AppCreateKlaverjasRound,
+    ) {
+        return mutation.mutateAsync({
+            action: "create",
+            scoreboardId,
+            klaverjasTeamId,
+            klaverjasRound,
+        });
     }
 
-    function updateKlaverjasRound(scoreboardId: UUID, klaverjasTeamId: UUID, klaverjasRound: AppUpdateKlaverjasRound) {
-        return mutation.mutateAsync({ action: "update", scoreboardId, klaverjasTeamId, klaverjasRound });
+    function updateKlaverjasRound(
+        scoreboardId: UUID,
+        klaverjasTeamId: UUID,
+        klaverjasRound: AppUpdateKlaverjasRound,
+    ) {
+        return mutation.mutateAsync({
+            action: "update",
+            scoreboardId,
+            klaverjasTeamId,
+            klaverjasRound,
+        });
     }
 
     return { createKlaverjasRound, updateKlaverjasRound, mutation };

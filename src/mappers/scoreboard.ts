@@ -12,6 +12,8 @@ export function DomainToAppScoreboard(domainModel: DomainScoreboard): AppScorebo
     };
 }
 
-export function DomainToAppScoreboardArray(domainModels: Array<DomainScoreboard>): Array<AppScoreboard> {
+export function DomainToAppScoreboardArray(
+    domainModels: Array<DomainScoreboard>,
+): Array<AppScoreboard> {
     return domainModels.map(DomainToAppScoreboard);
 }

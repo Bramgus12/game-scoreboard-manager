@@ -1,4 +1,9 @@
-export async function mapAndDoRequestPostPut<AppRequest, DomainRequest, DomainResponse, AppResponse>(
+export async function mapAndDoRequestPostPut<
+    AppRequest,
+    DomainRequest,
+    DomainResponse,
+    AppResponse,
+>(
     body: AppRequest,
     inMapper: (appRequest: AppRequest) => DomainRequest,
     outMapper: (domainResponse: DomainResponse) => AppResponse,

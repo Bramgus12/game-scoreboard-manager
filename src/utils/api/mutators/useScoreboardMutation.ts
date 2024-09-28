@@ -1,7 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getScoreboardMutationKey } from "./mutationKeyFunctions";
 import { useAPI } from "../useAPI";
-import { getScoreboardQueryKey, getScoreboardsQueryKey } from "../queries/queryKeyFunctions";
+import {
+    getScoreboardQueryKey,
+    getScoreboardsQueryKey,
+} from "../queries/queryKeyFunctions";
 import { AppCreateScoreboard } from "../../../models/app/scoreboard/CreateScoreboard";
 import { AppUpdateScoreboard } from "../../../models/app/scoreboard/UpdateScoreboard";
 import { AppScoreboard } from "../../../models/app/scoreboard/Scoreboard";
@@ -34,16 +37,21 @@ export default function useScoreboardMutation() {
         },
         onSuccess: (data) => {
             queryClient.setQueryData(getScoreboardQueryKey(data.id), data);
-            queryClient.setQueryData(getScoreboardsQueryKey(), (oldData: Array<AppScoreboard> = []) => {
-                const previousValueIndex = oldData.findIndex((scoreboard) => scoreboard.id === data.id);
+            queryClient.setQueryData(
+                getScoreboardsQueryKey(),
+                (oldData: Array<AppScoreboard> = []) => {
+                    const previousValueIndex = oldData.findIndex(
+                        (scoreboard) => scoreboard.id === data.id,
+                    );
 
-                if (previousValueIndex === -1) {
-                    return [...oldData, data];
-                }
+                    if (previousValueIndex === -1) {
+                        return [...oldData, data];
+                    }
 
-                oldData.splice(previousValueIndex, 1, data);
-                return oldData;
-            });
+                    oldData.splice(previousValueIndex, 1, data);
+                    return oldData;
+                },
+            );
         },
     });
 

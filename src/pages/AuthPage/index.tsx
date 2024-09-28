@@ -1,5 +1,4 @@
-import { Box, Paper, Typography } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import { Box, Grid2, Paper, Typography } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import "./index.css";
 import { useAuth } from "utils/auth/useAuth";
@@ -8,7 +7,11 @@ export default function AuthPage() {
     useAuth();
 
     return (
-        <Grid2 container justifyContent="flex-start" sx={{ height: "calc(100vh - 5px)" }}>
+        <Grid2
+            container
+            justifyContent="flex-start"
+            sx={{ height: "calc(100vh - 5px)" }}
+        >
             <Grid2 width={400}>
                 <Paper
                     sx={(theme) => ({
@@ -26,7 +29,7 @@ export default function AuthPage() {
                     <Outlet />
                 </Paper>
             </Grid2>
-            <Grid2 xs>
+            <Grid2 size="grow">
                 <Box className="magicpattern" />
             </Grid2>
         </Grid2>

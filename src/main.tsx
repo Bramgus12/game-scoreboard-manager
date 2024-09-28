@@ -18,7 +18,9 @@ createRoot(document.getElementById("root")!).render(
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <Router />
-                {import.meta.env.PROD ? null : <ReactQueryDevtools initialIsOpen={false} />}
+                {import.meta.env.PROD ? null : (
+                    <ReactQueryDevtools initialIsOpen={false} />
+                )}
             </ThemeProvider>
         </QueryClientProvider>
     </StrictMode>,

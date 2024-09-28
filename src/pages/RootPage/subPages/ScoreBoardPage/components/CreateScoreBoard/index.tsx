@@ -1,5 +1,12 @@
-import { Button, Divider, Link, Paper, TextField, Typography } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import {
+    Button,
+    Divider,
+    Grid2,
+    Link,
+    Paper,
+    TextField,
+    Typography,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 import { CreateScoreBoardForm } from "./interfaces";
 import useScoreboardMutation from "../../../../../../utils/api/mutators/useScoreboardMutation";
@@ -30,50 +37,75 @@ export default function CreateScoreBoard() {
             <Grid2>
                 <Typography variant="h4">Create New Scoreboard</Typography>
             </Grid2>
-            <Grid2 xs={12}>
+            <Grid2 size={12}>
                 <Paper>
                     <form onSubmit={handleSubmit(saveData)}>
                         <Grid2 container spacing={3}>
                             <Grid2>
-                                <Typography variant="h5">New Klaverjas game</Typography>
+                                <Typography variant="h5">
+                                    New Klaverjas game
+                                </Typography>
                             </Grid2>
-                            <Grid2 xs={12}>
+                            <Grid2 size={12}>
                                 <Typography variant="body1">
-                                    You will be starting a new scoreboard for the game{" "}
-                                    <Link href="https://en.wikipedia.org/wiki/Klaverjas" target="_blank">
+                                    You will be starting a new scoreboard for the
+                                    game{" "}
+                                    <Link
+                                        href="https://en.wikipedia.org/wiki/Klaverjas"
+                                        target="_blank"
+                                    >
                                         &quot;Klaverjas&quot;
                                     </Link>
                                     .
                                 </Typography>
                             </Grid2>
-                            <Grid2 xs={6}>
-                                <TextField label="How do you want to call your game?" {...register("scoreboardName")} />
+                            <Grid2 size={6}>
+                                <TextField
+                                    label="How do you want to call your game?"
+                                    {...register("scoreboardName")}
+                                />
                             </Grid2>
-                            <Grid2 xs={12}>
+                            <Grid2 size={12}>
                                 <Divider />
                             </Grid2>
-                            <Grid2 xs={12}>
-                                <Typography variant="h6">Enter the names of the teams</Typography>
+                            <Grid2 size={12}>
+                                <Typography variant="h6">
+                                    Enter the names of the teams
+                                </Typography>
                             </Grid2>
-                            <Grid2 container spacing={2} xs={12}>
-                                <Grid2 xs={12}>
-                                    <Typography variant="body1">Your team:</Typography>
+                            <Grid2 container spacing={2} size={12}>
+                                <Grid2 size={12}>
+                                    <Typography variant="body1">
+                                        Your team:
+                                    </Typography>
                                 </Grid2>
-                                <Grid2 xs={6}>
-                                    <TextField label="Your team name" {...register("ourTeamName")} />
-                                </Grid2>
-                            </Grid2>
-                            <Grid2 container spacing={2} xs={12}>
-                                <Grid2 xs={12}>
-                                    <Typography variant="body1">Their team:</Typography>
-                                </Grid2>
-                                <Grid2 xs={6}>
-                                    <TextField label="Their team name" {...register("theirTeamName")} />
+                                <Grid2 size={6}>
+                                    <TextField
+                                        label="Your team name"
+                                        {...register("ourTeamName")}
+                                    />
                                 </Grid2>
                             </Grid2>
-                            <Grid2 xs />
+                            <Grid2 container spacing={2} size={12}>
+                                <Grid2 size={12}>
+                                    <Typography variant="body1">
+                                        Their team:
+                                    </Typography>
+                                </Grid2>
+                                <Grid2 size={6}>
+                                    <TextField
+                                        label="Their team name"
+                                        {...register("theirTeamName")}
+                                    />
+                                </Grid2>
+                            </Grid2>
+                            <Grid2 size="grow" />
                             <Grid2>
-                                <Button type="submit" variant="contained" color="primary">
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                >
                                     Start game
                                 </Button>
                             </Grid2>

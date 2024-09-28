@@ -2,7 +2,10 @@ import { createClient } from "@supabase/supabase-js";
 import { useEffect } from "react";
 import { redirect } from "react-router-dom";
 
-export const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
+export const supabase = createClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_ANON_KEY,
+);
 
 export function useAuth() {
     function handleSignedInEvent() {

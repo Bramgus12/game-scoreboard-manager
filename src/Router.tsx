@@ -12,7 +12,14 @@ export default function Router() {
 
     if (isPending) {
         return (
-            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "calc(100vh - 5px)" }}>
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "calc(100vh - 5px)",
+                }}
+            >
                 <CircularProgress />
             </Box>
         );

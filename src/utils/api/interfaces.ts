@@ -37,7 +37,10 @@ export type ApiRoutes = {
     };
     klaverjasTeam: {
         getByScoreboardId: (scoreboardId: UUID) => Promise<Array<AppKlaverjasTeam>>;
-        post: (scoreboardId: UUID, klaverjasTeams: Array<AppCreateKlaverjasTeam>) => Promise<Array<AppKlaverjasTeam>>;
+        post: (
+            scoreboardId: UUID,
+            klaverjasTeams: Array<AppCreateKlaverjasTeam>,
+        ) => Promise<Array<AppKlaverjasTeam>>;
         put: (
             scoreboardId: UUID,
             klaverjasTeamId: UUID,
@@ -45,8 +48,15 @@ export type ApiRoutes = {
         ) => Promise<AppKlaverjasTeam>;
     };
     klaverjasRound: {
-        getByTeamId: (scoreboardId: UUID, teamId: UUID) => Promise<Array<AppKlaverjasRound>>;
-        post: (scoreboardId: UUID, teamId: UUID, klaverjasRound: AppCreateKlaverjasRound) => Promise<AppKlaverjasRound>;
+        getByTeamId: (
+            scoreboardId: UUID,
+            teamId: UUID,
+        ) => Promise<Array<AppKlaverjasRound>>;
+        post: (
+            scoreboardId: UUID,
+            teamId: UUID,
+            klaverjasRound: AppCreateKlaverjasRound,
+        ) => Promise<AppKlaverjasRound>;
         put: (
             scoreboardId: UUID,
             teamId: UUID,

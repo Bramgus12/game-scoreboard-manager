@@ -1,5 +1,4 @@
-import { Button, TextField, Typography } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import { Button, Grid2, TextField, Typography } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 import useUserLoginMutation from "utils/auth/mutators/useUserLoginMutation";
 import { useForm } from "react-hook-form";
@@ -28,11 +27,13 @@ export default function LoginPage() {
     return (
         <form onSubmit={handleSubmit(signInUser)}>
             <Grid2 container spacing={10}>
-                <Grid2 xs={12}>
-                    <Typography variant="subtitle1">Login to your account to keep track of your games!</Typography>
+                <Grid2 size={12}>
+                    <Typography variant="subtitle1">
+                        Login to your account to keep track of your games!
+                    </Typography>
                 </Grid2>
-                <Grid2 xs={12} container spacing={2} justifyContent="flex-end">
-                    <Grid2 xs={12}>
+                <Grid2 container spacing={2} justifyContent="flex-end" size={12}>
+                    <Grid2 size={12}>
                         <TextField
                             type="email"
                             autoComplete="userName"
@@ -40,7 +41,7 @@ export default function LoginPage() {
                             {...register("email", { required: true })}
                         />
                     </Grid2>
-                    <Grid2 xs={12}>
+                    <Grid2 size={12}>
                         <TextField
                             label="Password"
                             autoComplete="current-password"

@@ -7,7 +7,10 @@ import AuthPage from "pages/AuthPage";
 import RegisterPage from "pages/AuthPage/subPages/RegisterPage";
 import { UserResponse } from "@supabase/supabase-js";
 
-function createRouter(logoutFunction: () => Promise<void>, userData?: UserResponse["data"]) {
+function createRouter(
+    logoutFunction: () => Promise<void>,
+    userData?: UserResponse["data"],
+) {
     function protectedLoader({ request }: LoaderFunctionArgs) {
         if (userData?.user == null) {
             const params = new URLSearchParams();

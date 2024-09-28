@@ -12,7 +12,10 @@ async function axiosFetch<Response = void, Body = void>(
     let response: AxiosResponse<Response>;
     switch (requestOptions.method) {
         case "get": {
-            response = await axios.get<Response, AxiosResponse<Response>>(requestOptions.url, requestConfig);
+            response = await axios.get<Response, AxiosResponse<Response>>(
+                requestOptions.url,
+                requestConfig,
+            );
             break;
         }
         case "post": {
@@ -32,7 +35,10 @@ async function axiosFetch<Response = void, Body = void>(
             break;
         }
         case "delete": {
-            response = await axios.delete<Response, AxiosResponse<Response>>(requestOptions.url, requestConfig);
+            response = await axios.delete<Response, AxiosResponse<Response>>(
+                requestOptions.url,
+                requestConfig,
+            );
             break;
         }
         default: {
@@ -57,7 +63,9 @@ export async function genericRequest<RequestType, ResponseType>(
         method,
         url,
         body: requestBody,
-        authHeader: { Authorization: `Bearer ${session.data.session?.access_token}` },
+        authHeader: {
+            Authorization: `Bearer ${session.data.session?.access_token}`,
+        },
     });
 
     return apiResponse.data;

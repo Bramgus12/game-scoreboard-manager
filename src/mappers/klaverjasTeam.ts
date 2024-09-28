@@ -1,7 +1,9 @@
 import { DomainKlaverjasTeam } from "../models/domain/klaverjasTeam/KlaverjasTeam";
 import { AppKlaverjasTeam } from "../models/app/klaverjasTeam/KlaverjasTeam";
 
-export function DomainToAppKlaverjasTeam(domainModel: DomainKlaverjasTeam): AppKlaverjasTeam {
+export function DomainToAppKlaverjasTeam(
+    domainModel: DomainKlaverjasTeam,
+): AppKlaverjasTeam {
     return {
         type: domainModel.type,
         name: domainModel.name,
@@ -12,6 +14,8 @@ export function DomainToAppKlaverjasTeam(domainModel: DomainKlaverjasTeam): AppK
     };
 }
 
-export function DomainToAppKlaverjasTeamArray(domainModels: DomainKlaverjasTeam[]): AppKlaverjasTeam[] {
+export function DomainToAppKlaverjasTeamArray(
+    domainModels: DomainKlaverjasTeam[],
+): AppKlaverjasTeam[] {
     return domainModels.map(DomainToAppKlaverjasTeam);
 }

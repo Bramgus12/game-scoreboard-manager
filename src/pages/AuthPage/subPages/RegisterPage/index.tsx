@@ -1,9 +1,8 @@
 import { KeyboardArrowLeftRounded } from "@mui/icons-material";
-import { Button, TextField, Typography } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import { Button, Grid2, TextField, Typography } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 import useUserSignupMutation from "utils/auth/mutators/useUserSignupMutation";
-import { useUserMutation } from "../../../../utils/api/mutators/useUserMutation";
+import { useUserMutation } from "utils/api/mutators/useUserMutation";
 import { useForm } from "react-hook-form";
 import { RegisterForm } from "./interfaces";
 
@@ -37,17 +36,25 @@ export default function RegisterPage() {
     return (
         <form onSubmit={handleSubmit(submitUser)}>
             <Grid2 container spacing={5}>
-                <Grid2 xs={12}>
-                    <Typography variant="subtitle1">Register a new account to keep track of your games!</Typography>
+                <Grid2 size={12}>
+                    <Typography variant="subtitle1">
+                        Register a new account to keep track of your games!
+                    </Typography>
                 </Grid2>
-                <Grid2 container xs={12} spacing={2} justifyContent="flex-end">
-                    <Grid2 xs={12}>
-                        <TextField label="First Name" {...register("firstName", { required: true })} />
+                <Grid2 container spacing={2} justifyContent="flex-end" size={12}>
+                    <Grid2 size={12}>
+                        <TextField
+                            label="First Name"
+                            {...register("firstName", { required: true })}
+                        />
                     </Grid2>
-                    <Grid2 xs={12}>
-                        <TextField label="Last Name" {...register("lastName", { required: true })} />
+                    <Grid2 size={12}>
+                        <TextField
+                            label="Last Name"
+                            {...register("lastName", { required: true })}
+                        />
                     </Grid2>
-                    <Grid2 xs={12}>
+                    <Grid2 size={12}>
                         <TextField
                             type="email"
                             autoComplete="userName"
@@ -55,7 +62,7 @@ export default function RegisterPage() {
                             {...register("email", { required: true })}
                         />
                     </Grid2>
-                    <Grid2 xs={12}>
+                    <Grid2 size={12}>
                         <TextField
                             label="Password"
                             autoComplete="new-password"
@@ -63,7 +70,7 @@ export default function RegisterPage() {
                             {...register("password", { required: true })}
                         />
                     </Grid2>
-                    <Grid2 xs={12}>
+                    <Grid2 size={12}>
                         <TextField
                             label="Repeat Password"
                             autoComplete="new-password"
@@ -71,7 +78,7 @@ export default function RegisterPage() {
                             {...register("repeatPassword", { required: true })}
                         />
                     </Grid2>
-                    <Grid2 xs>
+                    <Grid2 size="grow">
                         <Button
                             startIcon={<KeyboardArrowLeftRounded />}
                             onClick={() => {

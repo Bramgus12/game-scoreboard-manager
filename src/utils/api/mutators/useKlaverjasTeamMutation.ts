@@ -29,26 +29,50 @@ export function useKlaverjasTeamMutation() {
         mutationKey: getKlaverjasTeamMutationKey(),
         mutationFn: async (mutationProps: MutationProps) => {
             if (mutationProps.action === "create") {
-                return post(mutationProps.scoreboardId, mutationProps.klaverjasTeams);
+                return post(
+                    mutationProps.scoreboardId,
+                    mutationProps.klaverjasTeams,
+                );
             }
             if (mutationProps.action === "update") {
                 return [
-                    await put(mutationProps.scoreboardId, mutationProps.klaverjasTeam.id, mutationProps.klaverjasTeam),
+                    await put(
+                        mutationProps.scoreboardId,
+                        mutationProps.klaverjasTeam.id,
+                        mutationProps.klaverjasTeam,
+                    ),
                 ];
             }
             throw new Error("Invalid action");
         },
         onSuccess: (data, mutationProps) => {
-            queryClient.setQueryData(getKlaverjasTeamQueryKey(mutationProps.scoreboardId), data);
+            queryClient.setQueryData(
+                getKlaverjasTeamQueryKey(mutationProps.scoreboardId),
+                data,
+            );
         },
     });
 
-    function createKlaverjasTeam(scoreboardId: UUID, klaverjasTeams: Array<AppCreateKlaverjasTeam>) {
-        return mutation.mutateAsync({ action: "create", scoreboardId, klaverjasTeams });
+    function createKlaverjasTeam(
+        scoreboardId: UUID,
+        klaverjasTeams: Array<AppCreateKlaverjasTeam>,
+    ) {
+        return mutation.mutateAsync({
+            action: "create",
+            scoreboardId,
+            klaverjasTeams,
+        });
     }
 
-    function updateKlaverjasTeam(scoreboardId: UUID, klaverjasTeam: AppUpdateKlaverjasTeam) {
-        return mutation.mutateAsync({ action: "update", scoreboardId, klaverjasTeam });
+    function updateKlaverjasTeam(
+        scoreboardId: UUID,
+        klaverjasTeam: AppUpdateKlaverjasTeam,
+    ) {
+        return mutation.mutateAsync({
+            action: "update",
+            scoreboardId,
+            klaverjasTeam,
+        });
     }
 
     return { createKlaverjasTeam, updateKlaverjasTeam, mutation };

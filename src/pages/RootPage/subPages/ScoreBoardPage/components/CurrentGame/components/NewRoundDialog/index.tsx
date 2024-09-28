@@ -5,11 +5,11 @@ import {
     DialogContent,
     DialogTitle,
     Divider,
+    Grid2,
     Step,
     StepButton,
     Stepper,
 } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import StepThree from "./components/StepThree";
 
 export default function NewRoundDialog() {
@@ -20,17 +20,26 @@ export default function NewRoundDialog() {
                     <Grid2>
                         <Stepper activeStep={2}>
                             <Step>
-                                <StepButton sx={{ borderRadius: 4 }} onClick={() => {}}>
+                                <StepButton
+                                    sx={{ borderRadius: 4 }}
+                                    onClick={() => {}}
+                                >
                                     Step 1
                                 </StepButton>
                             </Step>
                             <Step>
-                                <StepButton sx={{ borderRadius: 4 }} onClick={() => {}}>
+                                <StepButton
+                                    sx={{ borderRadius: 4 }}
+                                    onClick={() => {}}
+                                >
                                     Step 2
                                 </StepButton>
                             </Step>
                             <Step>
-                                <StepButton sx={{ borderRadius: 4 }} onClick={() => {}}>
+                                <StepButton
+                                    sx={{ borderRadius: 4 }}
+                                    onClick={() => {}}
+                                >
                                     Step 3
                                 </StepButton>
                             </Step>

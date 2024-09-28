@@ -3,7 +3,10 @@ import { getKlaverjasRoundQueryKey } from "./queryKeyFunctions";
 import { UUID } from "crypto";
 import { useAPI } from "../useAPI";
 
-export default function useKlaverjasRoundQuery(scoreboardId?: UUID, klaverjasTeamId?: UUID) {
+export default function useKlaverjasRoundQuery(
+    scoreboardId?: UUID,
+    klaverjasTeamId?: UUID,
+) {
     const {
         klaverjasRound: { getByTeamId },
     } = useAPI();
