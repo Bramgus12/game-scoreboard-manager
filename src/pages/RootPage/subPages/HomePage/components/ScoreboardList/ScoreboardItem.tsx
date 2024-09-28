@@ -1,9 +1,9 @@
 import { Button, Grid2, Typography, useTheme } from "@mui/material";
-import { AppScoreboard } from "../../../../../../models/app/scoreboard/Scoreboard";
+import { AppScoreboard } from "models/app/scoreboard/Scoreboard";
 import {
+    ArrowForwardRounded,
     CalendarToday,
     CasinoRounded,
-    OpenInNewRounded,
     ScoreboardRounded,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
@@ -70,8 +70,8 @@ export default function ScoreboardItem(props: {
                         </Grid2>
                     </Grid2>
                 </Grid2>
-                <Grid2>
-                    <OpenInNewRounded />
+                <Grid2 height={24}>
+                    <ArrowForwardRounded />
                 </Grid2>
             </Grid2>
         </Button>

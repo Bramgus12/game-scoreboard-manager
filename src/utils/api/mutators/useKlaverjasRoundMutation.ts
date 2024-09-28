@@ -5,6 +5,7 @@ import { useAPI } from "../useAPI";
 import { UUID } from "crypto";
 import { getKlaverjasRoundQueryKey } from "../queries/queryKeyFunctions";
 import { getKlaverjasRoundMutationKey } from "./mutationKeyFunctions";
+import { AppKlaverjasRound } from "../../../models/app/klaverjasRound/KlaverjasRound";
 
 type MutationProps =
     | {
@@ -53,7 +54,9 @@ export default function useKlaverjasRoundMutation() {
                     mutationProps.scoreboardId,
                     mutationProps.klaverjasTeamId,
                 ),
-                data,
+                (oldData: Array<AppKlaverjasRound>) => {
+                    return [...oldData, data];
+                },
             );
         },
     });

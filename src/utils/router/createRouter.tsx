@@ -32,7 +32,7 @@ function createRouter(
         return redirect("/auth/login");
     }
 
-    const router = createBrowserRouter([
+    return createBrowserRouter([
         {
             path: "/",
             loader: protectedLoader,
@@ -78,8 +78,6 @@ function createRouter(
             action: logoutAction,
         },
     ]);
-
-    return router;
 }
 
 export default createRouter;

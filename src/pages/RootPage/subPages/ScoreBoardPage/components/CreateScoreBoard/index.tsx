@@ -13,12 +13,15 @@ import useScoreboardMutation from "../../../../../../utils/api/mutators/useScore
 import { useKlaverjasTeamMutation } from "../../../../../../utils/api/mutators/useKlaverjasTeamMutation";
 import { GAME_TYPE } from "constants/gameType";
 import { TEAM_TYPE } from "constants/teamType";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateScoreBoard() {
     const { register, handleSubmit } = useForm<CreateScoreBoardForm>();
 
     const { createScoreboard } = useScoreboardMutation();
     const { createKlaverjasTeam } = useKlaverjasTeamMutation();
+
+    const navigate = useNavigate();
 
     async function saveData(data: CreateScoreBoardForm) {
         const createdScoreboard = await createScoreboard({
@@ -30,6 +33,8 @@ export default function CreateScoreBoard() {
             { type: TEAM_TYPE.THEM, name: data.theirTeamName },
             { type: TEAM_TYPE.US, name: data.ourTeamName },
         ]);
+
+        navigate(`/scoreboard/${createdScoreboard.id}`);
     }
 
     return (

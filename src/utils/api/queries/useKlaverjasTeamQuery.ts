@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getKlaverjasTeamQueryKey } from "./queryKeyFunctions";
 import { useAPI } from "../useAPI";
 
-export default function useKlaverjasTeamQuery(scoreboardId: UUID) {
+export default function useKlaverjasTeamQuery(scoreboardId: UUID | undefined) {
     const {
         klaverjasTeam: { getByScoreboardId },
     } = useAPI();
@@ -16,5 +16,6 @@ export default function useKlaverjasTeamQuery(scoreboardId: UUID) {
             }
             throw new Error("scoreboardId is required");
         },
+        enabled: scoreboardId != null,
     });
 }

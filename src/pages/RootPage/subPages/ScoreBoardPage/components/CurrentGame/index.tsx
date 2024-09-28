@@ -2,39 +2,51 @@ import { Fab, Grid2, Paper, Typography } from "@mui/material";
 import KlaverjasTable from "./components/KlaverjasTable";
 import { FiberNewRounded } from "@mui/icons-material";
 import NewRoundDialog from "./components/NewRoundDialog";
+import { useState } from "react";
+import useKlaverjasTeamQuery from "../../../../../../utils/api/queries/useKlaverjasTeamQuery";
+import { useParams } from "react-router-dom";
+import { UUID } from "crypto";
+import LoadingComponent from "./components/LoadingComponent";
+import CurrentRoundNumber from "./components/CurrentRoundNumber";
+import Totals from "./components/Totals";
 
 export default function CurrentGame() {
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    const { id } = useParams<{ id: UUID }>();
+
+    const { data, isPending, isError } = useKlaverjasTeamQuery(id);
+
+    if (isPending) {
+        return <LoadingComponent />;
+    }
+
+    if (isError) {
+        return <div>Error</div>;
+    }
+
     return (
         <>
             <Grid2 container spacing={2}>
                 <Grid2>
                     <Typography variant="h4">
-                        Klaverjas game with: name, name, name, name
+                        {`Klaverjas game with teams: ${data[0].name} and ${data[1].name}`}
                     </Typography>
                 </Grid2>
                 <Grid2 size={6}>
                     <Paper>
-                        <KlaverjasTable />
+                        <KlaverjasTable
+                            teams={data}
+                            onNewRoundClick={() => setIsDialogOpen(true)}
+                        />
                     </Paper>
                 </Grid2>
                 <Grid2 container direction="column" size={6}>
                     <Grid2>
-                        <Paper>
-                            <Typography variant="h6">Current round no.</Typography>
-                            <Typography variant="h2">
-                                <code>13</code>
-                            </Typography>
-                        </Paper>
+                        <CurrentRoundNumber teams={data} />
                     </Grid2>
                     <Grid2>
-                        <Paper>
-                            <Typography variant="h6">Totals</Typography>
-                            <Typography variant="h3">
-                                <code>1200 </code>
-                                vs
-                                <code> 900</code>
-                            </Typography>
-                        </Paper>
+                        <Totals teams={data} />
                     </Grid2>
                 </Grid2>
             </Grid2>
@@ -42,11 +54,16 @@ export default function CurrentGame() {
                 color="primary"
                 variant="extended"
                 sx={{ position: "fixed", bottom: 25, right: 25 }}
+                onClick={() => setIsDialogOpen(true)}
             >
                 <FiberNewRounded sx={{ marginRight: 1 }} />
                 New round
             </Fab>
-            <NewRoundDialog />
+            <NewRoundDialog
+                open={isDialogOpen}
+                onClose={() => setIsDialogOpen(false)}
+                teams={data}
+            />
         </>
     );
 }

@@ -42,6 +42,16 @@ const theme = createTheme({
                 elevation: 0,
             },
         },
+        MuiSkeleton: {
+            styleOverrides: {
+                root: {
+                    borderRadius: "16px",
+                },
+            },
+            defaultProps: {
+                variant: "rounded",
+            },
+        },
     },
 });
 

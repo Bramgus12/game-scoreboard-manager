@@ -5,51 +5,46 @@ import {
     RadioGroup,
     Typography,
 } from "@mui/material";
+import { TEAM_TYPE } from "constants/teamType";
+import { ChangeEvent, FocusEventHandler, Ref } from "react";
 
-export default function StepOne() {
+function StepOne(props: {
+    goingTeamRadioProps: {
+        onChange?: (event: ChangeEvent<HTMLInputElement>, value: string) => void;
+        onBlur?: FocusEventHandler<HTMLDivElement>;
+        name?: string;
+        ref?: Ref<unknown>;
+    };
+}) {
+    const {
+        goingTeamRadioProps: { onChange, onBlur, name, ref },
+    } = props;
+
     return (
-        <RadioGroup value={2}>
-            <Grid2 container alignItems="center" height={300}>
+        <RadioGroup onChange={onChange} onBlur={onBlur} name={name} ref={ref}>
+            <Grid2 container direction="column" spacing={2}>
                 <Grid2>
-                    <FormControlLabel value={1} control={<Radio />} label="name 1" />
+                    <Typography variant="h6">
+                        Select the team that is going this round.
+                    </Typography>
                 </Grid2>
-                <Grid2
-                    container
-                    height={1}
-                    direction="column"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    size="grow"
-                >
-                    <Grid2>
-                        <FormControlLabel
-                            labelPlacement="bottom"
-                            value={2}
-                            control={<Radio />}
-                            label="name 2"
-                        />
-                    </Grid2>
-                    <Grid2>
-                        <Typography variant="body2">Who is going?</Typography>
-                    </Grid2>
-                    <Grid2>
-                        <FormControlLabel
-                            labelPlacement="top"
-                            value={3}
-                            control={<Radio />}
-                            label="name 3"
-                        />
-                    </Grid2>
-                </Grid2>
-                <Grid2 justifySelf="flex-end">
+                <Grid2>
                     <FormControlLabel
-                        labelPlacement="start"
-                        value={4}
+                        value={TEAM_TYPE.US}
                         control={<Radio />}
-                        label="name 4"
+                        label="Us"
+                    />
+                </Grid2>
+                <Grid2>
+                    <FormControlLabel
+                        value={TEAM_TYPE.THEM}
+                        control={<Radio />}
+                        label="Them"
                     />
                 </Grid2>
             </Grid2>
         </RadioGroup>
     );
 }
+
+export default StepOne;
