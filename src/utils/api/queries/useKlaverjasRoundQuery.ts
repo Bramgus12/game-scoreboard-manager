@@ -19,5 +19,6 @@ export default function useKlaverjasRoundQuery(
             }
             throw new Error("scoreboardId and klaverjasTeamId are required");
         },
+        enabled: scoreboardId != null && klaverjasTeamId != null,
     });
 }

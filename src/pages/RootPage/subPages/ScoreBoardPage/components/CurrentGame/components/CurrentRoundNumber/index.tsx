@@ -1,21 +1,37 @@
-import { Paper, Typography } from "@mui/material";
-import { AppKlaverjasTeam } from "models/app/klaverjasTeam/KlaverjasTeam";
-import useKlaverjasRoundQuery from "../../../../../../../../utils/api/queries/useKlaverjasRoundQuery";
+import { Paper, Skeleton, Stack, Typography } from "@mui/material";
+import useKlaverjasRoundQuery from "utils/api/queries/useKlaverjasRoundQuery";
 import { useParams } from "react-router-dom";
 import { UUID } from "crypto";
+import useKlaverjasTeamQuery from "utils/api/queries/useKlaverjasTeamQuery";
+import { ErrorOutlineRounded } from "@mui/icons-material";
 
-export default function CurrentRoundNumber(props: { teams: AppKlaverjasTeam[] }) {
-    const { teams } = props;
+export default function CurrentRoundNumber() {
     const { id } = useParams<{ id: UUID }>();
 
-    const { data, isPending, isError } = useKlaverjasRoundQuery(id, teams[0].id);
+    const { data: teams } = useKlaverjasTeamQuery(id);
+
+    const { data, isPending, isError } = useKlaverjasRoundQuery(id, teams?.[0].id);
 
     if (isPending) {
-        return <div>Loading...</div>;
+        return <Skeleton sx={{ height: 200 }} />;
     }
 
     if (isError) {
-        return <div>Error</div>;
+        return (
+            <Paper sx={{ height: 150 }}>
+                <Stack
+                    height={1}
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={1}
+                >
+                    <ErrorOutlineRounded />
+                    <Typography variant="caption" sx={{ fontWeight: 700 }}>
+                        Error happened while getting the round totals
+                    </Typography>
+                </Stack>
+            </Paper>
+        );
     }
 
     return (

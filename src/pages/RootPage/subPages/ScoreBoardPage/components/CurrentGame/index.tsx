@@ -1,4 +1,4 @@
-import { Fab, Grid2, Paper, Typography } from "@mui/material";
+import { Fab, Grid2 } from "@mui/material";
 import KlaverjasTable from "./components/KlaverjasTable";
 import { FiberNewRounded } from "@mui/icons-material";
 import NewRoundDialog from "./components/NewRoundDialog";
@@ -9,6 +9,7 @@ import { UUID } from "crypto";
 import LoadingComponent from "./components/LoadingComponent";
 import CurrentRoundNumber from "./components/CurrentRoundNumber";
 import Totals from "./components/Totals";
+import KlaverjasGameTitle from "./components/KlaverjasGameTitle";
 
 export default function CurrentGame() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -29,24 +30,17 @@ export default function CurrentGame() {
         <>
             <Grid2 container spacing={2}>
                 <Grid2>
-                    <Typography variant="h4">
-                        {`Klaverjas game with teams: ${data[0].name} and ${data[1].name}`}
-                    </Typography>
+                    <KlaverjasGameTitle />
                 </Grid2>
                 <Grid2 size={6}>
-                    <Paper>
-                        <KlaverjasTable
-                            teams={data}
-                            onNewRoundClick={() => setIsDialogOpen(true)}
-                        />
-                    </Paper>
+                    <KlaverjasTable onNewRoundClick={() => setIsDialogOpen(true)} />
                 </Grid2>
                 <Grid2 container direction="column" size={6}>
                     <Grid2>
-                        <CurrentRoundNumber teams={data} />
+                        <CurrentRoundNumber />
                     </Grid2>
                     <Grid2>
-                        <Totals teams={data} />
+                        <Totals />
                     </Grid2>
                 </Grid2>
             </Grid2>
