@@ -9,7 +9,7 @@ export default function KlaverjasGameTitle() {
     const { data, isPending, isError } = useKlaverjasTeamQuery(id);
 
     if (isPending) {
-        return <Skeleton variant="text" sx={{ height: 45 }} />;
+        return <Skeleton sx={{ height: 45 }} />;
     }
 
     if (isError) {

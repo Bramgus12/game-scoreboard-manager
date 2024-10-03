@@ -24,7 +24,7 @@ const theme = createTheme({
         MuiTextField: {
             styleOverrides: {
                 root: {
-                    borderRadius: "16px",
+                    borderRadius: 16,
                 },
             },
             defaultProps: {
@@ -34,8 +34,8 @@ const theme = createTheme({
         MuiPaper: {
             styleOverrides: {
                 root: {
-                    borderRadius: "16px",
-                    padding: "16px",
+                    borderRadius: 16,
+                    padding: 16,
                 },
             },
             defaultProps: {
@@ -45,11 +45,30 @@ const theme = createTheme({
         MuiSkeleton: {
             styleOverrides: {
                 root: {
-                    borderRadius: "16px",
+                    borderRadius: 16,
                 },
             },
             defaultProps: {
                 variant: "rounded",
+            },
+        },
+        MuiMenu: {
+            styleOverrides: {
+                paper: {
+                    borderRadius: 16,
+                    padding: 8,
+                },
+                list: {
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                },
+            },
+        },
+        MuiMenuItem: {
+            styleOverrides: {
+                root: {
+                    borderRadius: 8,
+                },
             },
         },
     },

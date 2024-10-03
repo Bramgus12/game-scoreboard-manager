@@ -8,18 +8,29 @@ import {
     Table,
     TableBody,
     TableCell,
+    tableCellClasses,
     TableHead,
     TableRow,
+    tableRowClasses,
     Typography,
+    useTheme,
 } from "@mui/material";
 import useKlaverjasRoundQuery from "utils/api/queries/useKlaverjasRoundQuery";
 import { useParams } from "react-router-dom";
 import { UUID } from "crypto";
 import useKlaverjasTeamQuery from "utils/api/queries/useKlaverjasTeamQuery";
 import { ErrorOutlineRounded } from "@mui/icons-material";
+import { MergedRound } from "pages/RootPage/subPages/ScoreBoardPage/components/CurrentGame/components/KlaverjasTable/interfaces";
+import RoundRow from "pages/RootPage/subPages/ScoreBoardPage/components/CurrentGame/components/KlaverjasTable/components/RoundRow";
 
-export default function KlaverjasTable(props: { onNewRoundClick: () => void }) {
-    const { onNewRoundClick } = props;
+export default function KlaverjasTable(props: {
+    onNewRoundClick: () => void;
+    onEditClick: (round: MergedRound) => void;
+    onDeleteClick: (round: MergedRound) => void;
+}) {
+    const { onNewRoundClick, onEditClick, onDeleteClick } = props;
+
+    const theme = useTheme();
 
     const { id: scoreboardId } = useParams<{ id: UUID }>();
 
@@ -59,7 +70,7 @@ export default function KlaverjasTable(props: { onNewRoundClick: () => void }) {
         );
     }
 
-    const mergedData = team1Data
+    const mergedData: Array<MergedRound> = team1Data
         .map((round, index) => {
             if (team2Data[index] == null) {
                 return undefined;
@@ -100,30 +111,53 @@ export default function KlaverjasTable(props: { onNewRoundClick: () => void }) {
 
     return (
         <Paper>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell align="right">Round</TableCell>
-                        <TableCell align="right">Us</TableCell>
-                        <TableCell align="right">Them</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {mergedData.map((round) => (
-                        <TableRow key={round.roundNumber}>
-                            <TableCell sx={{ width: 20, padding: 1 }}>
-                                {round.roundNumber}
+            <Box
+                sx={{
+                    borderRadius: 4,
+                    border: `1px solid ${theme.palette.primary.main}`,
+                }}
+            >
+                <Table>
+                    <TableHead
+                        sx={{
+                            [`& .${tableCellClasses.root}`]: {
+                                borderBottom: `1px solid ${theme.palette.primary.main}`,
+                            },
+                        }}
+                    >
+                        <TableRow>
+                            <TableCell variant="head" align="right">
+                                Round
                             </TableCell>
-                            <TableCell sx={{ padding: 1 }} align="right">
-                                {round.team1.points}
+                            <TableCell variant="head" align="right">
+                                Us
                             </TableCell>
-                            <TableCell sx={{ padding: 1 }} align="right">
-                                {round.team2.points}
+                            <TableCell variant="head" align="right">
+                                Them
                             </TableCell>
+                            <TableCell />
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+                    </TableHead>
+                    <TableBody
+                        sx={{
+                            [`& .${tableRowClasses.root}:last-of-type`]: {
+                                [`& .${tableCellClasses.root}`]: {
+                                    borderBottom: "none",
+                                },
+                            },
+                        }}
+                    >
+                        {mergedData.map((round) => (
+                            <RoundRow
+                                round={round}
+                                key={round.roundNumber}
+                                onEditClick={onEditClick}
+                                onDeleteClick={onDeleteClick}
+                            />
+                        ))}
+                    </TableBody>
+                </Table>
+            </Box>
         </Paper>
     );
 }

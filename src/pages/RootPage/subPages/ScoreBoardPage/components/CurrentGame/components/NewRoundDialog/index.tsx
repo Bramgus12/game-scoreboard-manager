@@ -16,12 +16,12 @@ import StepOne from "./components/StepOne";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AppTeamType } from "models/app/klaverjasTeam/TeamType";
-import useKlaverjasRoundMutation from "../../../../../../../../utils/api/mutators/useKlaverjasRoundMutation";
-import useKlaverjasRoundQuery from "../../../../../../../../utils/api/queries/useKlaverjasRoundQuery";
-import { AppKlaverjasTeam } from "../../../../../../../../models/app/klaverjasTeam/KlaverjasTeam";
+import useKlaverjasRoundMutation from "utils/api/mutators/useKlaverjasRoundMutation";
+import useKlaverjasRoundQuery from "utils/api/queries/useKlaverjasRoundQuery";
 import { useParams } from "react-router-dom";
 import { UUID } from "crypto";
-import { AppCreateKlaverjasRound } from "../../../../../../../../models/app/klaverjasRound/CreateKlaverjasRound";
+import { AppCreateKlaverjasRound } from "models/app/klaverjasRound/CreateKlaverjasRound";
+import useKlaverjasTeamQuery from "utils/api/queries/useKlaverjasTeamQuery";
 
 export type NewRoundForm = {
     goingTeam: AppTeamType;
@@ -38,14 +38,15 @@ export type NewRoundForm = {
 export default function NewRoundDialog(props: {
     open: boolean;
     onClose: () => void;
-    teams: AppKlaverjasTeam[];
 }) {
-    const { open, onClose, teams } = props;
+    const { open, onClose } = props;
     const { id } = useParams<{ id: UUID }>();
 
     const [activeStep, setActiveStep] = useState(0);
 
-    const { data, isPending, isError } = useKlaverjasRoundQuery(id, teams[0].id);
+    const { data: teams } = useKlaverjasTeamQuery(id);
+
+    const { data, isPending, isError } = useKlaverjasRoundQuery(id, teams?.[0].id);
 
     const { createKlaverjasRound } = useKlaverjasRoundMutation();
 
@@ -59,7 +60,7 @@ export default function NewRoundDialog(props: {
     ];
 
     async function saveRound(round: NewRoundForm) {
-        if (isPending || isError || id == null) {
+        if (isPending || isError || id == null || teams == null) {
             throw new Error("Cannot save round");
         }
 

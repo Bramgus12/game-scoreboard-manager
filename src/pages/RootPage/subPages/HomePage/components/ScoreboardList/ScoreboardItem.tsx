@@ -40,7 +40,7 @@ export default function ScoreboardItem(props: {
             <Grid2 container alignItems="center">
                 <Grid2 container spacing={2} alignItems="center" size="grow">
                     <Grid2 container alignItems="center" spacing={1} size={12}>
-                        <Grid2 height={32}>
+                        <Grid2 height={24}>
                             <ScoreboardRounded />
                         </Grid2>
                         <Grid2>
