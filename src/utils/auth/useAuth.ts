@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { useEffect } from "react";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "@tanstack/react-router";
 
 export const supabase = createClient(
     import.meta.env.VITE_SUPABASE_URL,
@@ -8,15 +8,17 @@ export const supabase = createClient(
 );
 
 export function useAuth() {
+    const navigate = useNavigate();
+
     function handleSignedInEvent() {
         if (window.location.pathname.startsWith("/auth")) {
-            redirect("/");
+            void navigate({ to: "/app" });
         }
     }
 
     function handleSignedOutEvent() {
         if (!window.location.pathname.startsWith("/auth")) {
-            redirect("/auth/login");
+            void navigate({ to: "/auth/login" });
         }
     }
 

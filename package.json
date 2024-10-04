@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-routes": "tsr generate",
+    "watch-routes": "tsr watch"
   },
   "dependencies": {
     "@emotion/react": "^11.13.0",
@@ -22,11 +24,11 @@
     "axios": "^1.7.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-hook-form": "^7.53.0",
-    "react-router-dom": "^6.23.1"
+    "react-hook-form": "^7.53.0"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.47.0",
+    "@tanstack/router-cli": "^1.58.12",
     "@tanstack/router-devtools": "^1.58.17",
     "@tanstack/router-plugin": "^1.58.12",
     "@types/node": "^22.4.1",
