@@ -4,4 +4,5 @@ export type DomainCreateKlaverjasRound = {
     fame: number;
     isPit: boolean;
     isWet: boolean;
+    isGoing: boolean;
 };

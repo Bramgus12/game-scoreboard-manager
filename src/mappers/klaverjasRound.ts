@@ -1,5 +1,5 @@
-import { AppKlaverjasRound } from "../models/app/klaverjasRound/KlaverjasRound";
-import { DomainKlaverjasRound } from "../models/domain/klaverjasRound/KlaverjasRound";
+import { AppKlaverjasRound } from "models/app/klaverjasRound/KlaverjasRound";
+import { DomainKlaverjasRound } from "models/domain/klaverjasRound/KlaverjasRound";
 
 export function DomainToAppKlaverjasRound(
     domainModel: DomainKlaverjasRound,
@@ -11,6 +11,7 @@ export function DomainToAppKlaverjasRound(
         isWet: domainModel.isWet,
         points: domainModel.points,
         fame: domainModel.fame,
+        isGoing: domainModel.isGoing,
         klaverjasTeam: domainModel.klaverjasTeam,
         createdAt: new Date(domainModel.createdAt),
         updatedAt: new Date(domainModel.updatedAt),

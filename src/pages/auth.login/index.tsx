@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
-import { LoginForm } from "pages/auth/interfaces";
 import useUserLoginMutation from "utils/auth/mutators/useUserLoginMutation";
 import { Button, Grid2, TextField, Typography } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
+import { LoginForm } from "pages/auth.login/interfaces";
 
 export default function Login() {
     const { register, handleSubmit } = useForm<LoginForm>();

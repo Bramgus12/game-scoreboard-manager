@@ -7,4 +7,5 @@ export type AppUpdateKlaverjasRound = {
     isPit: boolean;
     isWet: boolean;
     id: UUID;
+    isGoing: boolean;
 };

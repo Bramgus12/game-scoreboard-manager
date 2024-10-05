@@ -67,10 +67,12 @@ export default function CreateScoreBoard() {
                                     .
                                 </Typography>
                             </Grid2>
-                            <Grid2 size={6}>
+                            <Grid2 size={{ xs: 12, md: 6 }}>
                                 <TextField
                                     label="How do you want to call your game?"
-                                    {...register("scoreboardName")}
+                                    {...register("scoreboardName", {
+                                        required: true,
+                                    })}
                                 />
                             </Grid2>
                             <Grid2 size={12}>
@@ -87,10 +89,12 @@ export default function CreateScoreBoard() {
                                         Your team:
                                     </Typography>
                                 </Grid2>
-                                <Grid2 size={6}>
+                                <Grid2 size={{ xs: 12, md: 6 }}>
                                     <TextField
                                         label="Your team name"
-                                        {...register("ourTeamName")}
+                                        {...register("ourTeamName", {
+                                            required: true,
+                                        })}
                                     />
                                 </Grid2>
                             </Grid2>
@@ -100,10 +104,12 @@ export default function CreateScoreBoard() {
                                         Their team:
                                     </Typography>
                                 </Grid2>
-                                <Grid2 size={6}>
+                                <Grid2 size={{ xs: 12, md: 6 }}>
                                     <TextField
                                         label="Their team name"
-                                        {...register("theirTeamName")}
+                                        {...register("theirTeamName", {
+                                            required: true,
+                                        })}
                                     />
                                 </Grid2>
                             </Grid2>

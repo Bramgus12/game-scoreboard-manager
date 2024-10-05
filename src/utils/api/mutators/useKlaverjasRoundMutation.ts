@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AppCreateKlaverjasRound } from "../../../models/app/klaverjasRound/CreateKlaverjasRound";
-import { AppUpdateKlaverjasRound } from "../../../models/app/klaverjasRound/UpdateKlaverjasRound";
+import { AppCreateKlaverjasRound } from "models/app/klaverjasRound/CreateKlaverjasRound";
+import { AppUpdateKlaverjasRound } from "models/app/klaverjasRound/UpdateKlaverjasRound";
 import { useAPI } from "../useAPI";
 import { UUID } from "crypto";
 import { getKlaverjasRoundQueryKey } from "../queries/queryKeyFunctions";
 import { getKlaverjasRoundMutationKey } from "./mutationKeyFunctions";
-import { AppKlaverjasRound } from "../../../models/app/klaverjasRound/KlaverjasRound";
+import { AppKlaverjasRound } from "models/app/klaverjasRound/KlaverjasRound";
 
 type MutationProps =
     | {
@@ -55,6 +55,17 @@ export default function useKlaverjasRoundMutation() {
                     mutationProps.klaverjasTeamId,
                 ),
                 (oldData: Array<AppKlaverjasRound>) => {
+                    const newData = [...oldData];
+
+                    const oldRoundIndex = oldData.findIndex(
+                        (round) => round.id === data.id,
+                    );
+
+                    if (oldRoundIndex !== -1) {
+                        newData[oldRoundIndex] = data;
+                        return newData;
+                    }
+
                     return [...oldData, data];
                 },
             );

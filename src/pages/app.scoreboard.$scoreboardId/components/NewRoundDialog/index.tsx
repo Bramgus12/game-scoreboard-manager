@@ -10,7 +10,7 @@ import {
     StepLabel,
     Stepper,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AppTeamType } from "models/app/klaverjasTeam/TeamType";
 import useKlaverjasRoundMutation from "utils/api/mutators/useKlaverjasRoundMutation";
@@ -22,6 +22,7 @@ import { useParams } from "@tanstack/react-router";
 import StepOne from "pages/app.scoreboard.$scoreboardId/components/NewRoundDialog/components/StepOne";
 import StepTwo from "pages/app.scoreboard.$scoreboardId/components/NewRoundDialog/components/StepTwo";
 import StepThree from "pages/app.scoreboard.$scoreboardId/components/NewRoundDialog/components/StepThree";
+import { MergedRound } from "pages/app.scoreboard.$scoreboardId/components/KlaverjasTable/interfaces";
 
 export type NewRoundForm = {
     goingTeam: AppTeamType;
@@ -38,8 +39,9 @@ export type NewRoundForm = {
 export default function NewRoundDialog(props: {
     open: boolean;
     onClose: () => void;
+    initialState?: MergedRound;
 }) {
-    const { open, onClose } = props;
+    const { open, onClose, initialState } = props;
     const { scoreboardId } = useParams({ from: "/app/scoreboard/$scoreboardId" });
 
     const id = scoreboardId as UUID;
@@ -50,13 +52,14 @@ export default function NewRoundDialog(props: {
 
     const { data, isPending, isError } = useKlaverjasRoundQuery(id, teams?.[0].id);
 
-    const { createKlaverjasRound } = useKlaverjasRoundMutation();
+    const { createKlaverjasRound, updateKlaverjasRound } =
+        useKlaverjasRoundMutation();
 
-    const { register, handleSubmit, control, watch, setValue, reset } =
+    const { handleSubmit, control, watch, setValue, reset } =
         useForm<NewRoundForm>();
 
     const steps = [
-        <StepOne key={0} goingTeamRadioProps={register("goingTeam")} />,
+        <StepOne key={0} control={control} />,
         <StepTwo key={1} control={control} />,
         <StepThree key={2} control={control} watch={watch} setValue={setValue} />,
     ];
@@ -72,6 +75,7 @@ export default function NewRoundDialog(props: {
             isPit: round.usPit,
             isWet: round.usWet,
             roundNumber: data.length + 1,
+            isGoing: round.goingTeam === "us",
         };
 
         const klaverjasRoundTeamThem: AppCreateKlaverjasRound = {
@@ -80,13 +84,49 @@ export default function NewRoundDialog(props: {
             isPit: round.themPit,
             isWet: round.themWet,
             roundNumber: data.length + 1,
+            isGoing: round.goingTeam === "them",
         };
+
+        if (initialState != null) {
+            await updateKlaverjasRound(id, teams[0].id, {
+                ...klaverjasRoundTeamUs,
+                id: initialState.team1.id,
+            });
+            await updateKlaverjasRound(id, teams[1].id, {
+                ...klaverjasRoundTeamThem,
+                id: initialState.team2.id,
+            });
+            onClose();
+            return;
+        }
 
         await createKlaverjasRound(id, teams[0].id, klaverjasRoundTeamUs);
         await createKlaverjasRound(id, teams[1].id, klaverjasRoundTeamThem);
 
         onClose();
     }
+
+    useEffect(() => {
+        if (initialState != null) {
+            const { team1, team2 } = initialState;
+
+            const newRoundFormObject: NewRoundForm = {
+                goingTeam: team2.isGoing ? "them" : "us",
+                usPit: team1.isPit,
+                usWet: team1.isWet,
+                usFame: team1.fame,
+                usPoints: team1.points,
+                themPit: team2.isPit,
+                themWet: team2.isWet,
+                themFame: team2.fame,
+                themPoints: team2.points,
+            };
+
+            reset(newRoundFormObject);
+            return;
+        }
+        reset();
+    }, [initialState, reset]);
 
     return (
         <Dialog

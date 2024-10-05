@@ -7,5 +7,6 @@ export type DomainKlaverjasRound = DomainBaseModel & {
     fame: number;
     isPit: boolean;
     isWet: boolean;
+    isGoing: boolean;
     klaverjasTeam: UUID;
 };

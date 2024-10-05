@@ -6,44 +6,48 @@ import {
     Typography,
 } from "@mui/material";
 import { TEAM_TYPE } from "constants/teamType";
-import { ChangeEvent, FocusEventHandler, Ref } from "react";
+import { Control, Controller } from "react-hook-form";
+import { NewRoundForm } from "pages/app.scoreboard.$scoreboardId/components/NewRoundDialog/index";
 
-function StepOne(props: {
-    goingTeamRadioProps: {
-        onChange?: (event: ChangeEvent<HTMLInputElement>, value: string) => void;
-        onBlur?: FocusEventHandler<HTMLDivElement>;
-        name?: string;
-        ref?: Ref<unknown>;
-    };
-}) {
-    const {
-        goingTeamRadioProps: { onChange, onBlur, name, ref },
-    } = props;
+function StepOne(props: { control: Control<NewRoundForm> }) {
+    const { control } = props;
 
     return (
-        <RadioGroup onChange={onChange} onBlur={onBlur} name={name} ref={ref}>
-            <Grid2 container direction="column" spacing={2}>
-                <Grid2>
-                    <Typography variant="h6">
-                        Select the team that is going this round.
-                    </Typography>
-                </Grid2>
-                <Grid2>
-                    <FormControlLabel
-                        value={TEAM_TYPE.US}
-                        control={<Radio />}
-                        label="Us"
-                    />
-                </Grid2>
-                <Grid2>
-                    <FormControlLabel
-                        value={TEAM_TYPE.THEM}
-                        control={<Radio />}
-                        label="Them"
-                    />
-                </Grid2>
-            </Grid2>
-        </RadioGroup>
+        <Controller
+            render={(controllerProps) => (
+                <RadioGroup
+                    onChange={controllerProps.field.onChange}
+                    onBlur={controllerProps.field.onBlur}
+                    name={controllerProps.field.name}
+                    ref={controllerProps.field.ref}
+                    value={controllerProps.field.value}
+                >
+                    <Grid2 container direction="column" spacing={2}>
+                        <Grid2>
+                            <Typography variant="h6">
+                                Select the team that is going this round.
+                            </Typography>
+                        </Grid2>
+                        <Grid2>
+                            <FormControlLabel
+                                value={TEAM_TYPE.US}
+                                control={<Radio />}
+                                label="Us"
+                            />
+                        </Grid2>
+                        <Grid2>
+                            <FormControlLabel
+                                value={TEAM_TYPE.THEM}
+                                control={<Radio />}
+                                label="Them"
+                            />
+                        </Grid2>
+                    </Grid2>
+                </RadioGroup>
+            )}
+            name="goingTeam"
+            control={control}
+        />
     );
 }
 

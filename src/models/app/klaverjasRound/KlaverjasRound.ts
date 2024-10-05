@@ -8,4 +8,5 @@ export type AppKlaverjasRound = AppBaseModel & {
     isPit: boolean;
     isWet: boolean;
     klaverjasTeam: UUID;
+    isGoing: boolean;
 };

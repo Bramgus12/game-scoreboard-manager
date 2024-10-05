@@ -1,10 +1,10 @@
 import useUserSignupMutation from "utils/auth/mutators/useUserSignupMutation";
 import { useUserMutation } from "utils/api/mutators/useUserMutation";
 import { useForm } from "react-hook-form";
-import { RegisterForm } from "pages/auth/interfaces";
 import { Button, Grid2, TextField, Typography } from "@mui/material";
 import { KeyboardArrowLeftRounded } from "@mui/icons-material";
 import { useNavigate } from "@tanstack/react-router";
+import { RegisterForm } from "pages/auth.register/interfaces";
 
 export default function Register() {
     const { mutateAsync } = useUserSignupMutation();

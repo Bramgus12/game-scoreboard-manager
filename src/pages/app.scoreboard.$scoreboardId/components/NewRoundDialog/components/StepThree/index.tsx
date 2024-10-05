@@ -1,7 +1,7 @@
 import { Button, ButtonGroup, Grid2, TextField, Typography } from "@mui/material";
 import { Control, Controller, UseFormSetValue, UseFormWatch } from "react-hook-form";
-import { useEffect } from "react";
 import { NewRoundForm } from "pages/app.scoreboard.$scoreboardId/components/NewRoundDialog/index";
+import { TEAM_TYPE } from "constants/teamType";
 
 export default function StepThree(props: {
     control: Control<NewRoundForm>;
@@ -10,28 +10,27 @@ export default function StepThree(props: {
 }) {
     const { control, watch, setValue } = props;
 
-    const { usPit, usWet, themPit, themWet } = watch();
+    const { usPit, usWet, themPit, themWet, goingTeam } = watch();
 
     const textFieldsDisabled = usPit || usWet || themPit || themWet;
 
-    useEffect(() => {
-        if (usPit) {
+    function handleWetOrPitChange(
+        field: "usPit" | "usWet" | "themPit" | "themWet",
+        isChecked: boolean,
+    ) {
+        if (!isChecked) {
+            return;
+        }
+
+        if (field === "usPit" || field === "themWet") {
             setValue("usPoints", 162);
             setValue("themPoints", 0);
         }
-        if (usWet) {
+        if (field === "usWet" || field === "themPit") {
             setValue("usPoints", 0);
             setValue("themPoints", 162);
         }
-        if (themPit) {
-            setValue("usPoints", 0);
-            setValue("themPoints", 162);
-        }
-        if (themWet) {
-            setValue("usPoints", 162);
-            setValue("themPoints", 0);
-        }
-    }, [setValue, themPit, themWet, usPit, usWet]);
+    }
 
     return (
         <Grid2 container spacing={2}>
@@ -69,7 +68,13 @@ export default function StepThree(props: {
                                         variant={
                                             field.value ? "contained" : "outlined"
                                         }
-                                        onClick={() => field.onChange(!field.value)}
+                                        onClick={() => {
+                                            field.onChange(!field.value);
+                                            handleWetOrPitChange(
+                                                "usPit",
+                                                !field.value,
+                                            );
+                                        }}
                                     >
                                         Pit
                                     </Button>
@@ -78,26 +83,36 @@ export default function StepThree(props: {
                             name="usPit"
                             control={control}
                         />
-                        <Controller
-                            render={({ field }) => {
-                                const disabled = usPit || themPit || themWet;
+                        {goingTeam === TEAM_TYPE.US ? (
+                            <Controller
+                                render={({ field }) => {
+                                    const disabled = usPit || themPit || themWet;
 
-                                return (
-                                    <Button
-                                        disabled={disabled}
-                                        variant={
-                                            field.value ? "contained" : "outlined"
-                                        }
-                                        onClick={() => field.onChange(!field.value)}
-                                    >
-                                        Wet
-                                    </Button>
-                                );
-                            }}
-                            defaultValue={false}
-                            name="usWet"
-                            control={control}
-                        />
+                                    return (
+                                        <Button
+                                            disabled={disabled}
+                                            variant={
+                                                field.value
+                                                    ? "contained"
+                                                    : "outlined"
+                                            }
+                                            onClick={() => {
+                                                field.onChange(!field.value);
+                                                handleWetOrPitChange(
+                                                    "usWet",
+                                                    !field.value,
+                                                );
+                                            }}
+                                        >
+                                            Wet
+                                        </Button>
+                                    );
+                                }}
+                                defaultValue={false}
+                                name="usWet"
+                                control={control}
+                            />
+                        ) : null}
                     </ButtonGroup>
                 </Grid2>
             </Grid2>
@@ -130,7 +145,13 @@ export default function StepThree(props: {
                                         variant={
                                             field.value ? "contained" : "outlined"
                                         }
-                                        onClick={() => field.onChange(!field.value)}
+                                        onClick={() => {
+                                            field.onChange(!field.value);
+                                            handleWetOrPitChange(
+                                                "themPit",
+                                                !field.value,
+                                            );
+                                        }}
                                         disabled={disabled}
                                     >
                                         Pit
@@ -140,26 +161,36 @@ export default function StepThree(props: {
                             name="themPit"
                             control={control}
                         />
-                        <Controller
-                            render={({ field }) => {
-                                const disabled = usPit || usWet || themPit;
+                        {goingTeam === TEAM_TYPE.THEM ? (
+                            <Controller
+                                render={({ field }) => {
+                                    const disabled = usPit || usWet || themPit;
 
-                                return (
-                                    <Button
-                                        variant={
-                                            field.value ? "contained" : "outlined"
-                                        }
-                                        disabled={disabled}
-                                        onClick={() => field.onChange(!field.value)}
-                                    >
-                                        Wet
-                                    </Button>
-                                );
-                            }}
-                            defaultValue={false}
-                            name="themWet"
-                            control={control}
-                        />
+                                    return (
+                                        <Button
+                                            variant={
+                                                field.value
+                                                    ? "contained"
+                                                    : "outlined"
+                                            }
+                                            disabled={disabled}
+                                            onClick={() => {
+                                                field.onChange(!field.value);
+                                                handleWetOrPitChange(
+                                                    "themWet",
+                                                    !field.value,
+                                                );
+                                            }}
+                                        >
+                                            Wet
+                                        </Button>
+                                    );
+                                }}
+                                defaultValue={false}
+                                name="themWet"
+                                control={control}
+                            />
+                        ) : null}
                     </ButtonGroup>
                 </Grid2>
             </Grid2>

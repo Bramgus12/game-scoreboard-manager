@@ -7,9 +7,14 @@ import CurrentRoundNumber from "pages/app.scoreboard.$scoreboardId/components/Cu
 import Totals from "pages/app.scoreboard.$scoreboardId/components/Totals";
 import { FiberNewRounded } from "@mui/icons-material";
 import NewRoundDialog from "pages/app.scoreboard.$scoreboardId/components/NewRoundDialog";
+import { MergedRound } from "pages/app.scoreboard.$scoreboardId/components/KlaverjasTable/interfaces";
 
 export default function EditScoreboard() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    const [currentEditRound, setCurrentEditRound] = useState<
+        MergedRound | undefined
+    >();
 
     const isFetching = useIsFetching();
 
@@ -19,14 +24,20 @@ export default function EditScoreboard() {
                 <Grid2 size={12}>
                     <KlaverjasGameTitle />
                 </Grid2>
-                <Grid2 size={6}>
+                <Grid2 size={{ xs: 12, md: 6 }}>
                     <KlaverjasTable
                         onNewRoundClick={() => setIsDialogOpen(true)}
-                        onEditClick={() => {}}
-                        onDeleteClick={() => {}}
+                        onEditClick={(mergedRound) => {
+                            setCurrentEditRound(mergedRound);
+                            setIsDialogOpen(true);
+                        }}
+                        onDeleteClick={(mergedRound) => {
+                            // eslint-disable-next-line no-console
+                            console.log("delete", mergedRound);
+                        }}
                     />
                 </Grid2>
-                <Grid2 container direction="column" size={6}>
+                <Grid2 container direction="column" size={{ xs: 12, md: 6 }}>
                     <Grid2>
                         <CurrentRoundNumber />
                     </Grid2>
@@ -48,6 +59,7 @@ export default function EditScoreboard() {
             <NewRoundDialog
                 open={isDialogOpen}
                 onClose={() => setIsDialogOpen(false)}
+                initialState={currentEditRound}
             />
         </>
     );

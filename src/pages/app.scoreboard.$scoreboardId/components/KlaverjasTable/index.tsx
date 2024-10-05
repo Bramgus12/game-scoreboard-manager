@@ -75,15 +75,20 @@ export default function KlaverjasTable(props: {
     }
 
     const mergedData: Array<MergedRound> = team1Data
-        .map((round, index) => {
-            if (team2Data[index] == null) {
+        .sort((a, b) => a.roundNumber - b.roundNumber)
+        .map((team1Round, index) => {
+            const team2Round = team2Data?.find(
+                (r) => r.roundNumber === team1Round.roundNumber,
+            );
+
+            if (team2Round == null) {
                 return undefined;
             }
 
             return {
                 roundNumber: index + 1,
-                team1: round,
-                team2: team2Data[index],
+                team1: team1Round,
+                team2: team2Round,
             };
         })
         .filter((round) => round != null);
@@ -130,9 +135,7 @@ export default function KlaverjasTable(props: {
                         }}
                     >
                         <TableRow>
-                            <TableCell variant="head" align="right">
-                                Round
-                            </TableCell>
+                            <TableCell variant="head" />
                             <TableCell variant="head" align="right">
                                 Us
                             </TableCell>
@@ -151,9 +154,10 @@ export default function KlaverjasTable(props: {
                             },
                         }}
                     >
-                        {mergedData.map((round) => (
+                        {mergedData.map((round, index) => (
                             <RoundRow
                                 round={round}
+                                isLastRound={index === mergedData.length - 1}
                                 key={round.roundNumber}
                                 onEditClick={onEditClick}
                                 onDeleteClick={onDeleteClick}

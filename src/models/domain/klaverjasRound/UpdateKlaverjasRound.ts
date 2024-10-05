@@ -6,5 +6,6 @@ export type DomainUpdateKlaverjasRound = {
     fame: number;
     isPit: boolean;
     isWet: boolean;
+    isGoing: boolean;
     id: UUID;
 };

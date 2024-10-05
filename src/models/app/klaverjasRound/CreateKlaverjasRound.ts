@@ -4,4 +4,5 @@ export type AppCreateKlaverjasRound = {
     fame: number;
     isPit: boolean;
     isWet: boolean;
+    isGoing: boolean;
 };

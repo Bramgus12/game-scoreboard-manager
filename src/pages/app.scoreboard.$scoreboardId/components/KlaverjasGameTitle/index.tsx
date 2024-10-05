@@ -1,4 +1,4 @@
-import { Skeleton, Typography } from "@mui/material";
+import { Paper, Skeleton, Typography } from "@mui/material";
 import useKlaverjasTeamQuery from "utils/api/queries/useKlaverjasTeamQuery";
 import { UUID } from "crypto";
 import { useParams } from "@tanstack/react-router";
@@ -11,7 +11,7 @@ export default function KlaverjasGameTitle() {
     const { data, isPending, isError } = useKlaverjasTeamQuery(id);
 
     if (isPending) {
-        return <Skeleton sx={{ height: 45 }} />;
+        return <Skeleton sx={{ height: 75 }} />;
     }
 
     if (isError) {
@@ -19,8 +19,12 @@ export default function KlaverjasGameTitle() {
     }
 
     return (
-        <Typography variant="h4">
-            {`Klaverjas game with teams: ${data[0].name} and ${data[1].name}`}
-        </Typography>
+        <Paper sx={{ padding: 2 }}>
+            <Typography variant="h4">
+                <code>{`${data[0].name}  `}</code>
+                vs
+                <code>{` ${data[1].name}`}</code>
+            </Typography>
+        </Paper>
     );
 }

@@ -15,7 +15,7 @@ export default function CurrentRoundNumber() {
     const { data, isPending, isError } = useKlaverjasRoundQuery(id, teams?.[0].id);
 
     if (isPending) {
-        return <Skeleton sx={{ height: 200 }} />;
+        return <Skeleton sx={{ height: 136 }} />;
     }
 
     if (isError) {

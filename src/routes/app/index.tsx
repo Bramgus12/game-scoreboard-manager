@@ -1,6 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import App from "pages/app";
-import { Box, useTheme } from "@mui/material";
 import { supabase } from "utils/auth/useAuth";
 
 export const Route = createFileRoute("/app/")({
@@ -20,11 +19,5 @@ export const Route = createFileRoute("/app/")({
 });
 
 function HomePage() {
-    const theme = useTheme();
-
-    return (
-        <Box sx={{ padding: theme.spacing(5, 10) }}>
-            <App />
-        </Box>
-    );
+    return <App />;
 }
