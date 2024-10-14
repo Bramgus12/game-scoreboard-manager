@@ -23,17 +23,18 @@ import StepOne from "pages/app.scoreboard.$scoreboardId/components/NewRoundDialo
 import StepTwo from "pages/app.scoreboard.$scoreboardId/components/NewRoundDialog/components/StepTwo";
 import StepThree from "pages/app.scoreboard.$scoreboardId/components/NewRoundDialog/components/StepThree";
 import { MergedRound } from "pages/app.scoreboard.$scoreboardId/components/KlaverjasTable/interfaces";
+import stringToNumber from "utils/funcs/stringToNumber";
 
 export type NewRoundForm = {
     goingTeam: AppTeamType;
     usFame: number;
     themFame: number;
-    usPoints: number;
-    themPoints: number;
+    usPoints: string;
+    themPoints: string;
     usPit: boolean;
     themPit: boolean;
-    usWet: boolean;
-    themWet: boolean;
+    usWet?: boolean;
+    themWet?: boolean;
 };
 
 export default function NewRoundDialog(props: {
@@ -69,21 +70,24 @@ export default function NewRoundDialog(props: {
             throw new Error("Cannot save round");
         }
 
+        const usPoints = stringToNumber(round.usPoints);
+        const themPoints = stringToNumber(round.themPoints);
+
         const klaverjasRoundTeamUs: AppCreateKlaverjasRound = {
             fame: round.usFame,
-            points: round.usPoints,
+            points: usPoints,
             isPit: round.usPit,
-            isWet: round.usWet,
-            roundNumber: data.length + 1,
+            isWet: round.usWet ?? false,
+            roundNumber: initialState?.roundNumber ?? data.length + 1,
             isGoing: round.goingTeam === "us",
         };
 
         const klaverjasRoundTeamThem: AppCreateKlaverjasRound = {
             fame: round.themFame,
-            points: round.themPoints,
+            points: themPoints,
             isPit: round.themPit,
-            isWet: round.themWet,
-            roundNumber: data.length + 1,
+            isWet: round.themWet ?? false,
+            roundNumber: initialState?.roundNumber ?? data.length + 1,
             isGoing: round.goingTeam === "them",
         };
 
@@ -115,11 +119,11 @@ export default function NewRoundDialog(props: {
                 usPit: team1.isPit,
                 usWet: team1.isWet,
                 usFame: team1.fame,
-                usPoints: team1.points,
+                usPoints: team1.points.toString(),
                 themPit: team2.isPit,
                 themWet: team2.isWet,
                 themFame: team2.fame,
-                themPoints: team2.points,
+                themPoints: team2.points.toString(),
             };
 
             reset(newRoundFormObject);

@@ -63,5 +63,10 @@ export type ApiRoutes = {
             klaverjasRoundId: UUID,
             klaverjasRound: AppCreateKlaverjasRound,
         ) => Promise<AppKlaverjasRound>;
+        remove: (
+            scoreboardId: UUID,
+            teamId: UUID,
+            klaverjasRoundId: UUID,
+        ) => Promise<void>;
     };
 };

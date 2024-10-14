@@ -49,21 +49,22 @@ export default function Totals() {
 
     const mergedRounds: Array<MergedRound> = team1Data
         .sort((a, b) => a.roundNumber - b.roundNumber)
-        .map((round, index) => {
+        .map((round) => {
             const matchingRound = team2Data.find(
                 (r) => r.roundNumber === round.roundNumber,
             );
 
             if (!matchingRound) {
-                throw new Error("Round not found");
+                return undefined;
             }
 
             return {
                 roundNumber: round.roundNumber,
                 team1: round,
-                team2: team2Data[index],
+                team2: matchingRound,
             };
-        });
+        })
+        .filter((round) => round != null);
 
     const totals = mergedRounds.reduce<{ us: number; them: number }>(
         (accumulator, currentValue) => {

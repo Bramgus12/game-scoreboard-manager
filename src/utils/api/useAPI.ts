@@ -177,6 +177,12 @@ export function useAPI(): ApiRoutes {
                             "put",
                         ),
                 ),
+            remove: (scoreboardId, teamId, klaverjasRoundId) =>
+                genericRequest(
+                    undefined,
+                    `${baseUrl}/scoreboard/${scoreboardId}/klaverjas-team/${teamId}/klaverjas-round/${klaverjasRoundId}`,
+                    "delete",
+                ),
         },
     };
 }

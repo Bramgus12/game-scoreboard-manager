@@ -8,15 +8,42 @@ import Totals from "pages/app.scoreboard.$scoreboardId/components/Totals";
 import { FiberNewRounded } from "@mui/icons-material";
 import NewRoundDialog from "pages/app.scoreboard.$scoreboardId/components/NewRoundDialog";
 import { MergedRound } from "pages/app.scoreboard.$scoreboardId/components/KlaverjasTable/interfaces";
+import useKlaverjasRoundMutation from "utils/api/mutators/useKlaverjasRoundMutation";
+import { useParams } from "@tanstack/react-router";
+import { UUID } from "crypto";
+import DeleteRoundDialog from "pages/app.scoreboard.$scoreboardId/components/DeleteRoundDialog";
 
 export default function EditScoreboard() {
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isNewRoundDialogOpen, setIsNewRoundDialogOpen] = useState(false);
+    const [deleteDialogState, setDeleteDialogState] = useState<{
+        isOpen: boolean;
+        mergedRound: MergedRound | undefined;
+    }>({ isOpen: false, mergedRound: undefined });
+
+    const { scoreboardId } = useParams({ from: "/app/scoreboard/$scoreboardId" });
+
+    const id = scoreboardId as UUID;
 
     const [currentEditRound, setCurrentEditRound] = useState<
         MergedRound | undefined
     >();
 
     const isFetching = useIsFetching();
+
+    const { deleteKlaverjasRound } = useKlaverjasRoundMutation();
+
+    function handleDeleteRound(mergedRound: MergedRound) {
+        void deleteKlaverjasRound(
+            id,
+            mergedRound.team1.klaverjasTeam,
+            mergedRound.team1.id,
+        );
+        void deleteKlaverjasRound(
+            id,
+            mergedRound.team2.klaverjasTeam,
+            mergedRound.team2.id,
+        );
+    }
 
     return (
         <>
@@ -26,15 +53,14 @@ export default function EditScoreboard() {
                 </Grid2>
                 <Grid2 size={{ xs: 12, md: 6 }}>
                     <KlaverjasTable
-                        onNewRoundClick={() => setIsDialogOpen(true)}
+                        onNewRoundClick={() => setIsNewRoundDialogOpen(true)}
                         onEditClick={(mergedRound) => {
                             setCurrentEditRound(mergedRound);
-                            setIsDialogOpen(true);
+                            setIsNewRoundDialogOpen(true);
                         }}
-                        onDeleteClick={(mergedRound) => {
-                            // eslint-disable-next-line no-console
-                            console.log("delete", mergedRound);
-                        }}
+                        onDeleteClick={(mergedRound) =>
+                            setDeleteDialogState({ isOpen: true, mergedRound })
+                        }
                     />
                 </Grid2>
                 <Grid2 container direction="column" size={{ xs: 12, md: 6 }}>
@@ -50,16 +76,28 @@ export default function EditScoreboard() {
                 color="primary"
                 variant="extended"
                 sx={{ position: "fixed", bottom: 25, right: 25 }}
-                onClick={() => setIsDialogOpen(true)}
+                onClick={() => setIsNewRoundDialogOpen(true)}
                 disabled={isFetching > 0}
             >
                 <FiberNewRounded sx={{ marginRight: 1 }} />
                 New round
             </Fab>
             <NewRoundDialog
-                open={isDialogOpen}
-                onClose={() => setIsDialogOpen(false)}
+                open={isNewRoundDialogOpen}
+                onClose={() => setIsNewRoundDialogOpen(false)}
                 initialState={currentEditRound}
+            />
+            <DeleteRoundDialog
+                open={deleteDialogState.isOpen}
+                onClose={() =>
+                    setDeleteDialogState({ isOpen: false, mergedRound: undefined })
+                }
+                onSubmit={() => {
+                    if (deleteDialogState.mergedRound != null) {
+                        handleDeleteRound(deleteDialogState.mergedRound);
+                    }
+                    setDeleteDialogState({ isOpen: false, mergedRound: undefined });
+                }}
             />
         </>
     );

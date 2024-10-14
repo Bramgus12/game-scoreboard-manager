@@ -23,7 +23,7 @@ type MutationProps =
 
 export default function useKlaverjasRoundMutation() {
     const {
-        klaverjasRound: { post, put },
+        klaverjasRound: { post, put, remove },
     } = useAPI();
 
     const queryClient = useQueryClient();
@@ -49,26 +49,31 @@ export default function useKlaverjasRoundMutation() {
             throw new Error("Invalid action");
         },
         onSuccess: (data, mutationProps) => {
-            queryClient.setQueryData(
-                getKlaverjasRoundQueryKey(
-                    mutationProps.scoreboardId,
-                    mutationProps.klaverjasTeamId,
-                ),
-                (oldData: Array<AppKlaverjasRound>) => {
-                    const newData = [...oldData];
+            if (
+                mutationProps.action === "update" ||
+                mutationProps.action === "create"
+            ) {
+                queryClient.setQueryData(
+                    getKlaverjasRoundQueryKey(
+                        mutationProps.scoreboardId,
+                        mutationProps.klaverjasTeamId,
+                    ),
+                    (oldData: Array<AppKlaverjasRound>) => {
+                        const newData = [...oldData];
 
-                    const oldRoundIndex = oldData.findIndex(
-                        (round) => round.id === data.id,
-                    );
+                        const oldRoundIndex = oldData.findIndex(
+                            (round) => round.id === data.id,
+                        );
 
-                    if (oldRoundIndex !== -1) {
-                        newData[oldRoundIndex] = data;
-                        return newData;
-                    }
+                        if (oldRoundIndex !== -1) {
+                            newData[oldRoundIndex] = data;
+                            return newData;
+                        }
 
-                    return [...oldData, data];
-                },
-            );
+                        return [...oldData, data];
+                    },
+                );
+            }
         },
     });
 
@@ -98,5 +103,24 @@ export default function useKlaverjasRoundMutation() {
         });
     }
 
-    return { createKlaverjasRound, updateKlaverjasRound, mutation };
+    function deleteKlaverjasRound(
+        scoreboardId: UUID,
+        klaverjasTeamId: UUID,
+        klaverjasRoundId: UUID,
+    ) {
+        void remove(scoreboardId, klaverjasTeamId, klaverjasRoundId);
+        queryClient.setQueryData(
+            getKlaverjasRoundQueryKey(scoreboardId, klaverjasTeamId),
+            (oldData: Array<AppKlaverjasRound>) => {
+                return oldData.filter((round) => round.id !== klaverjasRoundId);
+            },
+        );
+    }
+
+    return {
+        createKlaverjasRound,
+        updateKlaverjasRound,
+        deleteKlaverjasRound,
+        mutation,
+    };
 }

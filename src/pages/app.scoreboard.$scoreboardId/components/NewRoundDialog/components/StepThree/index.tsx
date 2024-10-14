@@ -12,7 +12,8 @@ export default function StepThree(props: {
 
     const { usPit, usWet, themPit, themWet, goingTeam } = watch();
 
-    const textFieldsDisabled = usPit || usWet || themPit || themWet;
+    const textFieldsDisabled =
+        usPit || themPit || themWet === true || usWet === true;
 
     function handleWetOrPitChange(
         field: "usPit" | "usWet" | "themPit" | "themWet",
@@ -23,12 +24,12 @@ export default function StepThree(props: {
         }
 
         if (field === "usPit" || field === "themWet") {
-            setValue("usPoints", 162);
-            setValue("themPoints", 0);
+            setValue("usPoints", "162");
+            setValue("themPoints", "0");
         }
         if (field === "usWet" || field === "themPit") {
-            setValue("usPoints", 0);
-            setValue("themPoints", 162);
+            setValue("usPoints", "0");
+            setValue("themPoints", "162");
         }
     }
 
@@ -50,7 +51,7 @@ export default function StepThree(props: {
                                 name={field.name}
                             />
                         )}
-                        defaultValue={0}
+                        defaultValue={""}
                         name="usPoints"
                         control={control}
                     />
@@ -60,7 +61,8 @@ export default function StepThree(props: {
                         <Controller
                             defaultValue={false}
                             render={({ field }) => {
-                                const disabled = usWet || themPit || themWet;
+                                const disabled =
+                                    themPit || themWet === true || usWet === true;
 
                                 return (
                                     <Button
@@ -92,15 +94,17 @@ export default function StepThree(props: {
                                         <Button
                                             disabled={disabled}
                                             variant={
-                                                field.value
+                                                field.value === true
                                                     ? "contained"
                                                     : "outlined"
                                             }
                                             onClick={() => {
-                                                field.onChange(!field.value);
+                                                field.onChange(
+                                                    field.value === false,
+                                                );
                                                 handleWetOrPitChange(
                                                     "usWet",
-                                                    !field.value,
+                                                    field.value === false,
                                                 );
                                             }}
                                         >
@@ -128,7 +132,7 @@ export default function StepThree(props: {
                                 value={field.value}
                             />
                         )}
-                        defaultValue={0}
+                        defaultValue={""}
                         name={"themPoints"}
                         control={control}
                     />
@@ -138,7 +142,8 @@ export default function StepThree(props: {
                         <Controller
                             defaultValue={false}
                             render={({ field }) => {
-                                const disabled = usPit || usWet || themWet;
+                                const disabled =
+                                    usPit || usWet === true || themWet === true;
 
                                 return (
                                     <Button
@@ -164,21 +169,24 @@ export default function StepThree(props: {
                         {goingTeam === TEAM_TYPE.THEM ? (
                             <Controller
                                 render={({ field }) => {
-                                    const disabled = usPit || usWet || themPit;
+                                    const disabled =
+                                        usPit || usWet === true || themPit;
 
                                     return (
                                         <Button
                                             variant={
-                                                field.value
+                                                field.value === true
                                                     ? "contained"
                                                     : "outlined"
                                             }
                                             disabled={disabled}
                                             onClick={() => {
-                                                field.onChange(!field.value);
+                                                field.onChange(
+                                                    field.value === false,
+                                                );
                                                 handleWetOrPitChange(
                                                     "themWet",
-                                                    !field.value,
+                                                    field.value === false,
                                                 );
                                             }}
                                         >
