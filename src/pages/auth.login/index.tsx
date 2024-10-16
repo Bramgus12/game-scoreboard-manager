@@ -3,9 +3,12 @@ import useUserLoginMutation from "utils/auth/mutators/useUserLoginMutation";
 import { Button, Grid2, TextField, Typography } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
 import { LoginForm } from "pages/auth.login/interfaces";
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
     const { register, handleSubmit } = useForm<LoginForm>();
+
+    const { t } = useTranslation("auth");
 
     const { mutateAsync } = useUserLoginMutation();
 
@@ -26,22 +29,20 @@ export default function Login() {
         <form onSubmit={handleSubmit(signInUser)}>
             <Grid2 container spacing={10}>
                 <Grid2 size={12}>
-                    <Typography variant="subtitle1">
-                        Login to your account to keep track of your games!
-                    </Typography>
+                    <Typography variant="subtitle1">{t("login.title")}</Typography>
                 </Grid2>
                 <Grid2 container spacing={2} justifyContent="flex-end" size={12}>
                     <Grid2 size={12}>
                         <TextField
                             type="email"
                             autoComplete="userName"
-                            label="Email"
+                            label={t("login.email")}
                             {...register("email", { required: true })}
                         />
                     </Grid2>
                     <Grid2 size={12}>
                         <TextField
-                            label="Password"
+                            label={t("login.password")}
                             autoComplete="current-password"
                             type="password"
                             {...register("password", { required: true })}
@@ -53,12 +54,12 @@ export default function Login() {
                                 void navigate({ to: "/auth/register" });
                             }}
                         >
-                            Register
+                            {t("register.register")}
                         </Button>
                     </Grid2>
                     <Grid2>
                         <Button type="submit" variant="contained">
-                            Sign In
+                            {t("login.signIn")}
                         </Button>
                     </Grid2>
                 </Grid2>

@@ -1,7 +1,9 @@
 import {
     AddRounded,
+    LanguageRounded,
     LogoutRounded,
     MenuOutlined,
+    MenuRounded,
     ScoreboardRounded,
 } from "@mui/icons-material";
 import {
@@ -19,15 +21,24 @@ import {
 import { Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "utils/auth/useAuth";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import i18n, { changeLanguage } from "i18next";
 
 export default function Header() {
     const theme = useTheme();
+
+    const { t } = useTranslation("header");
 
     const navigate = useNavigate();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const mdDown = useMediaQuery(theme.breakpoints.down("md"));
+
+    function logout() {
+        void supabase.auth.signOut();
+        void navigate({ to: "/auth/login" });
+    }
 
     if (mdDown) {
         return (
@@ -66,16 +77,11 @@ export default function Header() {
                                     }}
                                 />
                                 <Typography variant="body2">
-                                    Create new scoreboard
+                                    {t("createNewScoreboard")}
                                 </Typography>
                             </Stack>
                         </MenuItem>
-                        <MenuItem
-                            onClick={() => {
-                                void supabase.auth.signOut();
-                                void navigate({ to: "/auth/login" });
-                            }}
-                        >
+                        <MenuItem onClick={logout}>
                             <Stack spacing={1} direction="row" alignItems="center">
                                 <LogoutRounded
                                     sx={{
@@ -84,7 +90,29 @@ export default function Header() {
                                         color: theme.palette.primary.main,
                                     }}
                                 />
-                                <Typography variant="body2">Sign out</Typography>
+                                <Typography variant="body2">
+                                    {t("signOut")}
+                                </Typography>
+                            </Stack>
+                        </MenuItem>
+                        <MenuItem
+                            onClick={() =>
+                                changeLanguage(i18n.language === "nl" ? "en" : "nl")
+                            }
+                        >
+                            <Stack spacing={1} direction="row" alignItems="center">
+                                <LanguageRounded
+                                    sx={{
+                                        height: 20,
+                                        width: 20,
+                                        color: theme.palette.primary.main,
+                                    }}
+                                />
+                                <Typography variant="body2">
+                                    {i18n.language === "nl"
+                                        ? "English"
+                                        : "Nederlands"}
+                                </Typography>
                             </Stack>
                         </MenuItem>
                     </Menu>
@@ -112,7 +140,7 @@ export default function Header() {
                         textDecoration: "none",
                     }}
                 >
-                    <Typography variant="h5">Game Scoreboard Manager</Typography>
+                    <Typography variant="h5">{t("title")}</Typography>
                 </MuiLink>
             </Grid2>
             <Grid2 container>
@@ -123,18 +151,53 @@ export default function Header() {
                         component={Link}
                         to="/app/scoreboard"
                     >
-                        Create new scoreboard
+                        {t("createNewScoreboard")}
                     </Button>
                 </Grid2>
                 <Grid2>
                     <IconButton
-                        onClick={() => {
-                            void supabase.auth.signOut();
-                            void navigate({ to: "/auth/login" });
-                        }}
+                        onClick={(event) => setAnchorEl(event.currentTarget)}
                     >
-                        <LogoutRounded />
+                        <MenuRounded />
                     </IconButton>
+                    <Menu
+                        open={Boolean(anchorEl)}
+                        anchorEl={anchorEl}
+                        onClose={() => setAnchorEl(null)}
+                    >
+                        <MenuItem onClick={logout}>
+                            <Stack spacing={1} direction="row" alignItems="center">
+                                <LogoutRounded
+                                    sx={{
+                                        height: 20,
+                                        width: 20,
+                                    }}
+                                />
+                                <Typography variant="body2">
+                                    {t("signOut")}
+                                </Typography>
+                            </Stack>
+                        </MenuItem>
+                        <MenuItem
+                            onClick={() =>
+                                changeLanguage(i18n.language === "nl" ? "en" : "nl")
+                            }
+                        >
+                            <Stack spacing={1} direction="row" alignItems="center">
+                                <LanguageRounded
+                                    sx={{
+                                        height: 20,
+                                        width: 20,
+                                    }}
+                                />
+                                <Typography variant="body2">
+                                    {i18n.language === "nl"
+                                        ? "English"
+                                        : "Nederlands"}
+                                </Typography>
+                            </Stack>
+                        </MenuItem>
+                    </Menu>
                 </Grid2>
             </Grid2>
         </Grid2>

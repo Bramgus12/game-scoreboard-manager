@@ -24,9 +24,10 @@ import StepTwo from "pages/app.scoreboard.$scoreboardId/components/NewRoundDialo
 import StepThree from "pages/app.scoreboard.$scoreboardId/components/NewRoundDialog/components/StepThree";
 import { MergedRound } from "pages/app.scoreboard.$scoreboardId/components/KlaverjasTable/interfaces";
 import stringToNumber from "utils/funcs/stringToNumber";
+import { useTranslation } from "react-i18next";
 
 export type NewRoundForm = {
-    goingTeam: AppTeamType;
+    goingTeam: AppTeamType | null;
     usFame: number;
     themFame: number;
     usPoints: string;
@@ -44,6 +45,8 @@ export default function NewRoundDialog(props: {
 }) {
     const { open, onClose, initialState } = props;
     const { scoreboardId } = useParams({ from: "/app/scoreboard/$scoreboardId" });
+
+    const { t } = useTranslation("scoreboardCurrentPage");
 
     const id = scoreboardId as UUID;
 
@@ -150,13 +153,13 @@ export default function NewRoundDialog(props: {
                     <Grid2>
                         <Stepper activeStep={activeStep}>
                             <Step>
-                                <StepLabel>Who is going?</StepLabel>
+                                <StepLabel>{t("roundDialog.step1.title")}</StepLabel>
                             </Step>
                             <Step>
-                                <StepLabel>Register fame</StepLabel>
+                                <StepLabel>{t("roundDialog.step2.title")}</StepLabel>
                             </Step>
                             <Step>
-                                <StepLabel>Count points</StepLabel>
+                                <StepLabel>{t("roundDialog.step3.title")}</StepLabel>
                             </Step>
                         </Stepper>
                     </Grid2>
@@ -168,12 +171,14 @@ export default function NewRoundDialog(props: {
             <DialogContent>{steps[activeStep]}</DialogContent>
             <DialogActions>
                 {activeStep === steps.length - 1 ? (
-                    <Button onClick={handleSubmit(saveRound)}>Finish</Button>
+                    <Button onClick={handleSubmit(saveRound)}>
+                        {t("roundDialog.finish")}
+                    </Button>
                 ) : (
                     <Button
                         onClick={() => setActiveStep((prevState) => prevState + 1)}
                     >
-                        Next
+                        {t("roundDialog.next")}
                     </Button>
                 )}
             </DialogActions>

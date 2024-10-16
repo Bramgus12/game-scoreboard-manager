@@ -7,6 +7,8 @@ import {
     ScoreboardRounded,
 } from "@mui/icons-material";
 import { Link } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 export default function ScoreboardItem(props: {
     scoreboard: AppScoreboard;
@@ -15,13 +17,21 @@ export default function ScoreboardItem(props: {
     const { scoreboard, linkTo } = props;
     const theme = useTheme();
 
-    const formattedDate = scoreboard.createdAt.toLocaleDateString("en-GB", {
-        dateStyle: "full",
-    });
+    const { t } = useTranslation("scoreboardHomePage");
 
-    const formattedTime = scoreboard.createdAt.toLocaleTimeString("en-GB", {
-        timeStyle: "short",
-    });
+    const formattedDate = scoreboard.createdAt.toLocaleDateString(
+        i18n.language === "en" ? "en-GB" : "nl-NL",
+        {
+            dateStyle: "full",
+        },
+    );
+
+    const formattedTime = scoreboard.createdAt.toLocaleTimeString(
+        i18n.language === "en" ? "en-GB" : "nl-NL",
+        {
+            timeStyle: "short",
+        },
+    );
 
     return (
         <Button
@@ -65,7 +75,10 @@ export default function ScoreboardItem(props: {
                         </Grid2>
                         <Grid2>
                             <Typography variant="caption">
-                                {`${formattedDate} at ${formattedTime}`}
+                                {t("dateTime", {
+                                    date: formattedDate,
+                                    time: formattedTime,
+                                })}
                             </Typography>
                         </Grid2>
                     </Grid2>

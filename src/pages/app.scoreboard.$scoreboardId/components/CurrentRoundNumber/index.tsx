@@ -4,9 +4,12 @@ import { UUID } from "crypto";
 import useKlaverjasTeamQuery from "utils/api/queries/useKlaverjasTeamQuery";
 import { ErrorOutlineRounded } from "@mui/icons-material";
 import { useParams } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 
 export default function CurrentRoundNumber() {
     const { scoreboardId } = useParams({ from: "/app/scoreboard/$scoreboardId" });
+
+    const { t } = useTranslation("scoreboardCurrentPage");
 
     const id = scoreboardId as UUID;
 
@@ -29,7 +32,7 @@ export default function CurrentRoundNumber() {
                 >
                     <ErrorOutlineRounded />
                     <Typography variant="caption" sx={{ fontWeight: 700 }}>
-                        Error happened while getting the round totals
+                        {t("currentRoundNumber.error")}
                     </Typography>
                 </Stack>
             </Paper>
@@ -38,7 +41,7 @@ export default function CurrentRoundNumber() {
 
     return (
         <Paper>
-            <Typography variant="h6">Current round no.</Typography>
+            <Typography variant="h6">{t("currentRoundNumber.title")}</Typography>
             <Typography variant="h2">
                 <code>{data.length + 1}</code>
             </Typography>

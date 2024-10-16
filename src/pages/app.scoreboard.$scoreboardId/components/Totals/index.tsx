@@ -6,9 +6,12 @@ import { useParams } from "@tanstack/react-router";
 import { UUID } from "crypto";
 import { MergedRound } from "pages/app.scoreboard.$scoreboardId/components/KlaverjasTable/interfaces";
 import { getFame } from "utils/funcs/getFame";
+import { useTranslation } from "react-i18next";
 
 export default function Totals() {
     const { scoreboardId } = useParams({ from: "/app/scoreboard/$scoreboardId" });
+
+    const { t } = useTranslation("scoreboardCurrentPage");
 
     const id = scoreboardId as UUID;
 
@@ -40,7 +43,7 @@ export default function Totals() {
                 >
                     <ErrorOutlineRounded />
                     <Typography variant="caption" sx={{ fontWeight: 700 }}>
-                        Error happened while getting the totals
+                        {t("totals.error")}
                     </Typography>
                 </Stack>
             </Paper>
@@ -83,11 +86,9 @@ export default function Totals() {
 
     return (
         <Paper>
-            <Typography variant="h6">Totals</Typography>
+            <Typography variant="h6">{t("totals.title")}</Typography>
             <Typography variant="h3">
-                <code>{`${totals.us} `}</code>
-                vs
-                <code>{` ${totals.them}`}</code>
+                <code>{t("oneVsTwo", { one: totals.us, two: totals.them })}</code>
             </Typography>
         </Paper>
     );

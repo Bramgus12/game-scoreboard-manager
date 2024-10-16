@@ -14,9 +14,25 @@ import { GAME_TYPE } from "constants/gameType";
 import { TEAM_TYPE } from "constants/teamType";
 import { CreateScoreBoardForm } from "pages/app.scoreboard/interfaces";
 import { useNavigate } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
+import { ReactNode } from "react";
+
+function WikipediaLink({ children }: { children?: ReactNode }) {
+    return (
+        <Link
+            href="https://en.wikipedia.org/wiki/Klaverjas"
+            target="_blank"
+            rel="noreferrer"
+        >
+            {children}
+        </Link>
+    );
+}
 
 export default function CreateScoreBoard() {
     const { register, handleSubmit } = useForm<CreateScoreBoardForm>();
+
+    const { t } = useTranslation("scoreboardCreatePage");
 
     const navigate = useNavigate();
 
@@ -43,7 +59,7 @@ export default function CreateScoreBoard() {
     return (
         <Grid2 container spacing={2}>
             <Grid2>
-                <Typography variant="h4">Create New Scoreboard</Typography>
+                <Typography variant="h4">{t("createNewScoreboard")}</Typography>
             </Grid2>
             <Grid2 size={12}>
                 <Paper>
@@ -51,25 +67,18 @@ export default function CreateScoreBoard() {
                         <Grid2 container spacing={3}>
                             <Grid2>
                                 <Typography variant="h5">
-                                    New Klaverjas game
+                                    {t("newKlaverjasGame")}
                                 </Typography>
                             </Grid2>
                             <Grid2 size={12}>
                                 <Typography variant="body1">
-                                    You will be starting a new scoreboard for the
-                                    game{" "}
-                                    <Link
-                                        href="https://en.wikipedia.org/wiki/Klaverjas"
-                                        target="_blank"
-                                    >
-                                        &quot;Klaverjas&quot;
-                                    </Link>
-                                    .
+                                    {t("explanation")}
+                                    <WikipediaLink>{t("klaverjas")}</WikipediaLink>
                                 </Typography>
                             </Grid2>
                             <Grid2 size={{ xs: 12, md: 6 }}>
                                 <TextField
-                                    label="How do you want to call your game?"
+                                    label={t("gameName")}
                                     {...register("scoreboardName", {
                                         required: true,
                                     })}
@@ -80,18 +89,18 @@ export default function CreateScoreBoard() {
                             </Grid2>
                             <Grid2 size={12}>
                                 <Typography variant="h6">
-                                    Enter the names of the teams
+                                    {t("teamNamesTitle")}
                                 </Typography>
                             </Grid2>
                             <Grid2 container spacing={2} size={12}>
                                 <Grid2 size={12}>
                                     <Typography variant="body1">
-                                        Your team:
+                                        {t("yourTeam")}
                                     </Typography>
                                 </Grid2>
                                 <Grid2 size={{ xs: 12, md: 6 }}>
                                     <TextField
-                                        label="Your team name"
+                                        label={t("yourTeamName")}
                                         {...register("ourTeamName", {
                                             required: true,
                                         })}
@@ -101,12 +110,12 @@ export default function CreateScoreBoard() {
                             <Grid2 container spacing={2} size={12}>
                                 <Grid2 size={12}>
                                     <Typography variant="body1">
-                                        Their team:
+                                        {t("theirTeam")}
                                     </Typography>
                                 </Grid2>
                                 <Grid2 size={{ xs: 12, md: 6 }}>
                                     <TextField
-                                        label="Their team name"
+                                        label={t("theirTeamName")}
                                         {...register("theirTeamName", {
                                             required: true,
                                         })}
@@ -120,7 +129,7 @@ export default function CreateScoreBoard() {
                                     variant="contained"
                                     color="primary"
                                 >
-                                    Start game
+                                    {t("startGame")}
                                 </Button>
                             </Grid2>
                         </Grid2>

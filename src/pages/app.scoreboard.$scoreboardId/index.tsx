@@ -12,6 +12,7 @@ import useKlaverjasRoundMutation from "utils/api/mutators/useKlaverjasRoundMutat
 import { useParams } from "@tanstack/react-router";
 import { UUID } from "crypto";
 import DeleteRoundDialog from "pages/app.scoreboard.$scoreboardId/components/DeleteRoundDialog";
+import { useTranslation } from "react-i18next";
 
 export default function EditScoreboard() {
     const [isNewRoundDialogOpen, setIsNewRoundDialogOpen] = useState(false);
@@ -19,6 +20,8 @@ export default function EditScoreboard() {
         isOpen: boolean;
         mergedRound: MergedRound | undefined;
     }>({ isOpen: false, mergedRound: undefined });
+
+    const { t } = useTranslation("scoreboardCurrentPage");
 
     const { scoreboardId } = useParams({ from: "/app/scoreboard/$scoreboardId" });
 
@@ -80,7 +83,7 @@ export default function EditScoreboard() {
                 disabled={isFetching > 0}
             >
                 <FiberNewRounded sx={{ marginRight: 1 }} />
-                New round
+                {t("newRound")}
             </Fab>
             <NewRoundDialog
                 open={isNewRoundDialogOpen}

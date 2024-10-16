@@ -5,6 +5,7 @@ import {
     DialogContent,
     DialogTitle,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 export default function DeleteRoundDialog(props: {
     open: boolean;
@@ -13,15 +14,15 @@ export default function DeleteRoundDialog(props: {
 }) {
     const { open, onClose, onSubmit } = props;
 
+    const { t } = useTranslation("scoreboardCurrentPage");
+
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>Delete Round?</DialogTitle>
-            <DialogContent>
-                Are you sure you want to delete this round?
-            </DialogContent>
+            <DialogTitle>{t("deleteDialog.title")}</DialogTitle>
+            <DialogContent>{t("deleteDialog.description")}</DialogContent>
             <DialogActions>
-                <Button onClick={onClose}>Cancel</Button>
-                <Button onClick={onSubmit}>Delete</Button>
+                <Button onClick={onClose}>{t("deleteDialog.cancel")}</Button>
+                <Button onClick={onSubmit}>{t("deleteDialog.delete")}</Button>
             </DialogActions>
         </Dialog>
     );

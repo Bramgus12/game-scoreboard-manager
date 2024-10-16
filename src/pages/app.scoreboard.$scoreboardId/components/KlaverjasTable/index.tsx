@@ -22,6 +22,7 @@ import { ErrorOutlineRounded } from "@mui/icons-material";
 import { MergedRound } from "pages/app.scoreboard.$scoreboardId/components/KlaverjasTable/interfaces";
 import { useParams } from "@tanstack/react-router";
 import RoundRow from "pages/app.scoreboard.$scoreboardId/components/KlaverjasTable/components/RoundRow";
+import { useTranslation } from "react-i18next";
 
 export default function KlaverjasTable(props: {
     onNewRoundClick: () => void;
@@ -29,6 +30,8 @@ export default function KlaverjasTable(props: {
     onDeleteClick: (round: MergedRound) => void;
 }) {
     const { onNewRoundClick, onEditClick, onDeleteClick } = props;
+
+    const { t } = useTranslation("scoreboardCurrentPage");
 
     const theme = useTheme();
 
@@ -67,7 +70,7 @@ export default function KlaverjasTable(props: {
                 >
                     <ErrorOutlineRounded />
                     <Typography variant="caption" sx={{ fontWeight: 700 }}>
-                        Error happened while getting the rounds
+                        {t("table.error")}
                     </Typography>
                 </Stack>
             </Paper>
@@ -105,11 +108,11 @@ export default function KlaverjasTable(props: {
                         justifyContent="center"
                     >
                         <Grid2>
-                            <Typography>No rounds have been played yet</Typography>
+                            <Typography>{t("table.noRoundsPlayedYet")}</Typography>
                         </Grid2>
                         <Grid2>
                             <Button onClick={onNewRoundClick}>
-                                Create a new round
+                                {t("table.createNewRound")}
                             </Button>
                         </Grid2>
                     </Grid2>
@@ -137,10 +140,10 @@ export default function KlaverjasTable(props: {
                         <TableRow>
                             <TableCell variant="head" />
                             <TableCell variant="head" align="right">
-                                Us
+                                {t("table.us")}
                             </TableCell>
                             <TableCell variant="head" align="right">
-                                Them
+                                {t("table.them")}
                             </TableCell>
                             <TableCell />
                         </TableRow>

@@ -9,6 +9,7 @@ import {
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import "./auth.css";
 import { useAuth } from "utils/auth/useAuth";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/auth")({
     component: AuthPage,
@@ -16,6 +17,8 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
     const theme = useTheme();
+
+    const { t } = useTranslation("auth");
 
     useAuth();
 
@@ -42,7 +45,7 @@ function AuthPage() {
                     elevation={0}
                 >
                     <Typography variant="h4">
-                        <code>Game Scoreboard manager</code>
+                        <code>{t("title")}</code>
                     </Typography>
                     <Outlet />
                 </Paper>

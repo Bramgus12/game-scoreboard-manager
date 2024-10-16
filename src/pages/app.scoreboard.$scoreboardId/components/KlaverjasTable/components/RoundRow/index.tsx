@@ -11,6 +11,7 @@ import { DeleteRounded, EditRounded, MoreVertRounded } from "@mui/icons-material
 import { useState } from "react";
 import { MergedRound } from "pages/app.scoreboard.$scoreboardId/components/KlaverjasTable/interfaces";
 import PointsCell from "pages/app.scoreboard.$scoreboardId/components/KlaverjasTable/components/RoundRow/PointsCell";
+import { useTranslation } from "react-i18next";
 
 export default function RoundRow(props: {
     round: MergedRound;
@@ -19,6 +20,8 @@ export default function RoundRow(props: {
     onDeleteClick?: (round: MergedRound) => void;
 }) {
     const { round, onDeleteClick, onEditClick, isLastRound } = props;
+
+    const { t } = useTranslation("scoreboardCurrentPage");
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>();
 
@@ -53,7 +56,9 @@ export default function RoundRow(props: {
                     >
                         <Stack direction="row" gap={1} alignItems="center">
                             <EditRounded sx={{ height: 20, width: 20 }} />
-                            <Typography variant="body2">Edit</Typography>
+                            <Typography variant="body2">
+                                {t("table.edit")}
+                            </Typography>
                         </Stack>
                     </MenuItem>
                     {isLastRound ? (
@@ -65,7 +70,9 @@ export default function RoundRow(props: {
                         >
                             <Stack direction="row" gap={1} alignItems="center">
                                 <DeleteRounded sx={{ height: 20, width: 20 }} />
-                                <Typography variant="body2">Delete</Typography>
+                                <Typography variant="body2">
+                                    {t("table.delete")}
+                                </Typography>
                             </Stack>
                         </MenuItem>
                     ) : null}
