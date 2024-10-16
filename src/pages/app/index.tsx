@@ -1,6 +1,7 @@
 import { Paper, Stack, Typography } from "@mui/material";
 import WelcomeMessage from "pages/app/WelcomeMessage";
 import ScoreboardList from "pages/app/ScoreboardList";
+import * as m from "paraglide/messages.js";
 
 export default function App() {
     return (
@@ -8,7 +9,7 @@ export default function App() {
             <WelcomeMessage />
             <Paper>
                 <Stack spacing={2}>
-                    <Typography variant="h5">Recent games</Typography>
+                    <Typography variant="h5">{m.recentGames()}</Typography>
                     <ScoreboardList />
                 </Stack>
             </Paper>

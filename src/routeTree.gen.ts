@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthImport } from './routes/auth'
 import { Route as AppImport } from './routes/app'
+import { Route as SplatImport } from './routes/$'
 import { Route as AppIndexImport } from './routes/app/index'
 import { Route as AuthRegisterImport } from './routes/auth/register'
 import { Route as AuthLoginImport } from './routes/auth/login'
@@ -28,6 +29,11 @@ const AuthRoute = AuthImport.update({
 
 const AppRoute = AppImport.update({
   path: '/app',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SplatRoute = SplatImport.update({
+  path: '/$',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,6 +66,13 @@ const AppScoreboardScoreboardIdRoute = AppScoreboardScoreboardIdImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatImport
+      parentRoute: typeof rootRoute
+    }
     '/app': {
       id: '/app'
       path: '/app'
@@ -141,6 +154,7 @@ const AuthRouteChildren: AuthRouteChildren = {
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 export interface FileRoutesByFullPath {
+  '/$': typeof SplatRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
@@ -151,6 +165,7 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
+  '/$': typeof SplatRoute
   '/auth': typeof AuthRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -161,6 +176,7 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/$': typeof SplatRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
@@ -173,6 +189,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/$'
     | '/app'
     | '/auth'
     | '/auth/login'
@@ -182,6 +199,7 @@ export interface FileRouteTypes {
     | '/app/scoreboard'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/$'
     | '/auth'
     | '/auth/login'
     | '/auth/register'
@@ -190,6 +208,7 @@ export interface FileRouteTypes {
     | '/app/scoreboard'
   id:
     | '__root__'
+    | '/$'
     | '/app'
     | '/auth'
     | '/auth/login'
@@ -201,11 +220,13 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
+  SplatRoute: typeof SplatRoute
   AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  SplatRoute: SplatRoute,
   AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRouteWithChildren,
 }
@@ -222,9 +243,13 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/$",
         "/app",
         "/auth"
       ]
+    },
+    "/$": {
+      "filePath": "$.ts"
     },
     "/app": {
       "filePath": "app.tsx",
