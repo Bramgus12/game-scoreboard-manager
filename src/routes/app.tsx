@@ -1,9 +1,22 @@
 import { Box, Stack, useMediaQuery, useTheme } from "@mui/material";
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import Header from "pages/app/Header";
+import { supabase } from "utils/auth/useAuth";
 
 export const Route = createFileRoute("/app")({
     component: App,
+    beforeLoad: async ({ location }) => {
+        const {
+            data: { session },
+        } = await supabase.auth.getSession();
+
+        if (session == null) {
+            throw redirect({
+                to: "/auth/login",
+                search: { redirect: location.href },
+            });
+        }
+    },
 });
 
 function App() {

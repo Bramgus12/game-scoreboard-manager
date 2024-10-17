@@ -1,9 +1,12 @@
 import { Skeleton, Stack, Typography } from "@mui/material";
 import { ErrorOutlineRounded } from "@mui/icons-material";
 import { useUserQuery } from "utils/api/queries/useUserQuery";
+import { useTranslation } from "react-i18next";
 
 export default function WelcomeMessage() {
     const { data, isPending, isError } = useUserQuery();
+
+    const { t } = useTranslation("scoreboardHomePage");
 
     if (isPending) {
         return <Skeleton height={45} />;
@@ -14,7 +17,7 @@ export default function WelcomeMessage() {
             <Stack direction="row" alignItems="center" spacing={2}>
                 <ErrorOutlineRounded />
                 <Typography variant="caption" sx={{ fontWeight: 700 }}>
-                    Error happened while getting the user data
+                    {t("error")}
                 </Typography>
             </Stack>
         );
@@ -22,7 +25,10 @@ export default function WelcomeMessage() {
 
     return (
         <Typography variant="h4">
-            Welcome, {data?.firstName} {data?.lastName}!
+            {t("welcomeMessage", {
+                firstName: data?.firstName,
+                lastName: data?.lastName,
+            })}
         </Typography>
     );
 }

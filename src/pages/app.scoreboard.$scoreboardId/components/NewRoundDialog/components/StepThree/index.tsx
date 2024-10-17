@@ -3,6 +3,7 @@ import { Control, Controller, UseFormSetValue, UseFormWatch } from "react-hook-f
 import { NewRoundForm } from "pages/app.scoreboard.$scoreboardId/components/NewRoundDialog/index";
 import { TEAM_TYPE } from "constants/teamType";
 import { useTranslation } from "react-i18next";
+import { StarRounded, WaterDropRounded } from "@mui/icons-material";
 
 export default function StepThree(props: {
     control: Control<NewRoundForm>;
@@ -43,7 +44,14 @@ export default function StepThree(props: {
                     {t("roundDialog.step3.countCards")}
                 </Typography>
             </Grid2>
-            <Grid2 container justifyContent="center" size={6}>
+            <Grid2
+                container
+                justifyContent="center"
+                size={{
+                    xs: 12,
+                    md: 6,
+                }}
+            >
                 <Grid2 size={12}>
                     <Controller
                         render={({ field }) => (
@@ -75,6 +83,7 @@ export default function StepThree(props: {
                                         variant={
                                             field.value ? "contained" : "outlined"
                                         }
+                                        startIcon={<StarRounded />}
                                         onClick={() => {
                                             field.onChange(!field.value);
                                             handleWetOrPitChange(
@@ -112,6 +121,7 @@ export default function StepThree(props: {
                                                     field.value === false,
                                                 );
                                             }}
+                                            startIcon={<WaterDropRounded />}
                                         >
                                             {t("roundDialog.step3.wet")}
                                         </Button>
@@ -125,7 +135,14 @@ export default function StepThree(props: {
                     </ButtonGroup>
                 </Grid2>
             </Grid2>
-            <Grid2 container justifyContent="center" size="grow">
+            <Grid2
+                container
+                justifyContent="center"
+                size={{
+                    xs: 12,
+                    md: 6,
+                }}
+            >
                 <Grid2 size={12}>
                     <Controller
                         render={({ field }) => (
@@ -162,6 +179,7 @@ export default function StepThree(props: {
                                                 !field.value,
                                             );
                                         }}
+                                        startIcon={<StarRounded />}
                                         disabled={disabled}
                                     >
                                         {t("roundDialog.step3.pit")}
@@ -194,6 +212,7 @@ export default function StepThree(props: {
                                                     field.value === false,
                                                 );
                                             }}
+                                            startIcon={<WaterDropRounded />}
                                         >
                                             {t("roundDialog.step3.wet")}
                                         </Button>

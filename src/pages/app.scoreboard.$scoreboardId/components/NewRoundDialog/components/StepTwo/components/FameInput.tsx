@@ -11,7 +11,7 @@ export default function FameInput({
     field: ControllerRenderProps<NewRoundForm, "usFame" | "themFame">;
 }) {
     return (
-        <Grid2 container direction="column" alignItems="center" size={6} spacing={2}>
+        <Grid2 container direction="column" alignItems="center" spacing={2}>
             <Grid2>
                 <Typography variant="body1">{label}</Typography>
             </Grid2>
