@@ -16,6 +16,7 @@ module.exports = {
     "plugin:import/recommended",
     "plugin:import/typescript",
     "prettier",
+    "plugin:@next/next/recommended",
   ],
   plugins: ["prettier", "react", "@typescript-eslint", "eslint-plugin-react-compiler"],
   parser: "@typescript-eslint/parser",
@@ -95,7 +96,7 @@ module.exports = {
       }
     ]
   },
-  ignorePatterns: [".eslintrc.cts", "**.config.ts"],
+  ignorePatterns: [".eslintrc.cjs", "**.config.ts"],
   settings: {
     react: {
       version: "detect"
