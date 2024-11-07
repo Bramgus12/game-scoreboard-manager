@@ -1,5 +1,5 @@
 "use client";
-import { Button, Grid2, Typography, useTheme } from "@mui/material";
+import { Button, Grid2, Typography } from "@mui/material";
 import {
     ArrowForwardRounded,
     CalendarToday,
@@ -8,10 +8,10 @@ import {
 } from "@mui/icons-material";
 import { AppScoreboard } from "@/models/app/scoreboard/Scoreboard";
 import Link from "next/link";
+import theme from "@/theme";
 
 export default function ScoreboardItem(props: { scoreboard: AppScoreboard }) {
     const { scoreboard } = props;
-    const theme = useTheme();
 
     const formattedDate = scoreboard.createdAt.toLocaleDateString("en-GB", {
         dateStyle: "full",

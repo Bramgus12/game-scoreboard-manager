@@ -1,22 +1,14 @@
-"use client";
-
-import { Box, Paper, Stack, Theme, Typography, useMediaQuery } from "@mui/material";
+import { Paper, Stack, Typography } from "@mui/material";
 import WelcomeMessage from "@/app/welcomeMessage";
 import ScoreboardList from "@/app/scoreboardList";
-import theme from "@/theme";
 import Header from "@/app/header";
+import PaddingBox from "@/app/PaddingBox";
 
 export default function Home() {
-    const mdDown = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
-
     return (
         <Stack>
             <Header />
-            <Box
-                sx={{
-                    padding: theme.spacing(mdDown ? 2 : 5, mdDown ? 2 : 10),
-                }}
-            >
+            <PaddingBox>
                 <Stack spacing={2}>
                     <WelcomeMessage />
                     <Paper>
@@ -26,7 +18,7 @@ export default function Home() {
                         </Stack>
                     </Paper>
                 </Stack>
-            </Box>
+            </PaddingBox>
         </Stack>
     );
 }
