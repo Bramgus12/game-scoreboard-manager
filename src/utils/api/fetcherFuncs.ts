@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { RequestOptions } from "./interfaces";
 import { ApiMethod } from "./apiMethod";
-import { supabase } from "../auth/useAuth";
+import { createClient } from "@/utils/supabase/server";
 
 async function axiosFetch<Response = void, Body = void>(
     requestOptions: RequestOptions<Body>,
@@ -53,6 +53,8 @@ export async function genericRequest<RequestType, ResponseType>(
     url: string,
     method: ApiMethod,
 ): Promise<ResponseType> {
+    const supabase = await createClient();
+
     const session = await supabase.auth.getSession();
 
     if (session.error != null) {

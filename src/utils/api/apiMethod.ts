@@ -1,6 +1,6 @@
-import { ObjectValues } from "../types/objectValues";
+import { ObjectValues } from "@/utils/objectValues";
 
-const API_METHOD = {
+export const API_METHOD = {
     GET: "get",
     POST: "post",
     PUT: "put",

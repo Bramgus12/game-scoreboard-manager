@@ -1,14 +1,14 @@
-import { AppScoreboard } from "../../models/app/scoreboard/Scoreboard";
-import { AppCreateScoreboard } from "../../models/app/scoreboard/CreateScoreboard";
 import { UUID } from "crypto";
-import { AppUser } from "../../models/app/user/User";
-import { AppCreateUpdateUser } from "../../models/app/user/CreateUpdateUser";
-import { AppUpdateScoreboard } from "../../models/app/scoreboard/UpdateScoreboard";
-import { AppKlaverjasTeam } from "../../models/app/klaverjasTeam/KlaverjasTeam";
-import { AppCreateKlaverjasTeam } from "../../models/app/klaverjasTeam/CreateKlaverjasTeam";
-import { AppUpdateKlaverjasTeam } from "../../models/app/klaverjasTeam/UpdateKlaverjasTeam";
-import { AppKlaverjasRound } from "../../models/app/klaverjasRound/KlaverjasRound";
-import { AppCreateKlaverjasRound } from "../../models/app/klaverjasRound/CreateKlaverjasRound";
+import { AppUser } from "@/models/app/user/User";
+import { AppCreateUpdateUser } from "@/models/app/user/CreateUpdateUser";
+import { AppScoreboard } from "@/models/app/scoreboard/Scoreboard";
+import { AppCreateScoreboard } from "@/models/app/scoreboard/CreateScoreboard";
+import { AppUpdateScoreboard } from "@/models/app/scoreboard/UpdateScoreboard";
+import { AppKlaverjasTeam } from "@/models/app/klaverjasTeam/KlaverjasTeam";
+import { AppCreateKlaverjasTeam } from "@/models/app/klaverjasTeam/CreateKlaverjasTeam";
+import { AppUpdateKlaverjasTeam } from "@/models/app/klaverjasTeam/UpdateKlaverjasTeam";
+import { AppKlaverjasRound } from "@/models/app/klaverjasRound/KlaverjasRound";
+import { AppCreateKlaverjasRound } from "@/models/app/klaverjasRound/CreateKlaverjasRound";
 
 export type RequestOptions<Body> =
     | {
