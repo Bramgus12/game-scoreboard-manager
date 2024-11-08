@@ -1,8 +1,8 @@
 import { Button, ButtonGroup, Grid2, TextField, Typography } from "@mui/material";
 import { Control, Controller, UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { StarRounded, WaterDropRounded } from "@mui/icons-material";
-import { NewRoundForm } from "@/pageComponents/scoreboardId/NewRoundDialog";
 import { TEAM_TYPE } from "@/constants/teamType";
+import { NewRoundForm } from "@/pageComponents/round";
 
 export default function StepThree(props: {
     control: Control<NewRoundForm>;

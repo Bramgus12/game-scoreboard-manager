@@ -6,8 +6,8 @@ import {
     Typography,
 } from "@mui/material";
 import { Control, Controller } from "react-hook-form";
-import { NewRoundForm } from "@/pageComponents/scoreboardId/NewRoundDialog";
 import { TEAM_TYPE } from "@/constants/teamType";
+import { NewRoundForm } from "@/pageComponents/round";
 
 function StepOne(props: { control: Control<NewRoundForm> }) {
     const { control } = props;

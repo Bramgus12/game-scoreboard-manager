@@ -1,16 +1,7 @@
-import {
-    IconButton,
-    Menu,
-    MenuItem,
-    Stack,
-    TableCell,
-    TableRow,
-    Typography,
-} from "@mui/material";
-import { DeleteRounded, EditRounded, MoreVertRounded } from "@mui/icons-material";
-import { useState } from "react";
+import { TableCell, TableRow } from "@mui/material";
 import { MergedRound } from "@/pageComponents/scoreboardId/KlaverjasTable/interfaces";
 import PointsCell from "@/pageComponents/scoreboardId/KlaverjasTable/components/RoundRow/PointsCell";
+import RoundMenu from "@/pageComponents/scoreboardId/KlaverjasTable/components/RoundRow/Menu";
 
 export default function RoundRow(props: {
     round: MergedRound;
@@ -18,9 +9,7 @@ export default function RoundRow(props: {
     onEditClick?: (round: MergedRound) => void;
     onDeleteClick?: (round: MergedRound) => void;
 }) {
-    const { round, onDeleteClick, onEditClick, isLastRound } = props;
-
-    const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>();
+    const { round, isLastRound } = props;
 
     return (
         <TableRow key={round.roundNumber}>
@@ -34,44 +23,7 @@ export default function RoundRow(props: {
                 <PointsCell round={round} team="team2" />
             </TableCell>
             <TableCell sx={{ padding: 1 }}>
-                <IconButton
-                    size="small"
-                    onClick={(event) => setAnchorEl(event.currentTarget)}
-                >
-                    <MoreVertRounded />
-                </IconButton>
-                <Menu
-                    open={Boolean(anchorEl)}
-                    onClose={() => setAnchorEl(null)}
-                    anchorEl={anchorEl}
-                >
-                    <MenuItem
-                        onClick={() => {
-                            setAnchorEl(null);
-                            onEditClick?.(round);
-                        }}
-                    >
-                        <Stack direction="row" gap={1} alignItems="center">
-                            <EditRounded sx={{ height: 20, width: 20 }} />
-                            <Typography variant="body2">{"Edit round"}</Typography>
-                        </Stack>
-                    </MenuItem>
-                    {isLastRound ? (
-                        <MenuItem
-                            onClick={() => {
-                                setAnchorEl(null);
-                                onDeleteClick?.(round);
-                            }}
-                        >
-                            <Stack direction="row" gap={1} alignItems="center">
-                                <DeleteRounded sx={{ height: 20, width: 20 }} />
-                                <Typography variant="body2">
-                                    {"Delete round"}
-                                </Typography>
-                            </Stack>
-                        </MenuItem>
-                    ) : null}
-                </Menu>
+                <RoundMenu isLastRound={isLastRound} round={round} />
             </TableCell>
         </TableRow>
     );

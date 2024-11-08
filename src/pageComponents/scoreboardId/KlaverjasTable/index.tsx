@@ -3,8 +3,6 @@ import {
     Button,
     Grid2,
     Paper,
-    Skeleton,
-    Stack,
     Table,
     TableBody,
     TableCell,
@@ -13,57 +11,17 @@ import {
     TableRow,
     tableRowClasses,
     Typography,
-    useTheme,
 } from "@mui/material";
 import { UUID } from "crypto";
-import { MergedRound } from "@/pageComponents/scoreboardId/KlaverjasTable/interfaces";
-import { useQuery } from "@tanstack/react-query";
 import { getRounds } from "@/app/scoreboard/[id]/actions";
-import { ErrorOutlineRounded } from "@mui/icons-material";
 import RoundRow from "@/pageComponents/scoreboardId/KlaverjasTable/components/RoundRow";
 
-export default function KlaverjasTable(props: {
-    id: UUID;
-    onNewRoundClick: () => void;
-    onEditClick: (round: MergedRound) => void;
-    onDeleteClick: (round: MergedRound) => void;
-}) {
-    const { id, onNewRoundClick, onEditClick, onDeleteClick } = props;
+export default async function KlaverjasTable(props: { id: UUID }) {
+    const { id } = props;
 
-    const theme = useTheme();
+    const rounds = await getRounds(id);
 
-    const {
-        data: mergedData,
-        isPending,
-        isError,
-    } = useQuery({
-        queryKey: ["klaverjasTable", { id }],
-        queryFn: () => getRounds(id),
-    });
-
-    if (isPending) {
-        return <Skeleton sx={{ height: 680 }} />;
-    }
-
-    if (isError) {
-        return (
-            <Paper sx={{ height: 680 }}>
-                <Stack
-                    height={1}
-                    justifyContent="center"
-                    alignItems="center"
-                    spacing={1}
-                >
-                    <ErrorOutlineRounded />
-                    <Typography variant="caption" sx={{ fontWeight: 700 }}>
-                        {"Failed to get rounds"}
-                    </Typography>
-                </Stack>
-            </Paper>
-        );
-    }
-
-    if (mergedData.length === 0) {
+    if (rounds.length === 0) {
         return (
             <Paper>
                 <Box sx={{ height: 150 }}>
@@ -80,9 +38,7 @@ export default function KlaverjasTable(props: {
                             </Typography>
                         </Grid2>
                         <Grid2>
-                            <Button onClick={onNewRoundClick}>
-                                {"Create new round"}
-                            </Button>
+                            <Button>{"Create new round"}</Button>
                         </Grid2>
                     </Grid2>
                 </Box>
@@ -95,14 +51,14 @@ export default function KlaverjasTable(props: {
             <Box
                 sx={{
                     borderRadius: 4,
-                    border: `1px solid ${theme.palette.primary.main}`,
+                    border: `1px solid var(--mui-palette-primary-main)`,
                 }}
             >
                 <Table>
                     <TableHead
                         sx={{
                             [`& .${tableCellClasses.root}`]: {
-                                borderBottom: `1px solid ${theme.palette.primary.main}`,
+                                borderBottom: `1px solid var(--mui-palette-primary-main)`,
                             },
                         }}
                     >
@@ -126,13 +82,11 @@ export default function KlaverjasTable(props: {
                             },
                         }}
                     >
-                        {mergedData.map((round, index) => (
+                        {rounds.map((round, index) => (
                             <RoundRow
                                 round={round}
-                                isLastRound={index === mergedData.length - 1}
+                                isLastRound={index === rounds.length - 1}
                                 key={round.roundNumber}
-                                onEditClick={onEditClick}
-                                onDeleteClick={onDeleteClick}
                             />
                         ))}
                     </TableBody>

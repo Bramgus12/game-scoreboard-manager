@@ -1,7 +1,7 @@
 import { Box, Button, ButtonGroup, Grid2, Typography } from "@mui/material";
 import { RestartAltRounded } from "@mui/icons-material";
 import { ControllerRenderProps } from "react-hook-form";
-import { NewRoundForm } from "@/pageComponents/scoreboardId/NewRoundDialog";
+import { NewRoundForm } from "@/pageComponents/round";
 
 export default function FameInput({
     field,

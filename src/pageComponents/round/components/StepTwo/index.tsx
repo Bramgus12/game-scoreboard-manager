@@ -1,7 +1,7 @@
 import { Grid2, Typography } from "@mui/material";
 import { Control, Controller } from "react-hook-form";
-import { NewRoundForm } from "@/pageComponents/scoreboardId/NewRoundDialog";
-import FameInput from "@/pageComponents/scoreboardId/NewRoundDialog/components/StepTwo/components/FameInput";
+import FameInput from "@/pageComponents/round/components/StepTwo/components/FameInput";
+import { NewRoundForm } from "@/pageComponents/round";
 
 export default function StepTwo(props: { control: Control<NewRoundForm> }) {
     const { control } = props;
