@@ -4,7 +4,7 @@ import {
     createRound,
     deleteRound,
     updateRound,
-} from "@/app/scoreboard/[id]/actions";
+} from "@/app/[lng]/scoreboard/[id]/actions";
 import { AppUpdateKlaverjasRound } from "@/models/app/klaverjasRound/UpdateKlaverjasRound";
 import { AppCreateKlaverjasRound } from "@/models/app/klaverjasRound/CreateKlaverjasRound";
 

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getRoundQueryKey } from "@/utils/api/queries/queryKeys";
-import { getRoundsByTeam } from "@/app/scoreboard/[id]/actions";
 import { UUID } from "crypto";
+import { getRoundsByTeam } from "@/app/[lng]/scoreboard/[id]/actions";
 
 export function useRoundQuery(scoreboardId: UUID | null, teamId: UUID | null) {
     return useQuery({

@@ -13,8 +13,9 @@ import {
     Typography,
 } from "@mui/material";
 import { UUID } from "crypto";
-import { getRounds } from "@/app/scoreboard/[id]/actions";
+import { getRounds } from "@/app/[lng]/scoreboard/[id]/actions";
 import RoundRow from "@/pageComponents/scoreboardId/KlaverjasTable/components/RoundRow";
+import Link from "next/link";
 
 export default async function KlaverjasTable(props: { id: UUID }) {
     const { id } = props;
@@ -38,7 +39,12 @@ export default async function KlaverjasTable(props: { id: UUID }) {
                             </Typography>
                         </Grid2>
                         <Grid2>
-                            <Button>{"Create new round"}</Button>
+                            <Button
+                                component={Link}
+                                href={`/scoreboard/${id}/round`}
+                            >
+                                {"Create new round"}
+                            </Button>
                         </Grid2>
                     </Grid2>
                 </Box>
@@ -84,6 +90,7 @@ export default async function KlaverjasTable(props: { id: UUID }) {
                     >
                         {rounds.map((round, index) => (
                             <RoundRow
+                                scoreboardId={id}
                                 round={round}
                                 isLastRound={index === rounds.length - 1}
                                 key={round.roundNumber}

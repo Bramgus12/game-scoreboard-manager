@@ -2,14 +2,14 @@ import { TableCell, TableRow } from "@mui/material";
 import { MergedRound } from "@/pageComponents/scoreboardId/KlaverjasTable/interfaces";
 import PointsCell from "@/pageComponents/scoreboardId/KlaverjasTable/components/RoundRow/PointsCell";
 import RoundMenu from "@/pageComponents/scoreboardId/KlaverjasTable/components/RoundRow/Menu";
+import { UUID } from "crypto";
 
 export default function RoundRow(props: {
+    scoreboardId: UUID;
     round: MergedRound;
     isLastRound: boolean;
-    onEditClick?: (round: MergedRound) => void;
-    onDeleteClick?: (round: MergedRound) => void;
 }) {
-    const { round, isLastRound } = props;
+    const { round, isLastRound, scoreboardId } = props;
 
     return (
         <TableRow key={round.roundNumber}>
@@ -23,7 +23,11 @@ export default function RoundRow(props: {
                 <PointsCell round={round} team="team2" />
             </TableCell>
             <TableCell sx={{ padding: 1 }}>
-                <RoundMenu isLastRound={isLastRound} round={round} />
+                <RoundMenu
+                    isLastRound={isLastRound}
+                    round={round}
+                    scoreboardId={scoreboardId}
+                />
             </TableCell>
         </TableRow>
     );

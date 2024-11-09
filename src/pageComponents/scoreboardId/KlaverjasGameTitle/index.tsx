@@ -1,6 +1,6 @@
 import { Paper, Typography } from "@mui/material";
 import { UUID } from "crypto";
-import { getTeamNames } from "@/app/scoreboard/[id]/actions";
+import { getTeamNames } from "@/app/[lng]/scoreboard/[id]/actions";
 
 export default async function KlaverjasGameTitle({ id }: { id: UUID }) {
     const data = await getTeamNames(id);

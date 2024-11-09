@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Divider, Grid2, Step, StepLabel, Stepper } from "@mui/material";
+import { Button, Grid2, Step, StepLabel, Stepper } from "@mui/material";
 import { MergedRound } from "@/pageComponents/scoreboardId/KlaverjasTable/interfaces";
 import { AppKlaverjasTeam } from "@/models/app/klaverjasTeam/KlaverjasTeam";
 import { useState } from "react";
@@ -13,6 +13,7 @@ import stringToNumber from "@/utils/funcs/stringToNumber";
 import { AppCreateKlaverjasRound } from "@/models/app/klaverjasRound/CreateKlaverjasRound";
 import { UUID } from "crypto";
 import { AppTeamType } from "@/models/app/klaverjasTeam/TeamType";
+import { useRouter } from "next/navigation";
 
 export type NewRoundForm = {
     goingTeam: AppTeamType | null;
@@ -65,6 +66,9 @@ export default function Round({
     roundNumber: number;
     initialState?: MergedRound;
 }) {
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const { push } = useRouter();
+
     const [activeStep, setActiveStep] = useState(0);
 
     const { createRoundMutation, updateRoundMutation } = useRoundMutator();
@@ -113,15 +117,20 @@ export default function Round({
                 ...klaverjasRoundTeamThem,
                 id: initialState.team2.id,
             });
+
+            push(`/scoreboard/${scoreboardId}`);
+
             return;
         }
 
         await createRoundMutation(scoreboardId, teams[0].id, klaverjasRoundTeamUs);
         await createRoundMutation(scoreboardId, teams[1].id, klaverjasRoundTeamThem);
+
+        push(`/scoreboard/${scoreboardId}`);
     }
 
     return (
-        <Grid2 container>
+        <Grid2 container spacing={4} justifyContent="end">
             <Grid2 size={12}>
                 <Stepper activeStep={activeStep}>
                     <Step>
@@ -135,11 +144,8 @@ export default function Round({
                     </Step>
                 </Stepper>
             </Grid2>
-            <Grid2 size={12}>
-                <Divider />
-            </Grid2>
-            <Grid2>{steps[activeStep]}</Grid2>
-            <Grid2 size={12}>
+            <Grid2 size={12}>{steps[activeStep]}</Grid2>
+            <Grid2>
                 {activeStep === steps.length - 1 ? (
                     <Button onClick={handleSubmit(saveRound)}>Save round</Button>
                 ) : (

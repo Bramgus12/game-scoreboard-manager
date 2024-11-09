@@ -21,7 +21,7 @@ import {
     useTheme,
 } from "@mui/material";
 import { useState } from "react";
-import { signOutAction } from "@/app/actions";
+import { signOutAction } from "@/app/[lng]/actions";
 
 export default function Header() {
     const theme = useTheme();

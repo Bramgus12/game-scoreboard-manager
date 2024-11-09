@@ -7,6 +7,7 @@ import { getFame } from "@/utils/funcs/getFame";
 import { AppKlaverjasRound } from "@/models/app/klaverjasRound/KlaverjasRound";
 import { AppCreateKlaverjasRound } from "@/models/app/klaverjasRound/CreateKlaverjasRound";
 import { AppUpdateKlaverjasRound } from "@/models/app/klaverjasRound/UpdateKlaverjasRound";
+import { revalidatePath } from "next/cache";
 
 function mergeRounds(
     team1Rounds: Array<AppKlaverjasRound>,
@@ -115,7 +116,11 @@ export async function createRound(
         klaverjasRound: { post },
     } = apiRoutes;
 
-    return post(scoreboardId, teamId, round);
+    const response = await post(scoreboardId, teamId, round);
+
+    revalidatePath(`/scoreboard/${scoreboardId}`);
+
+    return response;
 }
 
 export async function updateRound(
@@ -127,7 +132,11 @@ export async function updateRound(
         klaverjasRound: { put },
     } = apiRoutes;
 
-    return put(scoreboardId, teamId, round.id, round);
+    const response = await put(scoreboardId, teamId, round.id, round);
+
+    revalidatePath(`/scoreboard/${scoreboardId}`);
+
+    return response;
 }
 
 export async function deleteRound(scoreboardId: UUID, teamId: UUID, roundId: UUID) {
@@ -135,5 +144,7 @@ export async function deleteRound(scoreboardId: UUID, teamId: UUID, roundId: UUI
         klaverjasRound: { remove },
     } = apiRoutes;
 
-    return remove(scoreboardId, teamId, roundId);
+    await remove(scoreboardId, teamId, roundId);
+
+    revalidatePath(`/scoreboard/${scoreboardId}`);
 }

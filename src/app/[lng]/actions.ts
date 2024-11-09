@@ -17,3 +17,11 @@ export async function getScoreboards() {
 
     return get();
 }
+
+export async function getUser() {
+    const {
+        user: { get },
+    } = apiRoutes;
+
+    return get();
+}

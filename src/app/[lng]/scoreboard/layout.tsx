@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import { Box, Stack, useMediaQuery, useTheme } from "@mui/material";
-import Header from "@/app/header";
+import Header from "@/app/[lng]/header";
 
 export default function ScoreboardLayout(props: { children: ReactNode }) {
     const { children } = props;

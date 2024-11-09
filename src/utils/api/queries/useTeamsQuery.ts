@@ -1,7 +1,7 @@
 import { UUID } from "crypto";
 import { useQuery } from "@tanstack/react-query";
 import { getTeamsQueryKey } from "@/utils/api/queries/queryKeys";
-import { getTeams } from "@/app/scoreboard/[id]/actions";
+import { getTeams } from "@/app/[lng]/scoreboard/[id]/actions";
 
 export default function useTeamsQuery(scoreboardId: UUID | null) {
     return useQuery({

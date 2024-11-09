@@ -1,5 +1,5 @@
-import ScoreboardItem from "@/app/scoreboardItem";
-import { getScoreboards } from "@/app/actions";
+import ScoreboardItem from "@/app/[lng]/scoreboardItem";
+import { getScoreboards } from "@/app/[lng]/actions";
 
 export default async function ScoreboardList() {
     const data = await getScoreboards();

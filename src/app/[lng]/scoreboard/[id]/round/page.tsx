@@ -1,5 +1,5 @@
 import { UUID } from "crypto";
-import { getRoundNumber, getTeams } from "@/app/scoreboard/[id]/actions";
+import { getRoundNumber, getTeams } from "@/app/[lng]/scoreboard/[id]/actions";
 import Round from "@/pageComponents/round";
 
 export default async function RoundPage({

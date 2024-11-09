@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import { ReactNode } from "react";
 import { useForm } from "react-hook-form";
-import { CreateScoreBoardForm } from "@/app/scoreboard/interfaces";
-import { createScoreBoard } from "@/app/scoreboard/actions";
+import { CreateScoreBoardForm } from "@/app/[lng]/scoreboard/interfaces";
+import { createScoreBoard } from "@/app/[lng]/scoreboard/actions";
 
 function WikipediaLink({ children }: { children?: ReactNode }) {
     return (

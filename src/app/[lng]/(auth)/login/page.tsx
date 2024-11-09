@@ -2,7 +2,7 @@
 
 import { Button, Grid2, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { login } from "@/app/(auth)/login/actions";
+import { login } from "@/app/[lng]/(auth)/login/actions";
 
 export default function LoginPage() {
     const { register, handleSubmit } = useForm<{ email: string; password: string }>({

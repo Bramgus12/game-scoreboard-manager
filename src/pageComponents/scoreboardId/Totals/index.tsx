@@ -1,6 +1,6 @@
 import { Paper, Typography } from "@mui/material";
 import { UUID } from "crypto";
-import { getTotals } from "@/app/scoreboard/[id]/actions";
+import { getTotals } from "@/app/[lng]/scoreboard/[id]/actions";
 
 export default async function Totals({ id }: { id: UUID }) {
     const data = await getTotals(id);
