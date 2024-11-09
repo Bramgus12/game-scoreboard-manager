@@ -1,19 +1,20 @@
 import { UUID } from "crypto";
 import { getRoundNumber, getTeams } from "@/app/[lng]/scoreboard/[id]/actions";
 import Round from "@/pageComponents/round";
+import { Language } from "@/app/i18n/settings";
 
 export default async function RoundPage({
     params,
 }: {
-    params: Promise<{ id: UUID }>;
+    params: Promise<{ id: UUID; lng: Language }>;
 }) {
-    const scoreboardId = (await params).id;
+    const { id, lng } = await params;
 
-    const teams = await getTeams(scoreboardId);
+    const teams = await getTeams(id);
 
-    const roundNumber = await getRoundNumber(scoreboardId);
+    const roundNumber = await getRoundNumber(id);
 
     return (
-        <Round scoreboardId={scoreboardId} teams={teams} roundNumber={roundNumber} />
+        <Round scoreboardId={id} teams={teams} roundNumber={roundNumber} lng={lng} />
     );
 }

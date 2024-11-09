@@ -9,9 +9,16 @@ import {
 import { AppScoreboard } from "@/models/app/scoreboard/Scoreboard";
 import Link from "next/link";
 import theme from "@/theme";
+import { useTranslation } from "@/app/i18n/client";
+import { Language } from "@/app/i18n/settings";
 
-export default function ScoreboardItem(props: { scoreboard: AppScoreboard }) {
-    const { scoreboard } = props;
+export default function ScoreboardItem(props: {
+    scoreboard: AppScoreboard;
+    lng: Language;
+}) {
+    const { scoreboard, lng } = props;
+
+    const { t } = useTranslation(lng, "scoreboardHomePage");
 
     const formattedDate = scoreboard.createdAt.toLocaleDateString("en-GB", {
         dateStyle: "full",
@@ -63,7 +70,10 @@ export default function ScoreboardItem(props: { scoreboard: AppScoreboard }) {
                         </Grid2>
                         <Grid2>
                             <Typography variant="caption">
-                                {formattedDate} at {formattedTime}
+                                {t("dateTime", {
+                                    date: formattedDate,
+                                    time: formattedTime,
+                                })}
                             </Typography>
                         </Grid2>
                     </Grid2>

@@ -1,114 +1,21 @@
-"use client";
+import { Grid2, Paper, Typography } from "@mui/material";
+import CreateScoreboard from "@/pageComponents/createScoreboard";
+import { Language } from "@/app/i18n/settings";
+import { translation } from "@/app/i18n";
 
-import {
-    Button,
-    Divider,
-    Grid2,
-    Link,
-    Paper,
-    TextField,
-    Typography,
-} from "@mui/material";
-import { ReactNode } from "react";
-import { useForm } from "react-hook-form";
-import { CreateScoreBoardForm } from "@/app/[lng]/scoreboard/interfaces";
-import { createScoreBoard } from "@/app/[lng]/scoreboard/actions";
+export default async function ScoreboardPage(props: { lng: Promise<Language> }) {
+    const lng = await props.lng;
 
-function WikipediaLink({ children }: { children?: ReactNode }) {
-    return (
-        <Link
-            href="https://en.wikipedia.org/wiki/Klaverjas"
-            target="_blank"
-            rel="noreferrer"
-        >
-            {children}
-        </Link>
-    );
-}
-
-export default function ScoreboardPage() {
-    const { register, handleSubmit } = useForm<CreateScoreBoardForm>({
-        defaultValues: { ourTeamName: "", scoreboardName: "", theirTeamName: "" },
-    });
+    const { t } = await translation(lng, "scoreboardCreatePage");
 
     return (
         <Grid2 container spacing={2}>
             <Grid2>
-                <Typography variant="h4">{"Create new scoreboard"}</Typography>
+                <Typography variant="h4">{t("createNewScoreboard")}</Typography>
             </Grid2>
             <Grid2 size={12}>
                 <Paper>
-                    <form onSubmit={handleSubmit(createScoreBoard)}>
-                        <Grid2 container spacing={3}>
-                            <Grid2>
-                                <Typography variant="h5">
-                                    {"Create a new scoreboard"}
-                                </Typography>
-                            </Grid2>
-                            <Grid2 size={12}>
-                                <Typography variant="body1">
-                                    {
-                                        "You will be starting a new scoreboard for the game "
-                                    }
-                                    <WikipediaLink>{"Klaverjas"}</WikipediaLink>
-                                </Typography>
-                            </Grid2>
-                            <Grid2 size={{ xs: 12, md: 6 }}>
-                                <TextField
-                                    label={"Game Name"}
-                                    {...register("scoreboardName", {
-                                        required: true,
-                                    })}
-                                />
-                            </Grid2>
-                            <Grid2 size={12}>
-                                <Divider />
-                            </Grid2>
-                            <Grid2 size={12}>
-                                <Typography variant="h6">{"Teams"}</Typography>
-                            </Grid2>
-                            <Grid2 container spacing={2} size={12}>
-                                <Grid2 size={12}>
-                                    <Typography variant="body1">
-                                        {"Your team"}
-                                    </Typography>
-                                </Grid2>
-                                <Grid2 size={{ xs: 12, md: 6 }}>
-                                    <TextField
-                                        label={"Your team name"}
-                                        {...register("ourTeamName", {
-                                            required: true,
-                                        })}
-                                    />
-                                </Grid2>
-                            </Grid2>
-                            <Grid2 container spacing={2} size={12}>
-                                <Grid2 size={12}>
-                                    <Typography variant="body1">
-                                        {"Their team"}
-                                    </Typography>
-                                </Grid2>
-                                <Grid2 size={{ xs: 12, md: 6 }}>
-                                    <TextField
-                                        label={"Their team name"}
-                                        {...register("theirTeamName", {
-                                            required: true,
-                                        })}
-                                    />
-                                </Grid2>
-                            </Grid2>
-                            <Grid2 size="grow" />
-                            <Grid2>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    color="primary"
-                                >
-                                    {"Start game"}
-                                </Button>
-                            </Grid2>
-                        </Grid2>
-                    </form>
+                    <CreateScoreboard lng={lng} />
                 </Paper>
             </Grid2>
         </Grid2>

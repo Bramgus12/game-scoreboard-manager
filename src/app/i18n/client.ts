@@ -35,7 +35,7 @@ void i18next
 export function useTranslation(
     lng: Language,
     ns: Namespace,
-    options: UseTranslationOptions<KeyPrefix<Namespace>>,
+    options?: UseTranslationOptions<KeyPrefix<Namespace>>,
 ) {
     const [cookies, setCookie] = useCookies([cookieName]);
     const ret = useTranslationOrg(ns, options);

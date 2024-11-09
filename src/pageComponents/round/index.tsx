@@ -4,7 +4,6 @@ import { Button, Grid2, Step, StepLabel, Stepper } from "@mui/material";
 import { MergedRound } from "@/pageComponents/scoreboardId/KlaverjasTable/interfaces";
 import { AppKlaverjasTeam } from "@/models/app/klaverjasTeam/KlaverjasTeam";
 import { useState } from "react";
-import useRoundMutator from "@/utils/api/mutators/useRoundMutator";
 import { useForm } from "react-hook-form";
 import StepOne from "@/pageComponents/round/components/StepOne";
 import StepTwo from "@/pageComponents/round/components/StepTwo";
@@ -14,6 +13,9 @@ import { AppCreateKlaverjasRound } from "@/models/app/klaverjasRound/CreateKlave
 import { UUID } from "crypto";
 import { AppTeamType } from "@/models/app/klaverjasTeam/TeamType";
 import { useRouter } from "next/navigation";
+import { createRound, updateRound } from "@/app/[lng]/scoreboard/[id]/actions";
+import { Language } from "@/app/i18n/settings";
+import { useTranslation } from "@/app/i18n/client";
 
 export type NewRoundForm = {
     goingTeam: AppTeamType | null;
@@ -56,22 +58,24 @@ function getInitialFormState(round: MergedRound): NewRoundForm {
 }
 
 export default function Round({
+    lng,
     scoreboardId,
     teams,
     roundNumber,
     initialState,
 }: {
+    lng: Language;
     scoreboardId: UUID;
     teams: AppKlaverjasTeam[];
     roundNumber: number;
     initialState?: MergedRound;
 }) {
+    const { t } = useTranslation(lng, "scoreboardCurrentPage");
+
     // eslint-disable-next-line @typescript-eslint/unbound-method
     const { push } = useRouter();
 
     const [activeStep, setActiveStep] = useState(0);
-
-    const { createRoundMutation, updateRoundMutation } = useRoundMutator();
 
     const { handleSubmit, control, watch, setValue } = useForm<NewRoundForm>({
         defaultValues:
@@ -81,9 +85,15 @@ export default function Round({
     });
 
     const steps = [
-        <StepOne key={0} control={control} />,
-        <StepTwo key={1} control={control} />,
-        <StepThree key={2} control={control} watch={watch} setValue={setValue} />,
+        <StepOne key={0} control={control} lng={lng} />,
+        <StepTwo key={1} control={control} lng={lng} />,
+        <StepThree
+            key={2}
+            control={control}
+            watch={watch}
+            setValue={setValue}
+            lng={lng}
+        />,
     ];
 
     async function saveRound(round: NewRoundForm) {
@@ -109,11 +119,11 @@ export default function Round({
         };
 
         if (initialState != null) {
-            await updateRoundMutation(scoreboardId, teams[0].id, {
+            await updateRound(scoreboardId, teams[0].id, {
                 ...klaverjasRoundTeamUs,
                 id: initialState.team1.id,
             });
-            await updateRoundMutation(scoreboardId, teams[1].id, {
+            await updateRound(scoreboardId, teams[1].id, {
                 ...klaverjasRoundTeamThem,
                 id: initialState.team2.id,
             });
@@ -123,8 +133,8 @@ export default function Round({
             return;
         }
 
-        await createRoundMutation(scoreboardId, teams[0].id, klaverjasRoundTeamUs);
-        await createRoundMutation(scoreboardId, teams[1].id, klaverjasRoundTeamThem);
+        await createRound(scoreboardId, teams[0].id, klaverjasRoundTeamUs);
+        await createRound(scoreboardId, teams[1].id, klaverjasRoundTeamThem);
 
         push(`/scoreboard/${scoreboardId}`);
     }
@@ -134,25 +144,27 @@ export default function Round({
             <Grid2 size={12}>
                 <Stepper activeStep={activeStep}>
                     <Step>
-                        <StepLabel>{"Step 1"}</StepLabel>
+                        <StepLabel>{t("roundDialog.step1.title")}</StepLabel>
                     </Step>
                     <Step>
-                        <StepLabel>{"Step 2"}</StepLabel>
+                        <StepLabel>{t("roundDialog.step2.title")}</StepLabel>
                     </Step>
                     <Step>
-                        <StepLabel>{"Step 3"}</StepLabel>
+                        <StepLabel>{t("roundDialog.step3.title")}</StepLabel>
                     </Step>
                 </Stepper>
             </Grid2>
             <Grid2 size={12}>{steps[activeStep]}</Grid2>
             <Grid2>
                 {activeStep === steps.length - 1 ? (
-                    <Button onClick={handleSubmit(saveRound)}>Save round</Button>
+                    <Button onClick={handleSubmit(saveRound)}>
+                        {t("roundDialog.finish")}
+                    </Button>
                 ) : (
                     <Button
                         onClick={() => setActiveStep((prevState) => prevState + 1)}
                     >
-                        Next
+                        {t("roundDialog.next")}
                     </Button>
                 )}
             </Grid2>

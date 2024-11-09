@@ -2,13 +2,14 @@ import Round from "@/pageComponents/round";
 import { UUID } from "crypto";
 import { getRounds, getTeams } from "@/app/[lng]/scoreboard/[id]/actions";
 import { redirect } from "next/navigation";
+import { Language } from "@/app/i18n/settings";
 
 export default async function RoundEditPage({
     params,
 }: {
-    params: Promise<{ id: UUID; roundNumber: string }>;
+    params: Promise<{ id: UUID; roundNumber: string; lng: Language }>;
 }) {
-    const { id, roundNumber } = await params;
+    const { id, roundNumber, lng } = await params;
 
     const mappedRoundNumber = Number(roundNumber);
 
@@ -24,6 +25,7 @@ export default async function RoundEditPage({
 
     return (
         <Round
+            lng={lng}
             scoreboardId={id}
             teams={teams}
             roundNumber={mappedRoundNumber}

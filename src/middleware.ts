@@ -4,6 +4,13 @@ import acceptLanguage from "accept-language";
 import { createServerClient } from "@supabase/ssr";
 
 export async function middleware(request: NextRequest) {
+    console.error("middleware", request.nextUrl.pathname);
+
+    // Skip processing if the request is for favicon.ico
+    if (request.nextUrl.pathname === "/favicon.ico") {
+        return NextResponse.next();
+    }
+
     // Language detection logic
     let lng;
     if (request.cookies.has(cookieName)) {

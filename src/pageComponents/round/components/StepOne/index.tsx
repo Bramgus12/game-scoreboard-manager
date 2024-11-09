@@ -8,9 +8,13 @@ import {
 import { Control, Controller } from "react-hook-form";
 import { TEAM_TYPE } from "@/constants/teamType";
 import { NewRoundForm } from "@/pageComponents/round";
+import { Language } from "@/app/i18n/settings";
+import { useTranslation } from "@/app/i18n/client";
 
-function StepOne(props: { control: Control<NewRoundForm> }) {
-    const { control } = props;
+function StepOne(props: { control: Control<NewRoundForm>; lng: Language }) {
+    const { control, lng } = props;
+
+    const { t } = useTranslation(lng, "scoreboardCurrentPage");
 
     return (
         <Controller
@@ -25,21 +29,21 @@ function StepOne(props: { control: Control<NewRoundForm> }) {
                     <Grid2 container direction="column" spacing={2}>
                         <Grid2>
                             <Typography variant="h6">
-                                {"Select the team that is going?"}
+                                {t("roundDialog.step1.selectGoingTeam")}
                             </Typography>
                         </Grid2>
                         <Grid2>
                             <FormControlLabel
                                 value={TEAM_TYPE.US}
                                 control={<Radio />}
-                                label={"Us"}
+                                label={t("roundDialog.us")}
                             />
                         </Grid2>
                         <Grid2>
                             <FormControlLabel
                                 value={TEAM_TYPE.THEM}
                                 control={<Radio />}
-                                label={"Them"}
+                                label={t("roundDialog.them")}
                             />
                         </Grid2>
                     </Grid2>

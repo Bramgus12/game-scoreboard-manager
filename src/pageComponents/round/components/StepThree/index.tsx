@@ -3,13 +3,18 @@ import { Control, Controller, UseFormSetValue, UseFormWatch } from "react-hook-f
 import { StarRounded, WaterDropRounded } from "@mui/icons-material";
 import { TEAM_TYPE } from "@/constants/teamType";
 import { NewRoundForm } from "@/pageComponents/round";
+import { Language } from "@/app/i18n/settings";
+import { useTranslation } from "@/app/i18n/client";
 
 export default function StepThree(props: {
     control: Control<NewRoundForm>;
     watch: UseFormWatch<NewRoundForm>;
     setValue: UseFormSetValue<NewRoundForm>;
+    lng: Language;
 }) {
-    const { control, watch, setValue } = props;
+    const { control, watch, setValue, lng } = props;
+
+    const { t } = useTranslation(lng, "scoreboardCurrentPage");
 
     const { usPit, usWet, themPit, themWet, goingTeam } = watch();
 
@@ -37,7 +42,9 @@ export default function StepThree(props: {
     return (
         <Grid2 container spacing={2}>
             <Grid2 size={12}>
-                <Typography variant="h6">{"Count the cards"}</Typography>
+                <Typography variant="h6">
+                    {t("roundDialog.step3.countCards")}
+                </Typography>
             </Grid2>
             <Grid2
                 container
@@ -52,7 +59,7 @@ export default function StepThree(props: {
                         render={({ field }) => (
                             <TextField
                                 disabled={textFieldsDisabled}
-                                label={"Us"}
+                                label={t("roundDialog.us")}
                                 onChange={field.onChange}
                                 value={field.value}
                                 onBlur={field.onBlur}
@@ -87,7 +94,7 @@ export default function StepThree(props: {
                                             );
                                         }}
                                     >
-                                        {"Pit"}
+                                        {t("roundDialog.step3.pit")}
                                     </Button>
                                 );
                             }}
@@ -118,7 +125,7 @@ export default function StepThree(props: {
                                             }}
                                             startIcon={<WaterDropRounded />}
                                         >
-                                            {"Wet"}
+                                            {t("roundDialog.step3.wet")}
                                         </Button>
                                     );
                                 }}
@@ -143,7 +150,7 @@ export default function StepThree(props: {
                         render={({ field }) => (
                             <TextField
                                 disabled={textFieldsDisabled}
-                                label={"Them"}
+                                label={t("roundDialog.them")}
                                 onBlur={field.onBlur}
                                 onChange={field.onChange}
                                 value={field.value}
@@ -177,7 +184,7 @@ export default function StepThree(props: {
                                         startIcon={<StarRounded />}
                                         disabled={disabled}
                                     >
-                                        {"Pit"}
+                                        {t("roundDialog.step3.pit")}
                                     </Button>
                                 );
                             }}
@@ -209,7 +216,7 @@ export default function StepThree(props: {
                                             }}
                                             startIcon={<WaterDropRounded />}
                                         >
-                                            {"Wet"}
+                                            {t("roundDialog.step3.wet")}
                                         </Button>
                                     );
                                 }}

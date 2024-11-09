@@ -1,5 +1,6 @@
 {
     "title": "Scoreboard Game Manager",
     "createNewScoreboard": "Create new scoreboard",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "language": "Language"
 }

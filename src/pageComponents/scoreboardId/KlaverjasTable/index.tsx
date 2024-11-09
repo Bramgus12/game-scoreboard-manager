@@ -16,9 +16,13 @@ import { UUID } from "crypto";
 import { getRounds } from "@/app/[lng]/scoreboard/[id]/actions";
 import RoundRow from "@/pageComponents/scoreboardId/KlaverjasTable/components/RoundRow";
 import Link from "next/link";
+import { Language } from "@/app/i18n/settings";
+import { translation } from "@/app/i18n";
 
-export default async function KlaverjasTable(props: { id: UUID }) {
-    const { id } = props;
+export default async function KlaverjasTable(props: { id: UUID; lng: Language }) {
+    const { id, lng } = props;
+
+    const { t } = await translation(lng, "scoreboardCurrentPage");
 
     const rounds = await getRounds(id);
 
@@ -34,16 +38,14 @@ export default async function KlaverjasTable(props: { id: UUID }) {
                         justifyContent="center"
                     >
                         <Grid2>
-                            <Typography>
-                                {"No rounds have been played yet"}
-                            </Typography>
+                            <Typography>{t("table.noRoundsPlayedYet")}</Typography>
                         </Grid2>
                         <Grid2>
                             <Button
                                 component={Link}
                                 href={`/scoreboard/${id}/round`}
                             >
-                                {"Create new round"}
+                                {t("table.createNewRound")}
                             </Button>
                         </Grid2>
                     </Grid2>
@@ -71,10 +73,10 @@ export default async function KlaverjasTable(props: { id: UUID }) {
                         <TableRow>
                             <TableCell variant="head" />
                             <TableCell variant="head" align="right">
-                                {"Us"}
+                                {t("table.us")}
                             </TableCell>
                             <TableCell variant="head" align="right">
-                                {"Them"}
+                                {t("table.them")}
                             </TableCell>
                             <TableCell />
                         </TableRow>

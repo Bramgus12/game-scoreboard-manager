@@ -3,11 +3,21 @@ import KlaverjasTable from "@/pageComponents/scoreboardId/KlaverjasTable";
 import { Fab } from "@mui/material";
 import { FiberNewRounded } from "@mui/icons-material";
 import Link from "next/link";
+import { Language } from "@/app/i18n/settings";
+import { translation } from "@/app/i18n";
 
-export default function DialogsAndTable({ id }: { id: UUID }) {
+export default async function DialogsAndTable({
+    id,
+    lng,
+}: {
+    id: UUID;
+    lng: Language;
+}) {
+    const { t } = await translation(lng, "scoreboardCurrentPage");
+
     return (
         <>
-            <KlaverjasTable id={id} />
+            <KlaverjasTable id={id} lng={lng} />
             <Fab
                 color="primary"
                 variant="extended"
@@ -16,7 +26,7 @@ export default function DialogsAndTable({ id }: { id: UUID }) {
                 href={`/scoreboard/${id}/round`}
             >
                 <FiberNewRounded sx={{ marginRight: 1 }} />
-                {"New Round"}
+                {t("newRound")}
             </Fab>
         </>
     );

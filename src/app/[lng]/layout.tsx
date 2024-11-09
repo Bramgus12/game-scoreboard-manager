@@ -4,8 +4,6 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { Roboto } from "next/font/google";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "@/theme";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import ReactQuery from "@/app/[lng]/reactQuery";
 import { dir } from "i18next";
 
 const languages = ["en", "nl"] as const;
@@ -40,17 +38,12 @@ export default async function RootLayout({
     return (
         <html lang={lng} dir={dir(lng)}>
             <body className={roboto.variable}>
-                <ReactQuery>
-                    <AppRouterCacheProvider>
-                        <ThemeProvider theme={theme}>
-                            {process.env.NODE_ENV === "production" ? null : (
-                                <ReactQueryDevtools initialIsOpen={false} />
-                            )}
-                            <CssBaseline />
-                            {children}
-                        </ThemeProvider>
-                    </AppRouterCacheProvider>
-                </ReactQuery>
+                <AppRouterCacheProvider>
+                    <ThemeProvider theme={theme}>
+                        <CssBaseline />
+                        {children}
+                    </ThemeProvider>
+                </AppRouterCacheProvider>
             </body>
         </html>
     );

@@ -22,8 +22,15 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { signOutAction } from "@/app/[lng]/actions";
+import { Language } from "@/app/i18n/settings";
+import { useTranslation } from "@/app/i18n/client";
+import Link from "next/link";
 
-export default function Header() {
+export default function Header(props: { lng: Language }) {
+    const { lng } = props;
+
+    const { t } = useTranslation(lng, "header");
+
     const theme = useTheme();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -64,7 +71,7 @@ export default function Header() {
                                     }}
                                 />
                                 <Typography variant="body2">
-                                    Create New Scoreboard
+                                    {t("createNewScoreboard")}
                                 </Typography>
                             </Stack>
                         </MenuItem>
@@ -77,7 +84,9 @@ export default function Header() {
                                         color: theme.palette.primary.main,
                                     }}
                                 />
-                                <Typography variant="body2">Sign out</Typography>
+                                <Typography variant="body2">
+                                    {t("signOut")}
+                                </Typography>
                             </Stack>
                         </MenuItem>
                         <MenuItem>
@@ -89,7 +98,9 @@ export default function Header() {
                                         color: theme.palette.primary.main,
                                     }}
                                 />
-                                <Typography variant="body2">Language</Typography>
+                                <Typography variant="body2">
+                                    {t("language")}
+                                </Typography>
                             </Stack>
                         </MenuItem>
                     </Menu>
@@ -109,14 +120,16 @@ export default function Header() {
                         color: theme.palette.text.primary,
                         textDecoration: "none",
                     }}
+                    component={Link}
+                    href="/"
                 >
-                    <Typography variant="h5">Game Scoreboard Manager</Typography>
+                    <Typography variant="h5">{t("title")}</Typography>
                 </MuiLink>
             </Grid2>
             <Grid2 container>
                 <Grid2>
                     <Button variant="contained" startIcon={<AddRounded />}>
-                        Create New Scoreboard
+                        {t("createNewScoreboard")}
                     </Button>
                 </Grid2>
                 <Grid2>
@@ -138,7 +151,9 @@ export default function Header() {
                                         width: 20,
                                     }}
                                 />
-                                <Typography variant="body2">Sign Out</Typography>
+                                <Typography variant="body2">
+                                    {t("signOut")}
+                                </Typography>
                             </Stack>
                         </MenuItem>
                         <MenuItem>
@@ -149,7 +164,9 @@ export default function Header() {
                                         width: 20,
                                     }}
                                 />
-                                <Typography variant="body2">Language</Typography>
+                                <Typography variant="body2">
+                                    {t("language")}
+                                </Typography>
                             </Stack>
                         </MenuItem>
                     </Menu>

@@ -15,7 +15,6 @@ export type Namespace = (typeof namespaces)[number];
 
 export function getOptions(lng = fallbackLng, ns = defaultNS) {
     return {
-        debug: true,
         supportedLngs: languages,
         fallbackLng,
         lng,

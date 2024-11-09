@@ -1,22 +1,21 @@
-"use client";
-
 import { ReactNode } from "react";
-import { Box, Stack, useMediaQuery, useTheme } from "@mui/material";
-import Header from "@/app/[lng]/header";
+import { Stack } from "@mui/material";
+import Header from "@/pageComponents/root/header";
+import { Language } from "@/app/i18n/settings";
+import PaddingBox from "@/pageComponents/root/PaddingBox";
 
-export default function ScoreboardLayout(props: { children: ReactNode }) {
-    const { children } = props;
+export default async function ScoreboardLayout(props: {
+    children: ReactNode;
+    params: Promise<{ lng: Language }>;
+}) {
+    const { children, params } = props;
 
-    const theme = useTheme();
-
-    const mdDown = useMediaQuery(theme.breakpoints.down("md"));
+    const { lng } = await params;
 
     return (
         <Stack>
-            <Header />
-            <Box sx={{ padding: theme.spacing(mdDown ? 2 : 5, mdDown ? 2 : 10) }}>
-                {children}
-            </Box>
+            <Header lng={lng} />
+            <PaddingBox>{children}</PaddingBox>
         </Stack>
     );
 }
