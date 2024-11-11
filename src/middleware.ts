@@ -4,8 +4,6 @@ import acceptLanguage from "accept-language";
 import { createServerClient } from "@supabase/ssr";
 
 export async function middleware(request: NextRequest) {
-    console.error("middleware", request.nextUrl.pathname);
-
     // Skip processing if the request is for favicon.ico
     if (request.nextUrl.pathname === "/favicon.ico") {
         return NextResponse.next();
@@ -79,15 +77,15 @@ export async function middleware(request: NextRequest) {
         data: { user },
     } = await supabase.auth.getUser();
 
-    if (!user && !request.nextUrl.pathname.startsWith("/login")) {
+    if (!user && !request.nextUrl.pathname.startsWith(`/${lng}/login`)) {
         const url = request.nextUrl.clone();
-        url.pathname = "/login";
+        url.pathname = `/${lng}/login`;
         return NextResponse.redirect(url);
     }
 
-    if (user && request.nextUrl.pathname.startsWith("/login")) {
+    if (user && request.nextUrl.pathname.startsWith(`/${lng}/login`)) {
         const url = request.nextUrl.clone();
-        url.pathname = "/";
+        url.pathname = `/${lng}`;
         return NextResponse.redirect(url);
     }
 

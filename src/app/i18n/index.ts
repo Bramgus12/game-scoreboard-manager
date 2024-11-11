@@ -18,8 +18,6 @@ const initI18next = async (lng: Language, ns: Namespace) => {
         languageToUse = fallbackLng;
     }
 
-    console.log("initI18next", languageToUse, ns);
-
     const i18nInstance = createInstance();
     await i18nInstance
         .use(

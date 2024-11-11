@@ -25,6 +25,7 @@ import { signOutAction } from "@/app/[lng]/actions";
 import { Language } from "@/app/i18n/settings";
 import { useTranslation } from "@/app/i18n/client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Header(props: { lng: Language }) {
     const { lng } = props;
@@ -36,6 +37,16 @@ export default function Header(props: { lng: Language }) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const mdDown = useMediaQuery(theme.breakpoints.down("md"));
+
+    const router = useRouter();
+
+    function changeLanguage() {
+        if (lng === "en") {
+            router.push("/nl");
+        }
+
+        router.push("/en");
+    }
 
     if (mdDown) {
         return (
@@ -89,7 +100,7 @@ export default function Header(props: { lng: Language }) {
                                 </Typography>
                             </Stack>
                         </MenuItem>
-                        <MenuItem>
+                        <MenuItem onClick={changeLanguage}>
                             <Stack spacing={1} direction="row" alignItems="center">
                                 <LanguageRounded
                                     sx={{
@@ -156,7 +167,10 @@ export default function Header(props: { lng: Language }) {
                                 </Typography>
                             </Stack>
                         </MenuItem>
-                        <MenuItem>
+                        <MenuItem
+                            component={Link}
+                            href={lng === "en" ? "/nl" : "/en"}
+                        >
                             <Stack spacing={1} direction="row" alignItems="center">
                                 <LanguageRounded
                                     sx={{
@@ -165,7 +179,7 @@ export default function Header(props: { lng: Language }) {
                                     }}
                                 />
                                 <Typography variant="body2">
-                                    {t("language")}
+                                    {lng === "en" ? "Nederlands 🇳🇱" : "English 🇬🇧"}
                                 </Typography>
                             </Stack>
                         </MenuItem>
