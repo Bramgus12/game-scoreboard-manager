@@ -3,8 +3,10 @@ import CreateScoreboard from "@/pageComponents/createScoreboard";
 import { Language } from "@/app/i18n/settings";
 import { translation } from "@/app/i18n";
 
-export default async function ScoreboardPage(props: { lng: Promise<Language> }) {
-    const lng = await props.lng;
+export default async function ScoreboardPage(props: {
+    params: Promise<{ lng: Language }>;
+}) {
+    const { lng } = await props.params;
 
     const { t } = await translation(lng, "scoreboardCreatePage");
 

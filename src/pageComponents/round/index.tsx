@@ -72,8 +72,7 @@ export default function Round({
 }) {
     const { t } = useTranslation(lng, "scoreboardCurrentPage");
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    const { push } = useRouter();
+    const router = useRouter();
 
     const [activeStep, setActiveStep] = useState(0);
 
@@ -128,7 +127,7 @@ export default function Round({
                 id: initialState.team2.id,
             });
 
-            push(`/scoreboard/${scoreboardId}`);
+            router.push(`/${lng}/scoreboard/${scoreboardId}`);
 
             return;
         }
@@ -136,7 +135,7 @@ export default function Round({
         await createRound(scoreboardId, teams[0].id, klaverjasRoundTeamUs);
         await createRound(scoreboardId, teams[1].id, klaverjasRoundTeamThem);
 
-        push(`/scoreboard/${scoreboardId}`);
+        router.push(`/${lng}/scoreboard/${scoreboardId}`);
     }
 
     return (

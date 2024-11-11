@@ -43,7 +43,7 @@ export default async function KlaverjasTable(props: { id: UUID; lng: Language })
                         <Grid2>
                             <Button
                                 component={Link}
-                                href={`/scoreboard/${id}/round`}
+                                href={`/${lng}/scoreboard/${id}/round`}
                             >
                                 {t("table.createNewRound")}
                             </Button>
@@ -96,6 +96,7 @@ export default async function KlaverjasTable(props: { id: UUID; lng: Language })
                                 round={round}
                                 isLastRound={index === rounds.length - 1}
                                 key={round.roundNumber}
+                                lng={lng}
                             />
                         ))}
                     </TableBody>

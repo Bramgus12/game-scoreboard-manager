@@ -40,7 +40,7 @@ export default function ScoreboardItem(props: {
                 color: theme.palette.text.primary,
             }}
             component={Link}
-            href={`/scoreboard/${scoreboard.id}`}
+            href={`/${lng}/scoreboard/${scoreboard.id}`}
         >
             <Grid2 container alignItems="center">
                 <Grid2 container spacing={2} alignItems="center" size="grow">

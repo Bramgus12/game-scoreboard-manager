@@ -51,7 +51,7 @@ export default function Header(props: { lng: Language }) {
     if (mdDown) {
         return (
             <Grid2 container alignItems="center" padding={2} spacing={2}>
-                <Grid2 height={30} size="grow">
+                <Grid2 height={30} size="grow" component={Link} href={`/${lng}`}>
                     <ScoreboardRounded
                         color="primary"
                         sx={{ height: 30, width: 30 }}
@@ -72,6 +72,8 @@ export default function Header(props: { lng: Language }) {
                             onClick={() => {
                                 setAnchorEl(null);
                             }}
+                            component={Link}
+                            href={`/${lng}/scoreboard`}
                         >
                             <Stack spacing={1} direction="row" alignItems="center">
                                 <AddRounded
@@ -122,7 +124,7 @@ export default function Header(props: { lng: Language }) {
 
     return (
         <Grid2 container alignItems="center" padding={2} spacing={2}>
-            <Grid2 height={30}>
+            <Grid2 height={30} component={Link} href={`/${lng}`}>
                 <ScoreboardRounded color="primary" sx={{ height: 30, width: 30 }} />
             </Grid2>
             <Grid2 size="grow">

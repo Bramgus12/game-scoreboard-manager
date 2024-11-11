@@ -18,13 +18,13 @@ export async function createScoreBoard(data: CreateScoreBoardForm) {
     });
 
     const createdTeams = await postTeams(createdScoreboard.id, [
-        { type: TEAM_TYPE.THEM, name: data.theirTeamName },
         { type: TEAM_TYPE.US, name: data.ourTeamName },
+        { type: TEAM_TYPE.THEM, name: data.theirTeamName },
     ]);
 
     if (createdTeams.length !== 2) {
         throw new Error("Failed to create teams");
     }
 
-    redirect(`/app/scoreboard/${createdScoreboard.id}`);
+    redirect(`/scoreboard/${createdScoreboard.id}`);
 }

@@ -23,7 +23,7 @@ export default async function DialogsAndTable({
                 variant="extended"
                 sx={{ position: "fixed", bottom: 25, right: 25 }}
                 component={Link}
-                href={`/scoreboard/${id}/round`}
+                href={`/${lng}/scoreboard/${id}/round`}
             >
                 <FiberNewRounded sx={{ marginRight: 1 }} />
                 {t("newRound")}

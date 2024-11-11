@@ -2,5 +2,6 @@
     "recentGames": "Recente spellen",
     "dateTime": "{{date}} op {{time}}",
     "welcomeMessage": "Welkom, {{firstName}} {{lastName}}!",
-    "error": "Probleem bij het ophalen van de gebruikersgegevens"
+    "noScoreboards": "Geen spellen gevonden. U kunt een nieuw spel maken door op de onderstaande knop te klikken.",
+    "createGame": "Maak een nieuw spel"
 }

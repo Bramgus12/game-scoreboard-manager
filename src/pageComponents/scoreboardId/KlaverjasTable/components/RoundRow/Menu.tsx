@@ -8,15 +8,20 @@ import Link from "next/link";
 import { UUID } from "crypto";
 import DeleteRoundDialog from "@/pageComponents/scoreboardId/DeleteRoundDialog";
 import { deleteRound } from "@/app/[lng]/scoreboard/[id]/actions";
+import { Language } from "@/app/i18n/settings";
+import { useTranslation } from "@/app/i18n/client";
 
 type Props = {
     scoreboardId: UUID;
     isLastRound: boolean;
     round: MergedRound;
+    lng: Language;
 };
 
-export default function RoundMenu({ scoreboardId, isLastRound, round }: Props) {
+export default function RoundMenu({ lng, scoreboardId, isLastRound, round }: Props) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>();
+
+    const { t } = useTranslation(lng, "scoreboardCurrentPage");
 
     const [deleteDialogState, setDeleteDialogState] = useState<{
         isOpen: boolean;
@@ -63,11 +68,11 @@ export default function RoundMenu({ scoreboardId, isLastRound, round }: Props) {
             >
                 <MenuItem
                     component={Link}
-                    href={`/scoreboard/${scoreboardId}/round/${round.roundNumber}`}
+                    href={`/${lng}/scoreboard/${scoreboardId}/round/${round.roundNumber}`}
                 >
                     <Stack direction="row" gap={1} alignItems="center">
                         <EditRounded sx={{ height: 20, width: 20 }} />
-                        <Typography variant="body2">{"Edit round"}</Typography>
+                        <Typography variant="body2">{t("table.edit")}</Typography>
                     </Stack>
                 </MenuItem>
                 {isLastRound ? (
@@ -80,11 +85,12 @@ export default function RoundMenu({ scoreboardId, isLastRound, round }: Props) {
                             <Stack direction="row" gap={1} alignItems="center">
                                 <DeleteRounded sx={{ height: 20, width: 20 }} />
                                 <Typography variant="body2">
-                                    {"Delete round"}
+                                    {t("table.delete")}
                                 </Typography>
                             </Stack>
                         </MenuItem>
                         <DeleteRoundDialog
+                            lng={lng}
                             open={deleteDialogState.isOpen}
                             onClose={handleCloseDialog}
                             onSubmit={handleDeleteRound}
