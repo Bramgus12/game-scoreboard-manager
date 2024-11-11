@@ -1,5 +1,5 @@
-import { AppKlaverjasRound } from "models/app/klaverjasRound/KlaverjasRound";
-import { DomainKlaverjasRound } from "models/domain/klaverjasRound/KlaverjasRound";
+import { DomainKlaverjasRound } from "@/models/domain/klaverjasRound/KlaverjasRound";
+import { AppKlaverjasRound } from "@/models/app/klaverjasRound/KlaverjasRound";
 
 export function DomainToAppKlaverjasRound(
     domainModel: DomainKlaverjasRound,

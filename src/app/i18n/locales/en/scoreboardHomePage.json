@@ -1,0 +1,7 @@
+{
+    "recentGames": "Recent games",
+    "dateTime": "{{date}} at {{time}}",
+    "welcomeMessage": "Welcome, {{firstName}} {{lastName}}!",
+    "noScoreboards": "No games have been found. You can create a new game by clicking the button below.",
+    "createGame": "Create a new game"
+}

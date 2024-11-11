@@ -1,0 +1,87 @@
+"use client";
+import { Button, Grid2, Typography } from "@mui/material";
+import {
+    ArrowForwardRounded,
+    CalendarToday,
+    CasinoRounded,
+    ScoreboardRounded,
+} from "@mui/icons-material";
+import { AppScoreboard } from "@/models/app/scoreboard/Scoreboard";
+import Link from "next/link";
+import theme from "@/theme";
+import { useTranslation } from "@/app/i18n/client";
+import { Language } from "@/app/i18n/settings";
+
+export default function ScoreboardItem(props: {
+    scoreboard: AppScoreboard;
+    lng: Language;
+}) {
+    const { scoreboard, lng } = props;
+
+    const { t } = useTranslation(lng, "scoreboardHomePage");
+
+    const formattedDate = scoreboard.createdAt.toLocaleDateString("en-GB", {
+        dateStyle: "full",
+    });
+
+    const formattedTime = scoreboard.createdAt.toLocaleTimeString("en-GB", {
+        timeStyle: "short",
+    });
+
+    return (
+        <Button
+            sx={{
+                padding: 2,
+                border: `1px solid ${theme.palette.primary.main}`,
+                borderRadius: 4,
+                display: "block",
+                textTransform: "unset",
+                textAlign: "left",
+                color: theme.palette.text.primary,
+            }}
+            component={Link}
+            href={`/${lng}/scoreboard/${scoreboard.id}`}
+        >
+            <Grid2 container alignItems="center">
+                <Grid2 container spacing={2} alignItems="center" size="grow">
+                    <Grid2 container alignItems="center" spacing={1} size={12}>
+                        <Grid2 height={24}>
+                            <ScoreboardRounded />
+                        </Grid2>
+                        <Grid2>
+                            <Typography variant="h6">
+                                {scoreboard.scoreboardName}
+                            </Typography>
+                        </Grid2>
+                    </Grid2>
+                    <Grid2 container alignItems="center" spacing={1}>
+                        <Grid2 height={16}>
+                            <CasinoRounded sx={{ width: 16, height: 16 }} />
+                        </Grid2>
+                        <Grid2>
+                            <Typography variant="caption">
+                                {scoreboard.gameType}
+                            </Typography>
+                        </Grid2>
+                    </Grid2>
+                    <Grid2 container alignItems="center" spacing={1}>
+                        <Grid2 height={16}>
+                            <CalendarToday sx={{ width: 16, height: 16 }} />
+                        </Grid2>
+                        <Grid2>
+                            <Typography variant="caption">
+                                {t("dateTime", {
+                                    date: formattedDate,
+                                    time: formattedTime,
+                                })}
+                            </Typography>
+                        </Grid2>
+                    </Grid2>
+                </Grid2>
+                <Grid2 height={24}>
+                    <ArrowForwardRounded />
+                </Grid2>
+            </Grid2>
+        </Button>
+    );
+}
