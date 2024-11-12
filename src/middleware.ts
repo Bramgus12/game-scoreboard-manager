@@ -4,13 +4,6 @@ import acceptLanguage from "accept-language";
 import { createServerClient } from "@supabase/ssr";
 
 export async function middleware(request: NextRequest) {
-    console.log(request, "middleware");
-
-    // Skip processing if the request is for favicon.ico
-    if (request.nextUrl.pathname === "/favicon.ico") {
-        return NextResponse.next();
-    }
-
     // Language detection logic
     let lng;
     if (request.cookies.has(cookieName)) {
@@ -29,7 +22,10 @@ export async function middleware(request: NextRequest) {
         !request.nextUrl.pathname.startsWith("/_next")
     ) {
         return NextResponse.redirect(
-            new URL(`/${lng}${request.nextUrl.pathname}`, request.url),
+            new URL(
+                `/${lng}${request.nextUrl.pathname !== "/" ? request.nextUrl.pathname : ""}`,
+                request.url,
+            ),
         );
     }
 
@@ -78,14 +74,9 @@ export async function middleware(request: NextRequest) {
         data: { user },
     } = await supabase.auth.getUser();
 
-    console.log("user", user);
-
     if (!user && !request.nextUrl.pathname.startsWith(`/${lng}/login`)) {
         const url = request.nextUrl.clone();
         url.pathname = `/${lng}/login`;
-
-        console.log("url", url);
-
         return NextResponse.redirect(url);
     }
 
