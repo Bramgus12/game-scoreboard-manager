@@ -84,6 +84,9 @@ export async function middleware(request: NextRequest) {
     if (!user && !request.nextUrl.pathname.startsWith(`/${lng}/login`)) {
         const url = request.nextUrl.clone();
         url.pathname = `/${lng}/login`;
+
+        console.log("url", url);
+
         return NextResponse.redirect(url);
     }
 
