@@ -4,6 +4,8 @@ import acceptLanguage from "accept-language";
 import { createServerClient } from "@supabase/ssr";
 
 export async function middleware(request: NextRequest) {
+    console.log(request, "middleware");
+
     // Skip processing if the request is for favicon.ico
     if (request.nextUrl.pathname === "/favicon.ico") {
         return NextResponse.next();
