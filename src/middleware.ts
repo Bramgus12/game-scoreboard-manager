@@ -66,7 +66,6 @@ export async function middleware(request: NextRequest) {
                         request,
                     });
                     cookiesToSet.forEach(({ name, value, options }) =>
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                         supabaseResponse.cookies.set(name, value, options),
                     );
                 },

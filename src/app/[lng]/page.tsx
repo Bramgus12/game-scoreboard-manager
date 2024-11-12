@@ -9,6 +9,8 @@ import { Language } from "@/app/i18n/settings";
 export default async function Home(props: { params: Promise<{ lng: Language }> }) {
     const { lng } = await props.params;
 
+    console.log(props);
+
     const { t } = await translation(lng, "scoreboardHomePage");
 
     return (
