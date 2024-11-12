@@ -1,6 +1,8 @@
 import { UUID } from "crypto";
 import ScoreboardId from "@/pageComponents/scoreboardId";
 import { Language } from "@/app/i18n/settings";
+import { Suspense } from "react";
+import ScoreboardIdFallback from "@/pageComponents/scoreboardId/Fallback";
 
 export default async function CurrentScoreboardPage({
     params,
@@ -9,5 +11,9 @@ export default async function CurrentScoreboardPage({
 }) {
     const { id, lng } = await params;
 
-    return <ScoreboardId id={id} lng={lng} />;
+    return (
+        <Suspense fallback={<ScoreboardIdFallback />}>
+            <ScoreboardId id={id} lng={lng} />
+        </Suspense>
+    );
 }

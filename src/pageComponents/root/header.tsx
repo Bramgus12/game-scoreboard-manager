@@ -141,7 +141,12 @@ export default function Header(props: { lng: Language }) {
             </Grid2>
             <Grid2 container>
                 <Grid2>
-                    <Button variant="contained" startIcon={<AddRounded />}>
+                    <Button
+                        variant="contained"
+                        component={Link}
+                        href={`/${lng}/scoreboard`}
+                        startIcon={<AddRounded />}
+                    >
                         {t("createNewScoreboard")}
                     </Button>
                 </Grid2>
