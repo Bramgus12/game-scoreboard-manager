@@ -1,0 +1,13 @@
+{
+    "accountSettings": "Accountinstellingen",
+    "changeName": {
+        "title": "Wijzig je naam",
+        "firstName": "Voornaam",
+        "lastName": "Achternaam",
+        "saveName": "Naam opslaan"
+    },
+    "mfa": {
+        "title": "Tweestapsverificatie",
+        "enable": "Tweestapsverificatie inschakelen"
+    }
+}

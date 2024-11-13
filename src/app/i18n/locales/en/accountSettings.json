@@ -1,0 +1,13 @@
+{
+    "accountSettings": "Account Settings",
+    "changeName": {
+        "title": "Change your naam",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "saveName": "Save name"
+    },
+    "mfa": {
+        "title": "Multi-factor Authentication",
+        "enable": "Enable Multi-factor Authentication"
+    }
+}

@@ -8,6 +8,7 @@ export const namespaces = [
     "header",
     "scoreboardCreatePage",
     "scoreboardCurrentPage",
+    "accountSettings",
 ] as const;
 
 export type Language = (typeof languages)[number];

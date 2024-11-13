@@ -4,6 +4,7 @@ import {
     AddRounded,
     LanguageRounded,
     LogoutRounded,
+    ManageAccountsRounded,
     MenuOutlined,
     MenuRounded,
     ScoreboardRounded,
@@ -94,7 +95,6 @@ export default function Header(props: { lng: Language }) {
                                     sx={{
                                         height: 20,
                                         width: 20,
-                                        color: theme.palette.primary.main,
                                     }}
                                 />
                                 <Typography variant="body2">
@@ -108,11 +108,23 @@ export default function Header(props: { lng: Language }) {
                                     sx={{
                                         height: 20,
                                         width: 20,
-                                        color: theme.palette.primary.main,
                                     }}
                                 />
                                 <Typography variant="body2">
                                     {t("language")}
+                                </Typography>
+                            </Stack>
+                        </MenuItem>
+                        <MenuItem component={Link} href={`/${lng}/user`}>
+                            <Stack spacing={1} direction="row" alignItems="center">
+                                <ManageAccountsRounded
+                                    sx={{
+                                        height: 20,
+                                        width: 20,
+                                    }}
+                                />
+                                <Typography variant="body2">
+                                    Manage account
                                 </Typography>
                             </Stack>
                         </MenuItem>
@@ -187,6 +199,19 @@ export default function Header(props: { lng: Language }) {
                                 />
                                 <Typography variant="body2">
                                     {lng === "en" ? "Nederlands 🇳🇱" : "English 🇬🇧"}
+                                </Typography>
+                            </Stack>
+                        </MenuItem>
+                        <MenuItem component={Link} href={`/${lng}/user`}>
+                            <Stack spacing={1} direction="row" alignItems="center">
+                                <ManageAccountsRounded
+                                    sx={{
+                                        height: 20,
+                                        width: 20,
+                                    }}
+                                />
+                                <Typography variant="body2">
+                                    Manage account
                                 </Typography>
                             </Stack>
                         </MenuItem>
