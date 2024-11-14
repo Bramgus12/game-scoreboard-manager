@@ -6,8 +6,21 @@
         "lastName": "Achternaam",
         "saveName": "Naam opslaan"
     },
+    "existingMfaKeys": {
+        "title": "Huidige tweestapsverificatie factoren"
+    },
     "mfa": {
-        "title": "Tweestapsverificatie",
-        "enable": "Tweestapsverificatie inschakelen"
+        "title": "Nieuwe tweestapsverificatie factor toevoegen",
+        "enable": "Tweestapsverificatie inschakelen",
+        "friendlyName": "Naam van de factor",
+        "createFactor": "Factor toevoegen"
+    },
+    "mfaDialog": {
+        "title": "Tweestapsverificatie factor toevoegen",
+        "description": "Scan de QR code met je authenticator app en voer de code in die je ontvangt. Als je geen QR code kunt scannen, gebruik dan de code onder de QR code.",
+        "qrCodeAlt": "QR code",
+        "code": "Verificatie code",
+        "cancel": "Annuleren",
+        "submit": "Verifiëren"
     }
 }

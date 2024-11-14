@@ -10,15 +10,23 @@ import {
     Typography,
 } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
-import { challengeMfa, enrollMfa, verifyMfa } from "@/app/[lng]/user/actions";
+import {
+    challengeMfa,
+    enrollMfa,
+    removeMfa,
+    verifyMfa,
+} from "@/app/[lng]/user/actions";
 import { Controller, useForm } from "react-hook-form";
 import { AuthError } from "@supabase/auth-js";
 import { ErrorOutlineRounded } from "@mui/icons-material";
+import { Language } from "@/app/i18n/settings";
+import { useTranslation } from "@/app/i18n/client";
 
 type Props = {
     open: boolean;
     name?: string;
     onClose: () => void;
+    lng: Language;
 };
 
 type MfaVerifyForm = {
@@ -26,7 +34,9 @@ type MfaVerifyForm = {
 };
 
 export default function SetupMfaDialog(props: Props) {
-    const { open, onClose, name } = props;
+    const { open, onClose, name, lng } = props;
+
+    const { t } = useTranslation(lng, "accountSettings");
 
     const { control, handleSubmit } = useForm<MfaVerifyForm>({
         defaultValues: { code: "" },
@@ -36,6 +46,14 @@ export default function SetupMfaDialog(props: Props) {
     const [qrCodeText, setQrCodeText] = useState<string>();
     const [factorId, setFactorId] = useState<string>();
     const [error, setError] = useState<AuthError>();
+
+    const handleClose = useCallback(() => {
+        onClose();
+        setQrCode(undefined);
+        setQrCodeText(undefined);
+        setFactorId(undefined);
+        setError(undefined);
+    }, [onClose]);
 
     const enroll = useCallback(async () => {
         if (name == null) {
@@ -61,14 +79,6 @@ export default function SetupMfaDialog(props: Props) {
         }
     }, [enroll, open]);
 
-    function handleClose() {
-        onClose();
-        setQrCode(undefined);
-        setQrCodeText(undefined);
-        setFactorId(undefined);
-        setError(undefined);
-    }
-
     async function handleVerify(data: MfaVerifyForm) {
         if (factorId == null) {
             console.error("Factor ID is required");
@@ -88,21 +98,25 @@ export default function SetupMfaDialog(props: Props) {
             setError(verify.error);
             throw verify.error;
         }
+
+        handleClose();
+    }
+
+    async function handleCancel() {
+        handleClose();
+        if (factorId != null) {
+            await removeMfa(factorId);
+        }
     }
 
     const isLoading = (qrCode == null || qrCodeText == null) && error == null;
 
     return (
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Setup Multi-Factor Authentication</DialogTitle>
+            <DialogTitle fontWeight={700}>{t("mfaDialog.title")}</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit(handleVerify)}>
-                    <Grid2
-                        spacing={2}
-                        container
-                        alignItems="center"
-                        direction="column"
-                    >
+                    <Grid2 spacing={2} container justifyContent="center">
                         {isLoading ? (
                             <Grid2>
                                 <CircularProgress />
@@ -113,8 +127,12 @@ export default function SetupMfaDialog(props: Props) {
                                 <Grid2 paddingTop={5}>
                                     <ErrorOutlineRounded />
                                 </Grid2>
-                                <Grid2 paddingBottom={5}>
-                                    <Typography variant="body2" fontWeight={700}>
+                                <Grid2 paddingBottom={5} size={12}>
+                                    <Typography
+                                        sx={{ textAlign: "center" }}
+                                        variant="body2"
+                                        fontWeight={700}
+                                    >
                                         {error.message}
                                     </Typography>
                                 </Grid2>
@@ -124,7 +142,7 @@ export default function SetupMfaDialog(props: Props) {
                             <>
                                 <Grid2>
                                     <Typography>
-                                        Scan the QR code with your authenticator app
+                                        {t("mfaDialog.description")}
                                     </Typography>
                                 </Grid2>
                                 <Grid2>
@@ -136,7 +154,10 @@ export default function SetupMfaDialog(props: Props) {
                                         }}
                                     >
                                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img src={qrCode} alt="QR code" />
+                                        <img
+                                            src={qrCode}
+                                            alt={t("mfaDialog.qrCodeAlt")}
+                                        />
                                     </Box>
                                 </Grid2>
                                 <Grid2>
@@ -151,14 +172,15 @@ export default function SetupMfaDialog(props: Props) {
                                         <code>{qrCodeText}</code>
                                     </Box>
                                 </Grid2>
-                                <Grid2>
+                                <Grid2 size={12}>
                                     <Controller
                                         render={({ field }) => (
                                             <TextField
                                                 {...field}
                                                 inputRef={field.ref}
-                                                label="Verification code"
+                                                label={t("mfaDialog.code")}
                                                 required
+                                                fullWidth
                                             />
                                         )}
                                         name="code"
@@ -168,14 +190,27 @@ export default function SetupMfaDialog(props: Props) {
                                 </Grid2>
                             </>
                         ) : null}
-                        <Grid2 alignSelf="end">
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                disabled={isLoading || error != null}
-                            >
-                                Verify
-                            </Button>
+                        <Grid2 size={12} container>
+                            <Grid2 size={{ xs: 12, sm: 6 }}>
+                                <Button
+                                    onClick={handleCancel}
+                                    fullWidth
+                                    variant="contained"
+                                    color="error"
+                                >
+                                    {t("mfaDialog.cancel")}
+                                </Button>
+                            </Grid2>
+                            <Grid2 size={{ xs: 12, sm: 6 }}>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    disabled={isLoading || error != null}
+                                >
+                                    {t("mfaDialog.submit")}
+                                </Button>
+                            </Grid2>
                         </Grid2>
                     </Grid2>
                 </form>

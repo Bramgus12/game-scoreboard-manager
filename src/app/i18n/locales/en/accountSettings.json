@@ -6,8 +6,21 @@
         "lastName": "Last name",
         "saveName": "Save name"
     },
+    "existingMfaKeys": {
+        "title": "Current multi-factor authentication factors"
+    },
     "mfa": {
-        "title": "Multi-factor Authentication",
-        "enable": "Enable Multi-factor Authentication"
+        "title": "Add new multi-factor authentication factor",
+        "enable": "Enable multi-factor authentication",
+        "friendlyName": "Name for the factor",
+        "createFactor": "Add factor"
+    },
+    "mfaDialog": {
+        "title": "Add multi-factor authentication factor",
+        "description": "Scan the QR code with your authenticator app and enter the code you receive. If you can't scan the QR code, use the code below the QR code.",
+        "qrCodeAlt": "QR code",
+        "code": "Verification code",
+        "cancel": "Cancel",
+        "submit": "Verify"
     }
 }
