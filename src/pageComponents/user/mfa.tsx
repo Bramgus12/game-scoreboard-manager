@@ -1,6 +1,13 @@
 "use client";
 
-import { Button, Grid2, IconButton, TextField, Typography } from "@mui/material";
+import {
+    Button,
+    Grid2,
+    IconButton,
+    Stack,
+    TextField,
+    Typography,
+} from "@mui/material";
 import { Language } from "@/app/i18n/settings";
 import { useTranslation } from "@/app/i18n/client";
 import SetupMfaDialog from "@/pageComponents/user/setupMfaDialog";
@@ -46,8 +53,8 @@ export default function Mfa(props: {
     return (
         <>
             <form onSubmit={handleSubmit(handleFormValid)}>
-                <Grid2 container spacing={2} justifyContent="flex-end">
-                    {(mfaFactors.data?.totp.length ?? 0) >= 0 && (
+                <Stack spacing={4}>
+                    {(mfaFactors.data?.totp.length ?? 0) > 0 && (
                         <Grid2 container spacing={2}>
                             <Grid2 size={12}>
                                 <Typography variant="subtitle1" fontWeight={700}>
@@ -75,32 +82,36 @@ export default function Mfa(props: {
                             ))}
                         </Grid2>
                     )}
-                    <Grid2 size={12}>
-                        <Typography variant="subtitle1" fontWeight={700}>
-                            {t("mfa.title")}
-                        </Typography>
-                    </Grid2>
-                    <Grid2 size={12}>
-                        <Controller
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    inputRef={field.ref}
-                                    label={t("mfa.friendlyName")}
-                                    required
+                    {(mfaFactors.data?.totp.length ?? 0) >= 1 ? null : (
+                        <Grid2 container justifyContent="flex-end" spacing={2}>
+                            <Grid2 size={12}>
+                                <Typography variant="subtitle1" fontWeight={700}>
+                                    {t("mfa.title")}
+                                </Typography>
+                            </Grid2>
+                            <Grid2 size={12}>
+                                <Controller
+                                    render={({ field }) => (
+                                        <TextField
+                                            {...field}
+                                            inputRef={field.ref}
+                                            label={t("mfa.friendlyName")}
+                                            required
+                                        />
+                                    )}
+                                    name="name"
+                                    control={control}
+                                    rules={{ required: true }}
                                 />
-                            )}
-                            name="name"
-                            control={control}
-                            rules={{ required: true }}
-                        />
-                    </Grid2>
-                    <Grid2>
-                        <Button variant="contained" type="submit">
-                            {t("mfa.createFactor")}
-                        </Button>
-                    </Grid2>
-                </Grid2>
+                            </Grid2>
+                            <Grid2>
+                                <Button variant="contained" type="submit">
+                                    {t("mfa.createFactor")}
+                                </Button>
+                            </Grid2>
+                        </Grid2>
+                    )}
+                </Stack>
             </form>
             <SetupMfaDialog
                 open={open}

@@ -211,7 +211,7 @@ export default function Header(props: { lng: Language }) {
                                     }}
                                 />
                                 <Typography variant="body2">
-                                    Manage account
+                                    {t("accountSettings")}
                                 </Typography>
                             </Stack>
                         </MenuItem>
