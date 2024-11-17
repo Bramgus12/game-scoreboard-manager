@@ -1,16 +1,23 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { cookieName, fallbackLng, languages } from "@/app/i18n/settings";
+import { cookieName, fallbackLng, Language, languages } from "@/app/i18n/settings";
 import acceptLanguage from "accept-language";
 import { createServerClient } from "@supabase/ssr";
 
+acceptLanguage.languages([...languages]);
+
 export async function middleware(request: NextRequest) {
     // Language detection logic
-    let lng;
-    if (request.cookies.has(cookieName)) {
-        lng = acceptLanguage.get(request.cookies.get(cookieName)?.value);
+    let lng: Language | undefined | null;
+    if (languages.some((loc) => request.nextUrl.pathname.startsWith(`/${loc}`))) {
+        lng = languages.find((loc) =>
+            request.nextUrl.pathname.startsWith(`/${loc}`),
+        );
     }
     if (lng == null) {
-        lng = acceptLanguage.get(request.headers.get("Accept-Language"));
+        lng = acceptLanguage.get(request.cookies.get(cookieName)?.value) as Language;
+    }
+    if (lng == null) {
+        lng = acceptLanguage.get(request.headers.get("Accept-Language")) as Language;
     }
     if (lng == null) {
         lng = fallbackLng;
@@ -27,18 +34,6 @@ export async function middleware(request: NextRequest) {
                 request.url,
             ),
         );
-    }
-
-    if (request.headers.has("referer")) {
-        const refererUrl = new URL(request.headers.get("referer") ?? "");
-        const lngInReferer = languages.find((l) =>
-            refererUrl.pathname.startsWith(`/${l}`),
-        );
-        const response = NextResponse.next();
-        if (lngInReferer) {
-            response.cookies.set(cookieName, lngInReferer);
-        }
-        return response;
     }
 
     // Supabase authentication logic
@@ -74,13 +69,36 @@ export async function middleware(request: NextRequest) {
         data: { user },
     } = await supabase.auth.getUser();
 
-    if (!user && !request.nextUrl.pathname.startsWith(`/${lng}/login`)) {
+    const authAssuranceLevel =
+        await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+
+    const isAuthRoute =
+        request.nextUrl.pathname.startsWith(`/${lng}/login`) ||
+        request.nextUrl.pathname.startsWith(`/${lng}/mfa`) ||
+        request.nextUrl.pathname.startsWith(`/${lng}/register`);
+
+    if (
+        (authAssuranceLevel.data?.currentLevel == null ||
+            authAssuranceLevel.data.currentLevel === "aal1") &&
+        authAssuranceLevel.data?.nextLevel === "aal2" &&
+        !request.nextUrl.pathname.startsWith(`/${lng}/mfa`)
+    ) {
+        const url = request.nextUrl.clone();
+        url.pathname = `/${lng}/mfa`;
+        return NextResponse.redirect(url);
+    }
+
+    if (!user && !isAuthRoute) {
         const url = request.nextUrl.clone();
         url.pathname = `/${lng}/login`;
         return NextResponse.redirect(url);
     }
 
-    if (user && request.nextUrl.pathname.startsWith(`/${lng}/login`)) {
+    if (
+        user &&
+        (request.nextUrl.pathname.startsWith(`/${lng}/login`) ||
+            request.nextUrl.pathname.startsWith(`/${lng}/register`))
+    ) {
         const url = request.nextUrl.clone();
         url.pathname = `/${lng}`;
         return NextResponse.redirect(url);
@@ -88,6 +106,17 @@ export async function middleware(request: NextRequest) {
 
     // Merge supabaseResponse cookies with language cookies
     const finalResponse = supabaseResponse;
+
+    if (request.headers.has("referer")) {
+        const refererUrl = new URL(request.headers.get("referer") ?? "");
+        const lngInReferer = languages.find((l) =>
+            refererUrl.pathname.startsWith(`/${l}`),
+        );
+        if (lngInReferer) {
+            supabaseResponse.cookies.set(cookieName, lngInReferer);
+        }
+    }
+
     supabaseResponse.cookies.getAll().forEach(({ name, value }) => {
         finalResponse.cookies.set(name, value);
     });
