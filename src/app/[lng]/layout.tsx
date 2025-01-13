@@ -5,6 +5,7 @@ import { Roboto } from "next/font/google";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "@/theme";
 import { dir } from "i18next";
+import NextTopLoader from "nextjs-toploader";
 
 const languages = ["en", "nl"] as const;
 
@@ -42,6 +43,7 @@ export default async function RootLayout({
                 <AppRouterCacheProvider>
                     <ThemeProvider theme={theme}>
                         <CssBaseline />
+                        <NextTopLoader color="#00ff00" showSpinner={false} />
                         {children}
                     </ThemeProvider>
                 </AppRouterCacheProvider>

@@ -1,7 +1,7 @@
-import { DomainKlaverjasTeam } from "../models/domain/klaverjasTeam/KlaverjasTeam";
-import { AppKlaverjasTeam } from "../models/app/klaverjasTeam/KlaverjasTeam";
+import { DomainKlaverjasTeam } from "@/models/domain/klaverjasTeam/KlaverjasTeam";
+import { AppKlaverjasTeam } from "@/models/app/klaverjasTeam/KlaverjasTeam";
 
-export function DomainToAppKlaverjasTeam(
+export function domainToAppKlaverjasTeam(
     domainModel: DomainKlaverjasTeam,
 ): AppKlaverjasTeam {
     return {
@@ -14,8 +14,8 @@ export function DomainToAppKlaverjasTeam(
     };
 }
 
-export function DomainToAppKlaverjasTeamArray(
+export function domainToAppKlaverjasTeamArray(
     domainModels: DomainKlaverjasTeam[],
 ): AppKlaverjasTeam[] {
-    return domainModels.map(DomainToAppKlaverjasTeam);
+    return domainModels.map(domainToAppKlaverjasTeam);
 }

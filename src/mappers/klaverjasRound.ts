@@ -1,7 +1,7 @@
 import { DomainKlaverjasRound } from "@/models/domain/klaverjasRound/KlaverjasRound";
 import { AppKlaverjasRound } from "@/models/app/klaverjasRound/KlaverjasRound";
 
-export function DomainToAppKlaverjasRound(
+export function domainToAppKlaverjasRound(
     domainModel: DomainKlaverjasRound,
 ): AppKlaverjasRound {
     return {
@@ -18,8 +18,8 @@ export function DomainToAppKlaverjasRound(
     };
 }
 
-export function DomainToAppKlaverjasRoundArray(
+export function domainToAppKlaverjasRoundArray(
     domainModels: DomainKlaverjasRound[],
 ): AppKlaverjasRound[] {
-    return domainModels.map(DomainToAppKlaverjasRound);
+    return domainModels.map(domainToAppKlaverjasRound);
 }

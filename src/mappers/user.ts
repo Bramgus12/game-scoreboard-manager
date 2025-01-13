@@ -1,7 +1,7 @@
-import { DomainUser } from "../models/domain/user/User";
-import { AppUser } from "../models/app/user/User";
+import { DomainUser } from "@/models/domain/user/User";
+import { AppUser } from "@/models/app/user/User";
 
-export function DomainToAppUser(domainModel: DomainUser): AppUser {
+export function domainToAppUser(domainModel: DomainUser): AppUser {
     return {
         id: domainModel.id,
         firstName: domainModel.firstName,
