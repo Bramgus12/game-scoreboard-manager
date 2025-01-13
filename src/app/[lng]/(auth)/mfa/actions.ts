@@ -10,8 +10,6 @@ export async function verifyMfa(verifyCode: string) {
         throw factors.error;
     }
 
-    console.log(factors.data);
-
     const totpFactor = factors.data.totp[0];
 
     if (totpFactor == null) {
