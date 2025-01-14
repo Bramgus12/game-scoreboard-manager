@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { UUID } from "crypto";
 import { getRounds } from "@/app/[lng]/scoreboard/[id]/actions";
-import RoundRow from "@/pageComponents/scoreboardId/KlaverjasTable/components/RoundRow";
+import RoundRow from "@/pageComponents/klaverjasGame/KlaverjasTable/components/RoundRow";
 import Link from "next/link";
 import { Language } from "@/app/i18n/settings";
 import { translation } from "@/app/i18n";

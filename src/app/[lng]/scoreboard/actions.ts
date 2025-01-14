@@ -1,12 +1,12 @@
 "use server";
 
-import { CreateScoreBoardForm } from "@/app/[lng]/scoreboard/interfaces";
 import { apiRoutes } from "@/utils/api/useAPI";
 import { GAME_TYPE } from "@/constants/gameType";
 import { TEAM_TYPE } from "@/constants/teamType";
 import { redirect } from "next/navigation";
+import { CreateKlaverjasGameForm } from "@/pageComponents/createKlaverjasGame";
 
-export async function createScoreBoard(data: CreateScoreBoardForm) {
+export async function createScoreBoard(data: CreateKlaverjasGameForm) {
     const {
         scoreboard: { post: postScoreboard },
         klaverjasTeam: { post: postTeams },

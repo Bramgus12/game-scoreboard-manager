@@ -1,6 +1,6 @@
 import { Stack, Tooltip } from "@mui/material";
 import { StarRounded, WaterDropRounded } from "@mui/icons-material";
-import { MergedRound } from "@/pageComponents/scoreboardId/KlaverjasTable/interfaces";
+import { MergedRound } from "@/pageComponents/klaverjasGame/KlaverjasTable/interfaces";
 import { getFame } from "@/utils/funcs/getFame";
 
 export default function PointsCell(props: {

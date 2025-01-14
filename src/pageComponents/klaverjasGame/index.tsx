@@ -1,12 +1,12 @@
 import { Grid2 } from "@mui/material";
-import KlaverjasGameTitle from "@/pageComponents/scoreboardId/KlaverjasGameTitle";
-import CurrentRoundNumber from "@/pageComponents/scoreboardId/CurrentRoundNumber";
-import Totals from "@/pageComponents/scoreboardId/Totals";
+import KlaverjasGameTitle from "@/pageComponents/klaverjasGame/KlaverjasGameTitle";
+import CurrentRoundNumber from "@/pageComponents/klaverjasGame/CurrentRoundNumber";
+import Totals from "@/pageComponents/klaverjasGame/Totals";
 import { UUID } from "crypto";
-import DialogsAndTable from "@/pageComponents/scoreboardId/DialogsAndTable";
+import DialogsAndTable from "@/pageComponents/klaverjasGame/DialogsAndTable";
 import { Language } from "@/app/i18n/settings";
 
-export default function ScoreboardId({ id, lng }: { id: UUID; lng: Language }) {
+export default function KlaverjasGame({ id, lng }: { id: UUID; lng: Language }) {
     return (
         <>
             <Grid2 container spacing={2}>

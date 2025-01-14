@@ -1,5 +1,5 @@
 import { UUID } from "crypto";
-import KlaverjasTable from "@/pageComponents/scoreboardId/KlaverjasTable";
+import KlaverjasTable from "@/pageComponents/klaverjasGame/KlaverjasTable";
 import { Fab } from "@mui/material";
 import { FiberNewRounded } from "@mui/icons-material";
 import Link from "next/link";

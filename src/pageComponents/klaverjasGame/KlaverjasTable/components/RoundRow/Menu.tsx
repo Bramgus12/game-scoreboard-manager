@@ -2,11 +2,11 @@
 
 import { IconButton, Menu, MenuItem, Stack, Typography } from "@mui/material";
 import { DeleteRounded, EditRounded, MoreVertRounded } from "@mui/icons-material";
-import { MergedRound } from "@/pageComponents/scoreboardId/KlaverjasTable/interfaces";
+import { MergedRound } from "@/pageComponents/klaverjasGame/KlaverjasTable/interfaces";
 import { useState } from "react";
 import Link from "next/link";
 import { UUID } from "crypto";
-import DeleteRoundDialog from "@/pageComponents/scoreboardId/DeleteRoundDialog";
+import DeleteRoundDialog from "@/pageComponents/klaverjasGame/DeleteRoundDialog";
 import { deleteRound } from "@/app/[lng]/scoreboard/[id]/actions";
 import { Language } from "@/app/i18n/settings";
 import { useTranslation } from "@/app/i18n/client";

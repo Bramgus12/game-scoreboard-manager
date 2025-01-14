@@ -1,93 +1,38 @@
 "use client";
 
+import { Grid2, Step, StepLabel, Stepper } from "@mui/material";
 import { Language } from "@/app/i18n/settings";
-import { createScoreBoard } from "@/app/[lng]/scoreboard/actions";
-import { Button, Divider, Grid2, Link, TextField, Typography } from "@mui/material";
-import { useForm } from "react-hook-form";
-import { CreateScoreBoardForm } from "@/app/[lng]/scoreboard/interfaces";
-import { ReactNode } from "react";
-import { useTranslation } from "@/app/i18n/client";
-
-function WikipediaLink({ children }: { children?: ReactNode }) {
-    return (
-        <Link
-            href="https://en.wikipedia.org/wiki/Klaverjas"
-            target="_blank"
-            rel="noreferrer"
-        >
-            {children}
-        </Link>
-    );
-}
+import { useState } from "react";
+import ChooseGameType from "@/pageComponents/chooseGameType";
+import { AppGameType } from "@/models/app/scoreboard/GameType";
+import ScoreboardDetails from "../ScoreboardDetails";
 
 export default function CreateScoreboard(props: { lng: Language }) {
     const { lng } = props;
 
-    const { register, handleSubmit } = useForm<CreateScoreBoardForm>({
-        defaultValues: { ourTeamName: "", scoreboardName: "", theirTeamName: "" },
-    });
+    const [chosenGameType, setChosenGameType] = useState<AppGameType | null>(null);
 
-    const { t } = useTranslation(lng, "scoreboardCreatePage");
+    const isGameTypeChosen = chosenGameType != null;
 
     return (
-        <form onSubmit={handleSubmit(createScoreBoard)}>
-            <Grid2 container spacing={3}>
-                <Grid2>
-                    <Typography variant="h5">{t("newKlaverjasGame")}</Typography>
-                </Grid2>
-                <Grid2 size={12}>
-                    <Typography variant="body1">
-                        {t("explanation")}
-                        <WikipediaLink>{t("klaverjas")}</WikipediaLink>
-                    </Typography>
-                </Grid2>
-                <Grid2 size={{ xs: 12, md: 6 }}>
-                    <TextField
-                        label={t("gameName")}
-                        {...register("scoreboardName", {
-                            required: true,
-                        })}
-                    />
-                </Grid2>
-                <Grid2 size={12}>
-                    <Divider />
-                </Grid2>
-                <Grid2 size={12}>
-                    <Typography variant="h6">{t("teamNamesTitle")}</Typography>
-                </Grid2>
-                <Grid2 container spacing={2} size={12}>
-                    <Grid2 size={12}>
-                        <Typography variant="body1">{t("yourTeam")}</Typography>
-                    </Grid2>
-                    <Grid2 size={{ xs: 12, md: 6 }}>
-                        <TextField
-                            label={t("yourTeamName")}
-                            {...register("ourTeamName", {
-                                required: true,
-                            })}
-                        />
-                    </Grid2>
-                </Grid2>
-                <Grid2 container spacing={2} size={12}>
-                    <Grid2 size={12}>
-                        <Typography variant="body1">{t("theirTeam")}</Typography>
-                    </Grid2>
-                    <Grid2 size={{ xs: 12, md: 6 }}>
-                        <TextField
-                            label={t("theirTeamName")}
-                            {...register("theirTeamName", {
-                                required: true,
-                            })}
-                        />
-                    </Grid2>
-                </Grid2>
-                <Grid2 size="grow" />
-                <Grid2>
-                    <Button type="submit" variant="contained" color="primary">
-                        {t("startGame")}
-                    </Button>
-                </Grid2>
+        <Grid2 container direction="column" spacing={2}>
+            <Grid2>
+                <Stepper>
+                    <Step completed={isGameTypeChosen}>
+                        <StepLabel>Choose game type</StepLabel>
+                    </Step>
+                    <Step active={isGameTypeChosen}>
+                        <StepLabel>Enter details for the game</StepLabel>
+                    </Step>
+                </Stepper>
             </Grid2>
-        </form>
+            <Grid2>
+                {isGameTypeChosen ? (
+                    <ScoreboardDetails lng={lng} gameType={chosenGameType} />
+                ) : (
+                    <ChooseGameType onSubmit={setChosenGameType} />
+                )}
+            </Grid2>
+        </Grid2>
     );
 }

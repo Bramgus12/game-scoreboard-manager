@@ -1,7 +1,7 @@
 import { Grid2, Paper, Typography } from "@mui/material";
-import CreateScoreboard from "@/pageComponents/createScoreboard";
 import { Language } from "@/app/i18n/settings";
 import { translation } from "@/app/i18n";
+import CreateScoreboard from "@/pageComponents/createScoreboard";
 
 export default async function ScoreboardPage(props: {
     params: Promise<{ lng: Language }>;
@@ -13,7 +13,9 @@ export default async function ScoreboardPage(props: {
     return (
         <Grid2 container spacing={2}>
             <Grid2>
-                <Typography variant="h4">{t("createNewScoreboard")}</Typography>
+                <Typography variant="h4">
+                    <code>{t("createNewScoreboard")}</code>
+                </Typography>
             </Grid2>
             <Grid2 size={12}>
                 <Paper>

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Grid2, Step, StepLabel, Stepper } from "@mui/material";
-import { MergedRound } from "@/pageComponents/scoreboardId/KlaverjasTable/interfaces";
+import { MergedRound } from "@/pageComponents/klaverjasGame/KlaverjasTable/interfaces";
 import { AppKlaverjasTeam } from "@/models/app/klaverjasTeam/KlaverjasTeam";
 import { useState } from "react";
 import { useForm } from "react-hook-form";

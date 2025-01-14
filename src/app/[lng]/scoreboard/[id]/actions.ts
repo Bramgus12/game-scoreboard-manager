@@ -2,7 +2,7 @@
 
 import { UUID } from "crypto";
 import { apiRoutes } from "@/utils/api/useAPI";
-import { MergedRound } from "@/pageComponents/scoreboardId/KlaverjasTable/interfaces";
+import { MergedRound } from "@/pageComponents/klaverjasGame/KlaverjasTable/interfaces";
 import { getFame } from "@/utils/funcs/getFame";
 import { AppKlaverjasRound } from "@/models/app/klaverjasRound/KlaverjasRound";
 import { AppCreateKlaverjasRound } from "@/models/app/klaverjasRound/CreateKlaverjasRound";

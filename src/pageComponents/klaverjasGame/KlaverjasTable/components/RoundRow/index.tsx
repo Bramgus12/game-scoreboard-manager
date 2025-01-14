@@ -1,7 +1,7 @@
 import { TableCell, TableRow } from "@mui/material";
-import { MergedRound } from "@/pageComponents/scoreboardId/KlaverjasTable/interfaces";
-import PointsCell from "@/pageComponents/scoreboardId/KlaverjasTable/components/RoundRow/PointsCell";
-import RoundMenu from "@/pageComponents/scoreboardId/KlaverjasTable/components/RoundRow/Menu";
+import { MergedRound } from "@/pageComponents/klaverjasGame/KlaverjasTable/interfaces";
+import PointsCell from "@/pageComponents/klaverjasGame/KlaverjasTable/components/RoundRow/PointsCell";
+import RoundMenu from "@/pageComponents/klaverjasGame/KlaverjasTable/components/RoundRow/Menu";
 import { UUID } from "crypto";
 import { Language } from "@/app/i18n/settings";
 
