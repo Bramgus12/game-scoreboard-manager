@@ -1,7 +1,7 @@
 "use client";
 
 import { Language } from "@/app/i18n/settings";
-import { createScoreBoard } from "@/app/[lng]/scoreboard/actions";
+import { createKlaverjasGame } from "@/app/[lng]/scoreboard/actions";
 import { Button, Divider, Grid2, Link, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { ReactNode } from "react";
@@ -42,7 +42,7 @@ export default function CreateKlaverjasGame(props: { lng: Language }) {
     const { t } = useTranslation(lng, "scoreboardCreatePage");
 
     return (
-        <form onSubmit={handleSubmit(createScoreBoard)}>
+        <form onSubmit={handleSubmit(createKlaverjasGame)}>
             <Grid2 container spacing={3}>
                 <Grid2>
                     <Typography variant="h5">{t("newKlaverjasGame")}</Typography>

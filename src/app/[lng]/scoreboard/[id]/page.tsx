@@ -1,5 +1,5 @@
 import { UUID } from "crypto";
-import ScoreboardId from "@/pageComponents/klaverjasGame";
+import ScoreboardId from "@/pageComponents/scoreboardId";
 import { Language } from "@/app/i18n/settings";
 import { Suspense } from "react";
 import ScoreboardIdFallback from "@/pageComponents/klaverjasGame/Fallback";
