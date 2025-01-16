@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FormTextField from "@/components/formTextField";
 import { AddRounded, DeleteRounded } from "@mui/icons-material";
 import { createBoerenbridgeGame } from "@/app/[lng]/scoreboard/actions";
+import { useTranslation } from "@/app/i18n/client";
 
 const validationScheme = z.object({
     scoreboardName: z.string().nonempty(),
@@ -21,6 +22,10 @@ export type CreateBoerenbridgeGameForm = z.infer<typeof validationScheme>;
 const emptyPlayer: CreateBoerenbridgeGameForm["players"][0] = { playerName: "" };
 
 export default function CreateBoerenbridgeGame(props: { lng: Language }) {
+    const { lng } = props;
+
+    const { t } = useTranslation(lng, "scoreboardCreatePage");
+
     const { control, handleSubmit } = useForm<CreateBoerenbridgeGameForm>({
         mode: "onChange",
         resolver: zodResolver(validationScheme),
@@ -37,24 +42,22 @@ export default function CreateBoerenbridgeGame(props: { lng: Language }) {
         <form onSubmit={handleSubmit(createBoerenbridgeGame)}>
             <Grid2 container direction="column" spacing={3}>
                 <Grid2>
-                    <Typography variant="h5">
-                        Create new boerenbridge game
-                    </Typography>
+                    <Typography variant="h5">{t("newBoerenbridgeGame")}</Typography>
                 </Grid2>
                 <Grid2>
                     <FormTextField
                         controller={{ control, name: "scoreboardName" }}
-                        label="Name of the game"
+                        label={t("gameName")}
                     />
                 </Grid2>
                 <Grid2>
                     <FormTextField
                         controller={{ control, name: "pointsPerCorrectGuess" }}
-                        label="Points per correct guess"
+                        label={t("pointsPerCorrectGuess")}
                     />
                 </Grid2>
                 <Grid2>
-                    <Typography variant="subtitle1">Players</Typography>
+                    <Typography variant="subtitle1">{t("players")}</Typography>
                 </Grid2>
                 {fields.map((field, index) => (
                     <Grid2 key={field.id} container size="grow" alignItems="center">
@@ -65,7 +68,7 @@ export default function CreateBoerenbridgeGame(props: { lng: Language }) {
                                     name: `players.${index}.playerName`,
                                 }}
                                 variant="outlined"
-                                label={`Player ${index + 1}`}
+                                label={t("playerNumber", { number: index + 1 })}
                             />
                         </Grid2>
                         <Grid2>
@@ -84,12 +87,12 @@ export default function CreateBoerenbridgeGame(props: { lng: Language }) {
                         startIcon={<AddRounded />}
                         onClick={() => append(emptyPlayer)}
                     >
-                        Add Player
+                        {t("addPlayer")}
                     </Button>
                 </Grid2>
                 <Grid2 alignSelf="end">
                     <Button type="submit" variant="contained">
-                        Create game
+                        {t("startGame")}
                     </Button>
                 </Grid2>
             </Grid2>
