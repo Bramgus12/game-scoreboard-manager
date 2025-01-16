@@ -2,8 +2,8 @@
 
 import { alpha, Button, Grid2, Typography } from "@mui/material";
 import { AppGameType } from "@/models/app/scoreboard/GameType";
-import PlayingCardsIcon from "@/components/icons/PlayingCardsIcon";
 import { CheckRounded } from "@mui/icons-material";
+import PlayingCardsIcon from "@/components/icons/PlayingCardsIcon";
 
 type Props = {
     gameType: AppGameType;
@@ -50,7 +50,13 @@ export default function GameTypeTile(props: Props) {
                     sx={{ width: 1 }}
                 >
                     <Grid2>
-                        <PlayingCardsIcon sx={{ width: 40, height: 40 }} />
+                        {gameType === "klaverjas" || gameType === "boerenbridge" ? (
+                            <PlayingCardsIcon sx={{ width: 40, height: 40 }} />
+                        ) : (
+                            <Typography variant="h4" sx={{ marginTop: -1 }}>
+                                🀁
+                            </Typography>
+                        )}
                     </Grid2>
                     {selected ? (
                         <Grid2>
