@@ -16,5 +16,6 @@
     "theirTeamName": "Their team name",
     "startGame": "Start game",
     "chooseGameType": "Choose game type",
-    "enterDetails": "Game details"
+    "enterDetails": "Game details",
+    "continue": "Continue"
 }
