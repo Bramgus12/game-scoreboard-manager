@@ -4,6 +4,7 @@ import { apiRoutes } from "@/utils/api/useAPI";
 import { GAME_TYPE } from "@/constants/gameType";
 import KlaverjasGame from "@/pageComponents/klaverjasGame";
 import BoerenbridgeGame from "@/pageComponents/boerenbridgeGame";
+import { redirect } from "next/navigation";
 
 type Props = {
     id: UUID;
@@ -25,6 +26,6 @@ export default async function ScoreboardId(props: Props) {
         case GAME_TYPE.BOERENBRIDGE:
             return <BoerenbridgeGame id={scoreboard.id} lng={lng} />;
         default:
-            return <div>Unsupported game type</div>;
+            redirect(`/${lng}`);
     }
 }
