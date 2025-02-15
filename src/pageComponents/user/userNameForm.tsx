@@ -4,21 +4,20 @@ import { Button, Grid2, TextField, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { AppUser } from "@/models/app/user/User";
 import { AppCreateUpdateUser } from "@/models/app/user/CreateUpdateUser";
-import { updateUser } from "@/app/[lng]/user/actions";
-import { useTranslation } from "@/app/i18n/client";
-import { Language } from "@/app/i18n/settings";
+import { useTranslations } from "next-intl";
+import { updateDatabaseUser } from "@/actions/userActions";
 
-export default function UserNameForm(props: { user: AppUser; lng: Language }) {
-    const { user, lng } = props;
+export default function UserNameForm(props: { user: AppUser }) {
+    const { user } = props;
 
     const form = useForm<AppCreateUpdateUser>({
         defaultValues: { firstName: user.firstName, lastName: user.lastName },
     });
 
-    const { t } = useTranslation(lng, "accountSettings");
+    const t = useTranslations("accountSettings");
 
     async function onFormValid(data: AppCreateUpdateUser) {
-        await updateUser(data);
+        await updateDatabaseUser(data);
 
         alert("User updated");
     }

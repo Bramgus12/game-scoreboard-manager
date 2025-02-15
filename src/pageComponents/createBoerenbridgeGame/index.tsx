@@ -1,12 +1,11 @@
-import { Language } from "@/app/i18n/settings";
 import { Button, Grid2, IconButton, Typography } from "@mui/material";
 import { z } from "zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormTextField from "@/components/formTextField";
 import { AddRounded, DeleteRounded } from "@mui/icons-material";
-import { createBoerenbridgeGame } from "@/app/[lng]/scoreboard/actions";
-import { useTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
+import { createBoerenbridgeGame } from "@/actions/scoreboardActions";
 
 const validationScheme = z.object({
     scoreboardName: z.string().nonempty(),
@@ -21,10 +20,8 @@ export type CreateBoerenbridgeGameForm = z.infer<typeof validationScheme>;
 
 const emptyPlayer: CreateBoerenbridgeGameForm["players"][0] = { playerName: "" };
 
-export default function CreateBoerenbridgeGame(props: { lng: Language }) {
-    const { lng } = props;
-
-    const { t } = useTranslation(lng, "scoreboardCreatePage");
+export default function CreateBoerenbridgeGame() {
+    const t = useTranslations("scoreboardCreatePage");
 
     const { control, handleSubmit } = useForm<CreateBoerenbridgeGameForm>({
         mode: "onChange",

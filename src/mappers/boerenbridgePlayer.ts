@@ -1,17 +1,18 @@
 import { DomainBoerenbridgePlayer } from "@/models/domain/boerenbridgePlayer/boerenbridgePlayer";
 import { AppBoerenbridgePlayer } from "@/models/app/boerenbridgePlayer/boerenbridgePlayer";
 import { domainToAppBoerenbridgeRoundArray } from "@/mappers/boerenbridgeRound";
+import { UUID } from "crypto";
 
 export function domainToAppBoerenbridgePlayer(
     domainModel: DomainBoerenbridgePlayer,
 ): AppBoerenbridgePlayer {
     return {
-        id: domainModel.id,
+        id: domainModel.id as UUID,
         name: domainModel.name,
-        game: domainModel.game,
-        createdAt: new Date(domainModel.createdAt),
-        updatedAt: new Date(domainModel.updatedAt),
-        rounds: domainToAppBoerenbridgeRoundArray(domainModel.rounds),
+        game: domainModel.game_id as UUID,
+        createdAt: domainModel.created_at,
+        updatedAt: domainModel.updated_at,
+        rounds: domainToAppBoerenbridgeRoundArray(domainModel.boerenbridge_round),
     };
 }
 

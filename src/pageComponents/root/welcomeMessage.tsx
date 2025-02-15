@@ -1,14 +1,15 @@
 import { Typography } from "@mui/material";
-import { Language } from "@/app/i18n/settings";
-import { translation } from "@/app/i18n";
-import { getUser } from "@/app/[lng]/actions";
+import { getTranslations } from "next-intl/server";
+import { currentUser } from "@clerk/nextjs/server";
 
-export default async function WelcomeMessage(props: { lng: Language }) {
-    const { lng } = props;
+export default async function WelcomeMessage() {
+    const t = await getTranslations("scoreboardHomePage");
 
-    const { t } = await translation(lng, "scoreboardHomePage");
+    const user = await currentUser();
 
-    const user = await getUser();
+    if (user == null) {
+        throw new Error("User not found");
+    }
 
     return (
         <Typography variant="h4">

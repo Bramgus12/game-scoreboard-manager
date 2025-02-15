@@ -2,21 +2,19 @@
 
 import { AppGameType } from "@/models/app/scoreboard/GameType";
 import CreateKlaverjasGame from "@/pageComponents/createKlaverjasGame";
-import { Language } from "@/app/i18n/settings";
 import CreateBoerenbridgeGame from "@/pageComponents/createBoerenbridgeGame";
 
 type Props = {
     gameType: AppGameType;
-    lng: Language;
 };
 
 export default function ScoreboardDetails(props: Props) {
-    const { gameType, lng } = props;
+    const { gameType } = props;
 
     switch (gameType) {
         case "boerenbridge":
-            return <CreateBoerenbridgeGame lng={lng} />;
+            return <CreateBoerenbridgeGame />;
         case "klaverjas":
-            return <CreateKlaverjasGame lng={lng} />;
+            return <CreateKlaverjasGame />;
     }
 }

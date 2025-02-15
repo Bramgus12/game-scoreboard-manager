@@ -4,24 +4,23 @@ import CurrentRoundNumber from "@/pageComponents/klaverjasGame/CurrentRoundNumbe
 import Totals from "@/pageComponents/klaverjasGame/Totals";
 import { UUID } from "crypto";
 import DialogsAndTable from "@/pageComponents/klaverjasGame/DialogsAndTable";
-import { Language } from "@/app/i18n/settings";
 
-export default function KlaverjasGame({ id, lng }: { id: UUID; lng: Language }) {
+export default function KlaverjasGame({ id }: { id: UUID }) {
     return (
         <>
             <Grid2 container spacing={2}>
                 <Grid2 size={12}>
-                    <KlaverjasGameTitle id={id} lng={lng} />
+                    <KlaverjasGameTitle id={id} />
                 </Grid2>
                 <Grid2 size={{ xs: 12, md: 6 }}>
-                    <DialogsAndTable id={id} lng={lng} />
+                    <DialogsAndTable id={id} />
                 </Grid2>
                 <Grid2 container direction="column" size={{ xs: 12, md: 6 }}>
                     <Grid2>
-                        <CurrentRoundNumber id={id} lng={lng} />
+                        <CurrentRoundNumber id={id} />
                     </Grid2>
                     <Grid2>
-                        <Totals id={id} lng={lng} />
+                        <Totals id={id} />
                     </Grid2>
                 </Grid2>
             </Grid2>

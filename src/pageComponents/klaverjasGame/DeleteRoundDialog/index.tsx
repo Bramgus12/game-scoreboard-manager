@@ -5,18 +5,16 @@ import {
     DialogContent,
     DialogTitle,
 } from "@mui/material";
-import { Language } from "@/app/i18n/settings";
-import { useTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 
 export default function DeleteRoundDialog(props: {
     open: boolean;
     onClose: () => void;
     onSubmit: () => void;
-    lng: Language;
 }) {
-    const { open, onClose, onSubmit, lng } = props;
+    const { open, onClose, onSubmit } = props;
 
-    const { t } = useTranslation(lng, "scoreboardCurrentPage");
+    const t = useTranslations("scoreboardCurrentPage");
 
     return (
         <Dialog open={open} onClose={onClose}>

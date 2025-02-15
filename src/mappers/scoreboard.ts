@@ -1,14 +1,16 @@
 import { DomainScoreboard } from "@/models/domain/scoreboard/Scoreboard";
 import { AppScoreboard } from "@/models/app/scoreboard/Scoreboard";
+import { UUID } from "crypto";
+import { AppGameType } from "@/models/app/scoreboard/GameType";
 
 export function domainToAppScoreboard(domainModel: DomainScoreboard): AppScoreboard {
     return {
-        id: domainModel.id,
-        scoreboardName: domainModel.scoreboardName,
-        gameType: domainModel.gameType,
-        user: domainModel.user,
-        createdAt: new Date(domainModel.createdAt),
-        updatedAt: new Date(domainModel.updatedAt),
+        id: domainModel.id as UUID,
+        scoreboardName: domainModel.scoreboard_name,
+        gameType: domainModel.game_type as AppGameType,
+        user: domainModel.user_id as UUID,
+        createdAt: domainModel.created_at,
+        updatedAt: domainModel.updated_at,
     };
 }
 

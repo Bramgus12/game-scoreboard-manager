@@ -13,18 +13,17 @@ import {
     Typography,
 } from "@mui/material";
 import { UUID } from "crypto";
-import { getRounds } from "@/app/[lng]/scoreboard/[id]/actions";
 import RoundRow from "@/pageComponents/klaverjasGame/KlaverjasTable/components/RoundRow";
 import Link from "next/link";
-import { Language } from "@/app/i18n/settings";
-import { translation } from "@/app/i18n";
+import { getTranslations } from "next-intl/server";
+import { getRoundsForScoreboard } from "@/actions/klaverjasActions";
 
-export default async function KlaverjasTable(props: { id: UUID; lng: Language }) {
-    const { id, lng } = props;
+export default async function KlaverjasTable(props: { id: UUID }) {
+    const { id } = props;
 
-    const { t } = await translation(lng, "scoreboardCurrentPage");
+    const t = await getTranslations("scoreboardCurrentPage");
 
-    const rounds = await getRounds(id);
+    const rounds = await getRoundsForScoreboard(id);
 
     if (rounds.length === 0) {
         return (
@@ -43,7 +42,7 @@ export default async function KlaverjasTable(props: { id: UUID; lng: Language })
                         <Grid2>
                             <Button
                                 component={Link}
-                                href={`/${lng}/scoreboard/${id}/round`}
+                                href={`/scoreboard/${id}/round`}
                             >
                                 {t("table.createNewRound")}
                             </Button>
@@ -96,7 +95,6 @@ export default async function KlaverjasTable(props: { id: UUID; lng: Language })
                                 round={round}
                                 isLastRound={index === rounds.length - 1}
                                 key={round.roundNumber}
-                                lng={lng}
                             />
                         ))}
                     </TableBody>

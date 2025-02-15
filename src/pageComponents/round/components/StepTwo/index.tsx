@@ -2,16 +2,12 @@ import { Grid2, Typography } from "@mui/material";
 import { Control, Controller } from "react-hook-form";
 import FameInput from "@/pageComponents/round/components/StepTwo/components/FameInput";
 import { NewRoundForm } from "@/pageComponents/round";
-import { Language } from "@/app/i18n/settings";
-import { useTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 
-export default function StepTwo(props: {
-    control: Control<NewRoundForm>;
-    lng: Language;
-}) {
-    const { control, lng } = props;
+export default function StepTwo(props: { control: Control<NewRoundForm> }) {
+    const { control } = props;
 
-    const { t } = useTranslation(lng, "scoreboardCurrentPage");
+    const t = useTranslations("scoreboardCurrentPage");
 
     return (
         <Grid2 container spacing={2} alignItems="center">

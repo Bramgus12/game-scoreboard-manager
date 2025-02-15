@@ -3,18 +3,16 @@ import { GAME_TYPE } from "@/constants/gameType";
 import GameTypeTile from "@/components/gameTypeTile";
 import { useState } from "react";
 import { AppGameType } from "@/models/app/scoreboard/GameType";
-import { Language } from "@/app/i18n/settings";
-import { useTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 
 type Props = {
     onSubmit: (gameType: AppGameType) => void;
-    lng: Language;
 };
 
 export default function ChooseGameType(props: Props) {
-    const { onSubmit, lng } = props;
+    const { onSubmit } = props;
 
-    const { t } = useTranslation(lng, "scoreboardCreatePage");
+    const t = useTranslations("scoreboardCreatePage");
 
     const gameTypes = Object.values(GAME_TYPE);
 

@@ -1,14 +1,13 @@
 "use client";
 
-import { Language } from "@/app/i18n/settings";
-import { createKlaverjasGame } from "@/app/[lng]/scoreboard/actions";
 import { Button, Divider, Grid2, Link, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { ReactNode } from "react";
-import { useTranslation } from "@/app/i18n/client";
 import FormTextField from "@/components/formTextField";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { createKlaverjasGame } from "@/actions/scoreboardActions";
+import { useTranslations } from "next-intl";
 
 function WikipediaLink({ children }: { children?: ReactNode }) {
     return (
@@ -30,16 +29,14 @@ const validationScheme = z.object({
 
 export type CreateKlaverjasGameForm = z.infer<typeof validationScheme>;
 
-export default function CreateKlaverjasGame(props: { lng: Language }) {
-    const { lng } = props;
+export default function CreateKlaverjasGame() {
+    const t = useTranslations("scoreboardCreatePage");
 
     const { control, handleSubmit } = useForm<CreateKlaverjasGameForm>({
         defaultValues: { ourTeamName: "", scoreboardName: "", theirTeamName: "" },
         resolver: zodResolver(validationScheme),
         mode: "onChange",
     });
-
-    const { t } = useTranslation(lng, "scoreboardCreatePage");
 
     return (
         <form onSubmit={handleSubmit(createKlaverjasGame)}>

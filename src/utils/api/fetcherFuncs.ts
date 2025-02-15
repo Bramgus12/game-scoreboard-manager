@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { RequestOptions } from "./interfaces";
 import { ApiMethod } from "./apiMethod";
-import { createClient } from "@/utils/supabase/server";
+import { auth } from "@clerk/nextjs/server";
 
 async function axiosFetch<Response = void, Body = void>(
     requestOptions: RequestOptions<Body>,
@@ -53,12 +53,12 @@ export async function genericRequest<RequestType, ResponseType>(
     url: string,
     method: ApiMethod,
 ): Promise<ResponseType> {
-    const supabase = await createClient();
+    const authObject = await auth();
 
-    const session = await supabase.auth.getSession();
+    const session = await authObject.getToken();
 
-    if (session.error != null) {
-        throw session.error;
+    if (session == null) {
+        throw new Error("No session found");
     }
 
     const apiResponse = await axiosFetch<ResponseType, RequestType>({
@@ -66,7 +66,7 @@ export async function genericRequest<RequestType, ResponseType>(
         url,
         body: requestBody,
         authHeader: {
-            Authorization: `Bearer ${session.data.session?.access_token}`,
+            Authorization: `Bearer ${session}`,
         },
     });
 

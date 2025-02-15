@@ -1,18 +1,18 @@
 import { DomainBoerenbridgeRound } from "@/models/domain/boerenbridgeRound/boerenbridgeRound";
 import { AppBoerenbridgeRound } from "@/models/app/boerenbridgeRound/boerenbridgeRound";
+import { UUID } from "crypto";
 
 export function domainToAppBoerenbridgeRound(
     domain: DomainBoerenbridgeRound,
 ): AppBoerenbridgeRound {
     return {
-        id: domain.id,
+        id: domain.id as UUID,
         guess: domain.guess,
-        isCorrect: domain.isCorrect,
-        roundNumber: domain.roundNumber,
-        player: domain.player,
-        penaltyPoints: domain.penaltyPoints,
-        createdAt: new Date(domain.createdAt),
-        updatedAt: new Date(domain.updatedAt),
+        isCorrect: domain.is_correct,
+        roundNumber: domain.round_number,
+        penaltyPoints: domain.penalty_points,
+        createdAt: domain.created_at,
+        updatedAt: domain.updated_at,
     };
 }
 

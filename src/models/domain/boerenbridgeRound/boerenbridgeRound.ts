@@ -1,10 +1,8 @@
 import { DomainBaseModel } from "@/models/domain/BaseModel";
-import { UUID } from "crypto";
 
 export type DomainBoerenbridgeRound = DomainBaseModel & {
-    roundNumber: number;
+    round_number: number;
     guess: number;
-    isCorrect: boolean;
-    penaltyPoints?: number;
-    player: UUID;
+    is_correct: boolean;
+    penalty_points?: number;
 };

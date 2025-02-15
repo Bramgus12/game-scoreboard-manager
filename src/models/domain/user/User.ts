@@ -1,9 +1,8 @@
-import { UUID } from "crypto";
 import { DomainBaseModel } from "../BaseModel";
 
 export type DomainUser = DomainBaseModel & {
-    externalId: UUID;
-    firstName: string;
-    lastName: string;
+    external_id: string;
+    first_name: string;
+    last_name: string;
     email: string;
 };

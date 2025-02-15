@@ -8,13 +8,12 @@ import {
 import { Control, Controller } from "react-hook-form";
 import { TEAM_TYPE } from "@/constants/teamType";
 import { NewRoundForm } from "@/pageComponents/round";
-import { Language } from "@/app/i18n/settings";
-import { useTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 
-function StepOne(props: { control: Control<NewRoundForm>; lng: Language }) {
-    const { control, lng } = props;
+function StepOne(props: { control: Control<NewRoundForm> }) {
+    const { control } = props;
 
-    const { t } = useTranslation(lng, "scoreboardCurrentPage");
+    const t = useTranslations("scoreboardCurrentPage");
 
     return (
         <Controller

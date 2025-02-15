@@ -1,7 +1,5 @@
-import { UUID } from "crypto";
-
 export type DomainBaseModel = {
-    createdAt: string;
-    updatedAt: string;
-    id: UUID;
+    created_at: Date;
+    updated_at: Date;
+    id: string;
 };

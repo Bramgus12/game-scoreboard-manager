@@ -1,16 +1,13 @@
 import ScoreboardItem from "@/pageComponents/root/scoreboardItem";
-import { getScoreboards } from "@/app/[lng]/actions";
-import { Language } from "@/app/i18n/settings";
 import { Button, Grid2 } from "@mui/material";
-import { translation } from "@/app/i18n";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { getScoreboardsForUser } from "@/actions/scoreboardActions";
 
-export default async function ScoreboardList(props: { lng: Language }) {
-    const { lng } = props;
+export default async function ScoreboardList() {
+    const t = await getTranslations("scoreboardHomePage");
 
-    const { t } = await translation(lng, "scoreboardHomePage");
-
-    const data = await getScoreboards();
+    const data = await getScoreboardsForUser();
 
     if (data.length === 0) {
         return (
@@ -25,7 +22,7 @@ export default async function ScoreboardList(props: { lng: Language }) {
                 <Grid2>
                     <Button
                         component={Link}
-                        href={`/${lng}/scoreboard`}
+                        href={`/scoreboard`}
                         variant="contained"
                     >
                         {t("createGame")}
@@ -41,12 +38,6 @@ export default async function ScoreboardList(props: { lng: Language }) {
                 scoreboard2.createdAt.valueOf() - scoreboard1.createdAt.valueOf(),
         )
         .map((scoreboard) => {
-            return (
-                <ScoreboardItem
-                    scoreboard={scoreboard}
-                    key={scoreboard.id}
-                    lng={lng}
-                />
-            );
+            return <ScoreboardItem scoreboard={scoreboard} key={scoreboard.id} />;
         });
 }

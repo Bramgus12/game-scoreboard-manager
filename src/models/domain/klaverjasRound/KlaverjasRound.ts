@@ -1,12 +1,11 @@
 import { DomainBaseModel } from "../BaseModel";
-import { UUID } from "crypto";
 
 export type DomainKlaverjasRound = DomainBaseModel & {
-    roundNumber: number;
+    round_number: number;
     points: number;
     fame: number;
-    isPit: boolean;
-    isWet: boolean;
-    isGoing: boolean;
-    klaverjasTeam: UUID;
+    is_pit: boolean;
+    is_wet: boolean;
+    is_going: boolean;
+    klaverjas_team_id: string;
 };

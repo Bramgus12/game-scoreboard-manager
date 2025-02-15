@@ -3,15 +3,13 @@ import { MergedRound } from "@/pageComponents/klaverjasGame/KlaverjasTable/inter
 import PointsCell from "@/pageComponents/klaverjasGame/KlaverjasTable/components/RoundRow/PointsCell";
 import RoundMenu from "@/pageComponents/klaverjasGame/KlaverjasTable/components/RoundRow/Menu";
 import { UUID } from "crypto";
-import { Language } from "@/app/i18n/settings";
 
 export default function RoundRow(props: {
     scoreboardId: UUID;
     round: MergedRound;
     isLastRound: boolean;
-    lng: Language;
 }) {
-    const { round, isLastRound, scoreboardId, lng } = props;
+    const { round, isLastRound, scoreboardId } = props;
 
     return (
         <TableRow key={round.roundNumber}>
@@ -26,7 +24,6 @@ export default function RoundRow(props: {
             </TableCell>
             <TableCell sx={{ padding: 1 }}>
                 <RoundMenu
-                    lng={lng}
                     isLastRound={isLastRound}
                     round={round}
                     scoreboardId={scoreboardId}

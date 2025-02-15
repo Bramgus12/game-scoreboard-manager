@@ -4,11 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "postinstall": "prisma generate",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/localizations": "^3.10.6",
+    "@clerk/nextjs": "^6.11.0",
+    "@clerk/themes": "^2.2.18",
     "@emotion/cache": "^11.13.1",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
@@ -16,32 +20,35 @@
     "@mui/icons-material": "^6.1.6",
     "@mui/material": "^6.1.6",
     "@mui/material-nextjs": "^6.1.6",
+    "@prisma/client": "^6.3.1",
     "@supabase/ssr": "^0.5.1",
     "@supabase/supabase-js": "^2.46.1",
     "@tanstack/react-query": "^5.59.19",
     "@tanstack/react-query-devtools": "^5.59.19",
     "@tanstack/react-table": "^8.20.6",
     "accept-language": "^3.0.20",
-    "axios": "^1.7.7",
+    "axios": "1.7.8",
     "i18next": "^23.16.5",
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-resources-to-backend": "^1.2.1",
-    "next": "15.0.2",
+    "next": "15.1.6",
+    "next-intl": "^3.26.3",
     "nextjs-toploader": "^3.7.15",
     "react": "19.0.0",
     "react-cookie": "^7.2.2",
     "react-dom": "19.0.0",
     "react-hook-form": "^7.53.1",
     "react-i18next": "^15.1.1",
-    "zod": "^3.24.1"
+    "zod": "^3.24.1",
+    "prisma": "^6.3.1"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.47.0",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "19.0.8",
+    "@types/react-dom": "19.0.3",
     "eslint": "^8",
-    "eslint-config-next": "15.0.2",
+    "eslint-config-next": "15.1.6",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
@@ -54,5 +61,9 @@
     "typescript": "^5",
     "typescript-eslint": "^8.0.1"
   },
-  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610",
+  "resolutions": {
+    "@types/react": "19.0.8",
+    "@types/react-dom": "19.0.3"
+  }
 }

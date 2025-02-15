@@ -1,31 +1,25 @@
 import { UUID } from "crypto";
-import { Language } from "@/app/i18n/settings";
-import { apiRoutes } from "@/utils/api/useAPI";
 import { GAME_TYPE } from "@/constants/gameType";
 import KlaverjasGame from "@/pageComponents/klaverjasGame";
 import BoerenbridgeGame from "@/pageComponents/boerenbridgeGame";
 import { redirect } from "next/navigation";
+import { getScoreboardById } from "@/actions/scoreboardActions";
 
 type Props = {
     id: UUID;
-    lng: Language;
 };
 
 export default async function ScoreboardId(props: Props) {
-    const { lng, id } = props;
-
-    const {
-        scoreboard: { getById: getScoreboardById },
-    } = apiRoutes;
+    const { id } = props;
 
     const scoreboard = await getScoreboardById(id);
 
     switch (scoreboard.gameType) {
         case GAME_TYPE.KLAVERJAS:
-            return <KlaverjasGame id={scoreboard.id} lng={lng} />;
+            return <KlaverjasGame id={scoreboard.id} />;
         case GAME_TYPE.BOERENBRIDGE:
-            return <BoerenbridgeGame id={scoreboard.id} lng={lng} />;
+            return <BoerenbridgeGame id={scoreboard.id} />;
         default:
-            redirect(`/${lng}`);
+            redirect(`/`);
     }
 }

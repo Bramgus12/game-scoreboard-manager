@@ -3,8 +3,6 @@
 import {
     AddRounded,
     LanguageRounded,
-    LogoutRounded,
-    ManageAccountsRounded,
     MenuOutlined,
     MenuRounded,
     ScoreboardRounded,
@@ -22,37 +20,39 @@ import {
     useTheme,
 } from "@mui/material";
 import { useState } from "react";
-import { signOutAction } from "@/app/[lng]/actions";
-import { Language } from "@/app/i18n/settings";
-import { useTranslation } from "@/app/i18n/client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { usePathname, useRouter } from "@/i18n/routing";
+import { useParams } from "next/navigation";
+import { UserButton } from "@clerk/nextjs";
 
-export default function Header(props: { lng: Language }) {
-    const { lng } = props;
-
-    const { t } = useTranslation(lng, "header");
+export default function Header() {
+    const t = useTranslations("header");
 
     const theme = useTheme();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
     const mdDown = useMediaQuery(theme.breakpoints.down("md"));
+
+    const pathname = usePathname();
+    const params = useParams();
+    const locale = useLocale();
 
     const router = useRouter();
 
-    function changeLanguage() {
-        if (lng === "en") {
-            router.push("/nl");
-        }
-
-        router.push("/en");
+    function handleLocaleChange() {
+        router.replace(
+            // @ts-expect-error -- TypeScript will validate that only known `params` are used in combination with a given `pathname`.
+            // Since the two will always match for the current route, we can skip runtime checks.
+            { pathname, params },
+            { locale: locale === "en" ? "nl" : "en" },
+        );
     }
 
     if (mdDown) {
         return (
             <Grid2 container alignItems="center" padding={2} spacing={2}>
-                <Grid2 height={30} size="grow" component={Link} href={`/${lng}`}>
+                <Grid2 height={30} size="grow" component={Link} href={`/`}>
                     <ScoreboardRounded
                         color="primary"
                         sx={{ height: 30, width: 30 }}
@@ -74,7 +74,7 @@ export default function Header(props: { lng: Language }) {
                                 setAnchorEl(null);
                             }}
                             component={Link}
-                            href={`/${lng}/scoreboard`}
+                            href={`/scoreboard`}
                         >
                             <Stack spacing={1} direction="row" alignItems="center">
                                 <AddRounded
@@ -89,20 +89,7 @@ export default function Header(props: { lng: Language }) {
                                 </Typography>
                             </Stack>
                         </MenuItem>
-                        <MenuItem onClick={signOutAction}>
-                            <Stack spacing={1} direction="row" alignItems="center">
-                                <LogoutRounded
-                                    sx={{
-                                        height: 20,
-                                        width: 20,
-                                    }}
-                                />
-                                <Typography variant="body2">
-                                    {t("signOut")}
-                                </Typography>
-                            </Stack>
-                        </MenuItem>
-                        <MenuItem onClick={changeLanguage}>
+                        <MenuItem onClick={handleLocaleChange}>
                             <Stack spacing={1} direction="row" alignItems="center">
                                 <LanguageRounded
                                     sx={{
@@ -111,24 +98,16 @@ export default function Header(props: { lng: Language }) {
                                     }}
                                 />
                                 <Typography variant="body2">
-                                    {t("language")}
-                                </Typography>
-                            </Stack>
-                        </MenuItem>
-                        <MenuItem component={Link} href={`/${lng}/user`}>
-                            <Stack spacing={1} direction="row" alignItems="center">
-                                <ManageAccountsRounded
-                                    sx={{
-                                        height: 20,
-                                        width: 20,
-                                    }}
-                                />
-                                <Typography variant="body2">
-                                    Manage account
+                                    {locale === "en"
+                                        ? "Nederlands 🇳🇱"
+                                        : "English 🇬🇧"}
                                 </Typography>
                             </Stack>
                         </MenuItem>
                     </Menu>
+                </Grid2>
+                <Grid2>
+                    <UserButton />
                 </Grid2>
             </Grid2>
         );
@@ -136,7 +115,7 @@ export default function Header(props: { lng: Language }) {
 
     return (
         <Grid2 container alignItems="center" padding={2} spacing={2}>
-            <Grid2 height={30} component={Link} href={`/${lng}`}>
+            <Grid2 height={30} component={Link} href={`/`}>
                 <ScoreboardRounded color="primary" sx={{ height: 30, width: 30 }} />
             </Grid2>
             <Grid2 size="grow">
@@ -156,7 +135,7 @@ export default function Header(props: { lng: Language }) {
                     <Button
                         variant="contained"
                         component={Link}
-                        href={`/${lng}/scoreboard`}
+                        href={`/scoreboard`}
                         startIcon={<AddRounded />}
                     >
                         {t("createNewScoreboard")}
@@ -173,23 +152,7 @@ export default function Header(props: { lng: Language }) {
                         anchorEl={anchorEl}
                         onClose={() => setAnchorEl(null)}
                     >
-                        <MenuItem onClick={signOutAction}>
-                            <Stack spacing={1} direction="row" alignItems="center">
-                                <LogoutRounded
-                                    sx={{
-                                        height: 20,
-                                        width: 20,
-                                    }}
-                                />
-                                <Typography variant="body2">
-                                    {t("signOut")}
-                                </Typography>
-                            </Stack>
-                        </MenuItem>
-                        <MenuItem
-                            component={Link}
-                            href={lng === "en" ? "/nl" : "/en"}
-                        >
+                        <MenuItem onClick={handleLocaleChange}>
                             <Stack spacing={1} direction="row" alignItems="center">
                                 <LanguageRounded
                                     sx={{
@@ -198,25 +161,17 @@ export default function Header(props: { lng: Language }) {
                                     }}
                                 />
                                 <Typography variant="body2">
-                                    {lng === "en" ? "Nederlands 🇳🇱" : "English 🇬🇧"}
-                                </Typography>
-                            </Stack>
-                        </MenuItem>
-                        <MenuItem component={Link} href={`/${lng}/user`}>
-                            <Stack spacing={1} direction="row" alignItems="center">
-                                <ManageAccountsRounded
-                                    sx={{
-                                        height: 20,
-                                        width: 20,
-                                    }}
-                                />
-                                <Typography variant="body2">
-                                    {t("accountSettings")}
+                                    {locale === "en"
+                                        ? "Nederlands 🇳🇱"
+                                        : "English 🇬🇧"}
                                 </Typography>
                             </Stack>
                         </MenuItem>
                     </Menu>
                 </Grid2>
+            </Grid2>
+            <Grid2>
+                <UserButton />
             </Grid2>
         </Grid2>
     );

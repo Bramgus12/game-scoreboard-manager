@@ -13,9 +13,8 @@ import { AppCreateKlaverjasRound } from "@/models/app/klaverjasRound/CreateKlave
 import { UUID } from "crypto";
 import { AppTeamType } from "@/models/app/klaverjasTeam/TeamType";
 import { useRouter } from "next/navigation";
-import { createRound, updateRound } from "@/app/[lng]/scoreboard/[id]/actions";
-import { Language } from "@/app/i18n/settings";
-import { useTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
+import { createRound, updateRound } from "@/actions/klaverjasActions";
 
 export type NewRoundForm = {
     goingTeam: AppTeamType | null;
@@ -58,19 +57,20 @@ function getInitialFormState(round: MergedRound): NewRoundForm {
 }
 
 export default function Round({
-    lng,
     scoreboardId,
     teams,
     roundNumber,
     initialState,
 }: {
-    lng: Language;
     scoreboardId: UUID;
-    teams: AppKlaverjasTeam[];
+    teams: {
+        us: AppKlaverjasTeam;
+        them: AppKlaverjasTeam;
+    };
     roundNumber: number;
     initialState?: MergedRound;
 }) {
-    const { t } = useTranslation(lng, "scoreboardCurrentPage");
+    const t = useTranslations("scoreboardCurrentPage");
 
     const router = useRouter();
 
@@ -84,15 +84,9 @@ export default function Round({
     });
 
     const steps = [
-        <StepOne key={0} control={control} lng={lng} />,
-        <StepTwo key={1} control={control} lng={lng} />,
-        <StepThree
-            key={2}
-            control={control}
-            watch={watch}
-            setValue={setValue}
-            lng={lng}
-        />,
+        <StepOne key={0} control={control} />,
+        <StepTwo key={1} control={control} />,
+        <StepThree key={2} control={control} watch={watch} setValue={setValue} />,
     ];
 
     async function saveRound(round: NewRoundForm) {
@@ -118,24 +112,24 @@ export default function Round({
         };
 
         if (initialState != null) {
-            await updateRound(scoreboardId, teams[0].id, {
+            await updateRound(teams.us.id, {
                 ...klaverjasRoundTeamUs,
                 id: initialState.team1.id,
             });
-            await updateRound(scoreboardId, teams[1].id, {
+            await updateRound(teams.them.id, {
                 ...klaverjasRoundTeamThem,
                 id: initialState.team2.id,
             });
 
-            router.push(`/${lng}/scoreboard/${scoreboardId}`);
+            router.push(`/scoreboard/${scoreboardId}`);
 
             return;
         }
 
-        await createRound(scoreboardId, teams[0].id, klaverjasRoundTeamUs);
-        await createRound(scoreboardId, teams[1].id, klaverjasRoundTeamThem);
+        await createRound(teams.us.id, klaverjasRoundTeamUs);
+        await createRound(teams.them.id, klaverjasRoundTeamThem);
 
-        router.push(`/${lng}/scoreboard/${scoreboardId}`);
+        router.push(`/scoreboard/${scoreboardId}`);
     }
 
     return (

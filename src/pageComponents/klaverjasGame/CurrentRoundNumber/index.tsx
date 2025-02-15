@@ -1,19 +1,12 @@
 import { Paper, Typography } from "@mui/material";
 import { UUID } from "crypto";
-import { getRoundNumber } from "@/app/[lng]/scoreboard/[id]/actions";
-import { Language } from "@/app/i18n/settings";
-import { translation } from "@/app/i18n";
+import { getTranslations } from "next-intl/server";
+import { getRoundNumber } from "@/actions/klaverjasActions";
 
-export default async function CurrentRoundNumber({
-    id,
-    lng,
-}: {
-    id: UUID;
-    lng: Language;
-}) {
+export default async function CurrentRoundNumber({ id }: { id: UUID }) {
     const data = await getRoundNumber(id);
 
-    const { t } = await translation(lng, "scoreboardCurrentPage");
+    const t = await getTranslations("scoreboardCurrentPage");
 
     return (
         <Paper>

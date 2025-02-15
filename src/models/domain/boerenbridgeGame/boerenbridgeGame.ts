@@ -1,6 +1,6 @@
 import { DomainBaseModel } from "@/models/domain/BaseModel";
 
 export type DomainBoerenbridgeGame = DomainBaseModel & {
-    pointsPerCorrectGuess: number;
-    currentRound: number;
+    points_per_correct_guess: number;
+    current_round: number;
 };

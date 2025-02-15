@@ -1,13 +1,12 @@
 import { Paper, Typography } from "@mui/material";
 import { UUID } from "crypto";
-import { getTotals } from "@/app/[lng]/scoreboard/[id]/actions";
-import { Language } from "@/app/i18n/settings";
-import { translation } from "@/app/i18n";
+import { getTranslations } from "next-intl/server";
+import { getTotals } from "@/actions/klaverjasActions";
 
-export default async function Totals({ id, lng }: { id: UUID; lng: Language }) {
+export default async function Totals({ id }: { id: UUID }) {
     const data = await getTotals(id);
 
-    const { t } = await translation(lng, "scoreboardCurrentPage");
+    const t = await getTranslations("scoreboardCurrentPage");
 
     return (
         <Paper>

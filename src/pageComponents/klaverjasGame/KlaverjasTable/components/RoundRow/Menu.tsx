@@ -7,21 +7,19 @@ import { useState } from "react";
 import Link from "next/link";
 import { UUID } from "crypto";
 import DeleteRoundDialog from "@/pageComponents/klaverjasGame/DeleteRoundDialog";
-import { deleteRound } from "@/app/[lng]/scoreboard/[id]/actions";
-import { Language } from "@/app/i18n/settings";
-import { useTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
+import { deleteRound } from "@/actions/klaverjasActions";
 
 type Props = {
     scoreboardId: UUID;
     isLastRound: boolean;
     round: MergedRound;
-    lng: Language;
 };
 
-export default function RoundMenu({ lng, scoreboardId, isLastRound, round }: Props) {
+export default function RoundMenu({ scoreboardId, isLastRound, round }: Props) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>();
 
-    const { t } = useTranslation(lng, "scoreboardCurrentPage");
+    const t = useTranslations("scoreboardCurrentPage");
 
     const [deleteDialogState, setDeleteDialogState] = useState<{
         isOpen: boolean;
@@ -46,8 +44,7 @@ export default function RoundMenu({ lng, scoreboardId, isLastRound, round }: Pro
     }
 
     function handleDeleteRound() {
-        void deleteRound(scoreboardId, round.team1.klaverjasTeam, round.team1.id);
-        void deleteRound(scoreboardId, round.team2.klaverjasTeam, round.team2.id);
+        void deleteRound(scoreboardId, round.roundNumber);
 
         handleCloseDialog();
         setAnchorEl(null);
@@ -68,7 +65,7 @@ export default function RoundMenu({ lng, scoreboardId, isLastRound, round }: Pro
             >
                 <MenuItem
                     component={Link}
-                    href={`/${lng}/scoreboard/${scoreboardId}/round/${round.roundNumber}`}
+                    href={`/scoreboard/${scoreboardId}/round/${round.roundNumber}`}
                 >
                     <Stack direction="row" gap={1} alignItems="center">
                         <EditRounded sx={{ height: 20, width: 20 }} />
@@ -90,7 +87,6 @@ export default function RoundMenu({ lng, scoreboardId, isLastRound, round }: Pro
                             </Stack>
                         </MenuItem>
                         <DeleteRoundDialog
-                            lng={lng}
                             open={deleteDialogState.isOpen}
                             onClose={handleCloseDialog}
                             onSubmit={handleDeleteRound}

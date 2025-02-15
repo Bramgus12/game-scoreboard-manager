@@ -9,23 +9,16 @@ import {
 import { AppScoreboard } from "@/models/app/scoreboard/Scoreboard";
 import Link from "next/link";
 import theme from "@/theme";
-import { useTranslation } from "@/app/i18n/client";
-import { Language } from "@/app/i18n/settings";
+import { useFormatter } from "next-intl";
 
-export default function ScoreboardItem(props: {
-    scoreboard: AppScoreboard;
-    lng: Language;
-}) {
-    const { scoreboard, lng } = props;
+export default function ScoreboardItem(props: { scoreboard: AppScoreboard }) {
+    const { scoreboard } = props;
 
-    const { t } = useTranslation(lng, "scoreboardHomePage");
+    const formatter = useFormatter();
 
-    const formattedDate = scoreboard.createdAt.toLocaleDateString("en-GB", {
-        dateStyle: "full",
-    });
-
-    const formattedTime = scoreboard.createdAt.toLocaleTimeString("en-GB", {
+    const formattedDateTime = formatter.dateTime(scoreboard.createdAt, {
         timeStyle: "short",
+        dateStyle: "full",
     });
 
     return (
@@ -40,7 +33,7 @@ export default function ScoreboardItem(props: {
                 color: theme.palette.text.primary,
             }}
             component={Link}
-            href={`/${lng}/scoreboard/${scoreboard.id}`}
+            href={`/scoreboard/${scoreboard.id}`}
         >
             <Grid2 container alignItems="center">
                 <Grid2 container spacing={2} alignItems="center" size="grow">
@@ -70,10 +63,7 @@ export default function ScoreboardItem(props: {
                         </Grid2>
                         <Grid2>
                             <Typography variant="caption">
-                                {t("dateTime", {
-                                    date: formattedDate,
-                                    time: formattedTime,
-                                })}
+                                {formattedDateTime}
                             </Typography>
                         </Grid2>
                     </Grid2>

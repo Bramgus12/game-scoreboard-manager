@@ -1,17 +1,14 @@
 "use client";
 
 import { Grid2, Step, StepLabel, Stepper } from "@mui/material";
-import { Language } from "@/app/i18n/settings";
 import { useState } from "react";
 import ChooseGameType from "@/pageComponents/chooseGameType";
 import { AppGameType } from "@/models/app/scoreboard/GameType";
 import ScoreboardDetails from "../ScoreboardDetails";
-import { useTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 
-export default function CreateScoreboard(props: { lng: Language }) {
-    const { lng } = props;
-
-    const { t } = useTranslation(lng, "scoreboardCreatePage");
+export default function CreateScoreboard() {
+    const t = useTranslations("scoreboardCreatePage");
 
     const [chosenGameType, setChosenGameType] = useState<AppGameType | null>(null);
 
@@ -31,9 +28,9 @@ export default function CreateScoreboard(props: { lng: Language }) {
             </Grid2>
             <Grid2>
                 {isGameTypeChosen ? (
-                    <ScoreboardDetails lng={lng} gameType={chosenGameType} />
+                    <ScoreboardDetails gameType={chosenGameType} />
                 ) : (
-                    <ChooseGameType onSubmit={setChosenGameType} lng={lng} />
+                    <ChooseGameType onSubmit={setChosenGameType} />
                 )}
             </Grid2>
         </Grid2>

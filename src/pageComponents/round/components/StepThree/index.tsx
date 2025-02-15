@@ -3,18 +3,16 @@ import { Control, Controller, UseFormSetValue, UseFormWatch } from "react-hook-f
 import { StarRounded, WaterDropRounded } from "@mui/icons-material";
 import { TEAM_TYPE } from "@/constants/teamType";
 import { NewRoundForm } from "@/pageComponents/round";
-import { Language } from "@/app/i18n/settings";
-import { useTranslation } from "@/app/i18n/client";
+import { useTranslations } from "next-intl";
 
 export default function StepThree(props: {
     control: Control<NewRoundForm>;
     watch: UseFormWatch<NewRoundForm>;
     setValue: UseFormSetValue<NewRoundForm>;
-    lng: Language;
 }) {
-    const { control, watch, setValue, lng } = props;
+    const { control, watch, setValue } = props;
 
-    const { t } = useTranslation(lng, "scoreboardCurrentPage");
+    const t = useTranslations("scoreboardCurrentPage");
 
     const { usPit, usWet, themPit, themWet, goingTeam } = watch();
 
