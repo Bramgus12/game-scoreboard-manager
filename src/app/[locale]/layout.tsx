@@ -12,6 +12,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { enUS, nlNL } from "@clerk/localizations";
+import { Analytics } from "@vercel/analytics/react";
 
 export function generateStaticParams() {
     return routing.locales.map((locale) => ({ locale }));
@@ -72,6 +73,7 @@ export default async function RootLayout({
                     <NextIntlClientProvider messages={messages}>
                         <AppRouterCacheProvider>
                             <ThemeProvider theme={theme}>
+                                <Analytics />
                                 <CssBaseline />
                                 <NextTopLoader color="#00ff00" showSpinner={false} />
                                 {children}
