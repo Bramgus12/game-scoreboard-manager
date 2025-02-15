@@ -36,6 +36,7 @@ export default function ChooseGameType(props: Props) {
                 {gameTypes.map((gameType) => (
                     <Grid2 key={gameType}>
                         <GameTypeTile
+                            disabled={gameType === GAME_TYPE.BOERENBRIDGE}
                             gameType={gameType}
                             selected={gameType === selectedGameType}
                             onClick={() => handleGameTypeClick(gameType)}

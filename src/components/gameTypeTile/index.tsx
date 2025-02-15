@@ -9,13 +9,15 @@ type Props = {
     gameType: AppGameType;
     onClick?: () => void;
     selected?: boolean;
+    disabled?: boolean;
 };
 
 export default function GameTypeTile(props: Props) {
-    const { selected = false, onClick, gameType } = props;
+    const { selected = false, onClick, gameType, disabled = false } = props;
 
     return (
         <Button
+            disabled={disabled}
             sx={(theme) => ({
                 border: `1px solid ${theme.palette.primary.main}`,
                 color: theme.palette.text.primary,
