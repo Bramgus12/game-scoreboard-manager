@@ -5,7 +5,6 @@ import {
     LanguageRounded,
     MenuOutlined,
     MenuRounded,
-    ScoreboardRounded,
 } from "@mui/icons-material";
 import {
     Button,
@@ -25,6 +24,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
+import PlayingCardsIcon from "@/components/icons/PlayingCardsIcon";
 
 export default function Header() {
     const t = useTranslations("header");
@@ -53,7 +53,7 @@ export default function Header() {
         return (
             <Grid2 container alignItems="center" padding={2} spacing={2}>
                 <Grid2 height={30} size="grow" component={Link} href={`/`}>
-                    <ScoreboardRounded
+                    <PlayingCardsIcon
                         color="primary"
                         sx={{ height: 30, width: 30 }}
                     />
@@ -116,7 +116,13 @@ export default function Header() {
     return (
         <Grid2 container alignItems="center" padding={2} spacing={2}>
             <Grid2 height={30} component={Link} href={`/`}>
-                <ScoreboardRounded color="primary" sx={{ height: 30, width: 30 }} />
+                <PlayingCardsIcon
+                    color="primary"
+                    sx={{
+                        height: 30,
+                        width: 30,
+                    }}
+                />
             </Grid2>
             <Grid2 size="grow">
                 <MuiLink
