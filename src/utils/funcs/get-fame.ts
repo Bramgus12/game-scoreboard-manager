@@ -1,4 +1,4 @@
-import { MergedRound } from "@/pageComponents/klaverjasGame/KlaverjasTable/interfaces";
+import { MergedRound } from "@/models/app/klaverjas-round/merged-round";
 
 export function getFame(round: MergedRound, team: "team1" | "team2") {
     const thisTeam = round[team];
