@@ -1,0 +1,12 @@
+import { AppBaseModel } from "../base-model";
+import { UUID } from "crypto";
+
+export type AppKlaverjasRound = AppBaseModel & {
+    roundNumber: number;
+    points: number;
+    fame: number;
+    isPit: boolean;
+    isWet: boolean;
+    klaverjasTeam: UUID;
+    isGoing: boolean;
+};

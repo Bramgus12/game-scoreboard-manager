@@ -1,0 +1,67 @@
+{
+  "hello": "Hallo",
+  "themeSwitch": {
+    "title": "Kies thema",
+    "light": "Licht",
+    "dark": "Donker",
+    "system": "Systeem"
+  },
+  "gamesTable": {
+    "yourGames": "Jouw spellen",
+    "numberOfTotalGames": "Totaal {count} spellen",
+    "noGames": "Je hebt nog geen spellen.",
+    "klaverjas": "Klaverjas",
+    "boerenbridge": "Boerenbridge",
+    "created": "{value} gemaakt",
+    "updated": "{value} bijgewerkt",
+    "createGame": "Maak een spel aan om te starten.",
+    "createGameButton": "Spel maken",
+    "deleteButton": "Verwijder {value}",
+    "deleteDialog": {
+      "title": "Weet je het zeker?",
+      "description": "Weet je zeker dat je dit spel wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+      "confirmButton": "Verwijderen",
+      "cancelButton": "Annuleren"
+    },
+    "createGameDialog": {
+      "title": "Maak een nieuw spel",
+      "description": "Maak een nieuw scoreboard om te starten met het bijhouden van je scores.",
+      "gameNameLabel": "Spelnaam",
+      "gameNamePlaceholder": "Gezellig spel met de familie",
+      "gameTypeLabel": "Speltype",
+      "gameTypePlaceholder": "Selecteer een speltype",
+      "klaverjas": "Klaverjas",
+      "boerenbridge": "Boerenbridge",
+      "gameTypeDescription": "Selecteer het type spel waar je scores van wil bijhouden.",
+      "confirmButton": "Spel maken"
+    }
+  },
+  "klaverjas": {
+    "createGameDialog": {
+      "title": "Maak een nieuw Klaverjas spel",
+      "description": "Vul de namen van je teams in.",
+      "confirmButton": "Start spel",
+      "teamUsLabel": "Onze team naam",
+      "teamThemLabel": "Hun team naam",
+      "teamUsPlaceholder": "Ons team",
+      "teamThemPlaceholder": "Hun team"
+    },
+    "table": {
+      "teamUs": "Wij",
+      "teamThem": "Zij",
+      "total": "Totaal"
+    },
+    "createRoundDialog": {
+      "loadingButton": "Laden...",
+      "newRound": "Nieuwe ronde",
+      "title": "Nieuwe ronde toevoegen",
+      "description": "Vul alle informatie in voor deze rond. Zorg ervoor dat je de roem invult zoals het in de ronde wordt gescoord. Er wordt rekening gehouden met een roemwissel als je op \"Nat\" klikt.",
+      "isGoingSelectLabel": "Kies wie er gaat deze ronde",
+      "fameScoredByLabel": "Roem gescoord door {value}",
+      "pointsScoredByLabel": "Punten gescoord door {value}",
+      "wet": "Nat",
+      "pit": "Pit",
+      "confirmButton": "Ronde toevoegen"
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "hello": "Hello",
+  "themeSwitch": {
+    "title": "Theme switch",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "gamesTable": {
+    "yourGames": "Your Games",
+    "numberOfTotalGames": "{count} total games",
+    "noGames": "You have no games yet.",
+    "klaverjas": "Klaverjas",
+    "boerenbridge": "Boerenbridge",
+    "created": "Created {value}",
+    "updated": "Updated {value}",
+    "createGame": "Create a game to get started.",
+    "createGameButton": "Create Game",
+    "deleteButton": "Delete {value}",
+    "deleteDialog": {
+      "title": "Are you sure?",
+      "description": "Are you sure you want to delete this game. This cannot be undone.",
+      "confirmButton": "Delete",
+      "cancelButton": "Cancel"
+    },
+    "createGameDialog": {
+      "title": "Create new game",
+      "description": "Create a new scoreboard to start tracking scores for your game.",
+      "gameNameLabel": "Game Name",
+      "gameNamePlaceholder": "Fun game with family",
+      "gameTypeLabel": "Game Type",
+      "gameTypePlaceholder": "Select a game type",
+      "klaverjas": "Klaverjas",
+      "boerenbridge": "Boerenbridge",
+      "gameTypeDescription": "Select the type of game you want to keep scores of.",
+      "confirmButton": "Create Game"
+    }
+  },
+  "klaverjas": {
+    "createGameDialog": {
+      "title": "Create new Klaverjas game",
+      "description": "Fill in the names for your teams.",
+      "confirmButton": "Start Game",
+      "teamUsLabel": "Our team name",
+      "teamThemLabel": "Their team name",
+      "teamUsPlaceholder": "Our team",
+      "teamThemPlaceholder": "Their team"
+    },
+    "table": {
+      "teamUs": "Our team",
+      "teamThem": "Their team",
+      "total": "Total"
+    },
+    "createRoundDialog": {
+      "loadingButton": "Loading...",
+      "newRound": "New round",
+      "title": "Add new round",
+      "description": "Fill in all the information for this round. Make sure to fill in the fame as it is scored in the round. A fame switch will be taken into account when you click on \"Wet\".",
+      "isGoingSelectLabel": "Choose who is going this round",
+      "fameScoredByLabel": "Fame scored by {value}",
+      "pointsScoredByLabel": "Points scored by {value}",
+      "wet": "Wet",
+      "pit": "Pit",
+      "confirmButton": "Add Round"
+    }
+  }
+}
