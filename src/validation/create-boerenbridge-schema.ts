@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const validationScheme = z.object({
+export const validationScheme = z.object({
     scoreboardName: z.string().nonempty(),
     pointsPerCorrectGuess: z.coerce
         .number({ message: "Value must be a number" })
