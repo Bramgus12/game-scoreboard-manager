@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://db-pg.bram:5432/game-scoreboard-manager</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="postgres@db.prisma.io" uuid="8635a198-c1c1-421a-a915-b276ad5086fe">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://db.prisma.io/postgres</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

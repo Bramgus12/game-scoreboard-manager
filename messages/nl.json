@@ -36,6 +36,10 @@
       "confirmButton": "Spel maken"
     }
   },
+  "scoreboard": {
+    "gameNotFound": "Spel niet gevonden. Probeer het later opnieuw.",
+    "backToGames": "Terug naar alle spellen"
+  },
   "klaverjas": {
     "createGameDialog": {
       "title": "Maak een nieuw Klaverjas spel",

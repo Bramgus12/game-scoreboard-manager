@@ -37,6 +37,8 @@ import { createRound, getRoundNumber } from "@/actions/klaverjas-actions";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Asterisk, Droplets, Sparkles } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import QUERY_KEY from "@/constants/query-key";
 
 const createRoundSchema = z
     .object({
@@ -101,6 +103,8 @@ type Props = {
 
 export default function CreateRoundDialog(props: Props) {
     const { scoreboardId } = props;
+
+    const queryClient = useQueryClient();
 
     const t = useTranslations("klaverjas.createRoundDialog");
 
@@ -182,6 +186,14 @@ export default function CreateRoundDialog(props: Props) {
 
         await createRound(teams.us.id, ourRound);
         await createRound(teams.them.id, theirRound);
+
+        void queryClient.invalidateQueries({
+            queryKey: [QUERY_KEY.KLAVERJAS_ROUNDS_FOR_SCOREBOARD],
+        });
+
+        void queryClient.invalidateQueries({
+            queryKey: [QUERY_KEY.KLAVERJAS_TOTALS_FOR_SCOREBOARD],
+        });
 
         handleClose();
     }

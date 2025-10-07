@@ -36,6 +36,10 @@
       "confirmButton": "Create Game"
     }
   },
+  "scoreboard": {
+    "gameNotFound": "Game not found. Try again later.",
+    "backToGames": "Back to all games"
+  },
   "klaverjas": {
     "createGameDialog": {
       "title": "Create new Klaverjas game",

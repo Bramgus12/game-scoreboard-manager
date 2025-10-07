@@ -16,7 +16,7 @@ import { CreateKlaverjasGameDialog } from "@/page-components/scoreboard/klaverja
 import CreateRoundDialog from "@/page-components/scoreboard/klaverjas/create-round-dialog";
 import useKlaverjasRoundsForScoreboardQuery from "@/queries/use-klaverjas-rounds-for-scoreboard-query";
 import useKlaverjasTotalsForScoreboardQuery from "@/queries/use-klaverjas-totals-for-scoreboard-query";
-import { Asterisk, Droplets, Sparkles } from "lucide-react";
+import { Asterisk, Droplets, Loader2Icon, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 type Props = {
@@ -44,12 +44,14 @@ export default function KlaverjasTable(props: Props) {
         data: rounds,
         isPending: isRoundsPending,
         isError: isRoundsError,
+        isRefetching: isRoundsRefetching,
     } = useKlaverjasRoundsForScoreboardQuery(scoreboardId);
 
     const {
         data: totals,
         isPending: isTotalsPending,
         isError: isTotalsError,
+        isRefetching: isTotalsRefetching,
     } = useKlaverjasTotalsForScoreboardQuery(scoreboardId);
 
     if (
@@ -70,7 +72,12 @@ export default function KlaverjasTable(props: Props) {
             <div className="flex justify-center py-10">
                 <div className="container m-4 flex flex-col gap-4">
                     <div className="flex items-center justify-between rounded-lg border border-b-gray-400 bg-gray-200 p-4 text-2xl dark:border-b-gray-700 dark:bg-gray-900">
-                        {scoreboard?.scoreboardName}
+                        <div className="flex items-center gap-4">
+                            {scoreboard?.scoreboardName}
+                            {isRoundsRefetching || isTotalsRefetching ? (
+                                <Loader2Icon className="animate-spin" />
+                            ) : null}
+                        </div>
                         <CreateRoundDialog scoreboardId={scoreboardId} />
                     </div>
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start">

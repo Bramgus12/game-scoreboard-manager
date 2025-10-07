@@ -2,6 +2,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import { getScoreboardByIdQueryOptions } from "@/queries/use-scoreboard-by-id-query";
 import { UUID } from "crypto";
 import Scoreboard from "@/page-components/scoreboard";
+import { notFound } from "next/navigation";
 
 type Props = {
     params: Promise<{ id: UUID }>;
@@ -13,7 +14,11 @@ export default async function ScoreboardPage(props: Props) {
 
     const queryClient = new QueryClient();
 
-    await queryClient.prefetchQuery(getScoreboardByIdQueryOptions(id));
+    try {
+        await queryClient.fetchQuery(getScoreboardByIdQueryOptions(id));
+    } catch {
+        notFound();
+    }
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
