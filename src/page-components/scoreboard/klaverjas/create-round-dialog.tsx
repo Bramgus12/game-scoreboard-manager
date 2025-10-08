@@ -33,12 +33,19 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AppCreateKlaverjasRound } from "@/models/app/klaverjas-round/create-klaverjas-round";
-import { createRound, getRoundNumber } from "@/actions/klaverjas-actions";
-import { useState } from "react";
+import {
+    createRound,
+    getRoundNumber,
+    updateRound,
+} from "@/actions/klaverjas-actions";
+import { useState, useEffect, useCallback } from "react";
 import { useTranslations } from "next-intl";
-import { Asterisk, Droplets, Sparkles } from "lucide-react";
+import { Asterisk, Droplets, Loader2Icon, Sparkles } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import QUERY_KEY from "@/constants/query-key";
+import { MergedRound } from "@/models/app/klaverjas-round/merged-round";
+import { AppUpdateKlaverjasRound } from "@/models/app/klaverjas-round/update-klaverjas-round";
+import { getFame } from "@/utils/funcs/get-fame";
 
 const createRoundSchema = z
     .object({
@@ -99,10 +106,13 @@ type CreateRoundForm = z.output<typeof createRoundSchema>;
 
 type Props = {
     scoreboardId: UUID;
+    editRound?: MergedRound;
+    isEditMode?: boolean;
+    onOpenChange?: (open: boolean) => void;
 };
 
 export default function CreateRoundDialog(props: Props) {
-    const { scoreboardId } = props;
+    const { scoreboardId, editRound, isEditMode = false, onOpenChange } = props;
 
     const queryClient = useQueryClient();
 
@@ -110,12 +120,44 @@ export default function CreateRoundDialog(props: Props) {
 
     const { data: teams, isPending, isError } = useKlaverjasTeamsQuery(scoreboardId);
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(isEditMode);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const form = useForm<CreateRoundForm>({
-        mode: "onChange",
-        resolver: zodResolver(createRoundSchema),
-        defaultValues: {
+    // Effect to handle external open state control for edit mode
+    useEffect(() => {
+        if (isEditMode) {
+            setOpen(true);
+        }
+    }, [isEditMode]);
+
+    // Helper function to get default values for edit mode
+    const getDefaultValues = useCallback((): CreateRoundForm => {
+        if (isEditMode && editRound && teams) {
+            // Determine which team is going
+            const isGoingTeamId = editRound.team1.isGoing
+                ? teams.us.id
+                : editRound.team2.isGoing
+                  ? teams.them.id
+                  : undefined;
+
+            return {
+                isGoingTeam: isGoingTeamId,
+                us: {
+                    points: editRound.team1.points,
+                    fame: editRound.team1.fame,
+                    isWet: editRound.team1.isWet,
+                    isPit: editRound.team1.isPit,
+                },
+                them: {
+                    points: editRound.team2.points,
+                    fame: editRound.team2.fame,
+                    isWet: editRound.team2.isWet,
+                    isPit: editRound.team2.isPit,
+                },
+            };
+        }
+
+        return {
             isGoingTeam: undefined,
             us: {
                 points: null,
@@ -129,8 +171,21 @@ export default function CreateRoundDialog(props: Props) {
                 isWet: false,
                 isPit: false,
             },
-        },
+        };
+    }, [isEditMode, editRound, teams]);
+
+    const form = useForm<CreateRoundForm>({
+        mode: "onChange",
+        resolver: zodResolver(createRoundSchema),
+        defaultValues: getDefaultValues(),
     });
+
+    // Reset form when teams data loads or editRound changes
+    useEffect(() => {
+        if (teams && (isEditMode ? editRound : true)) {
+            form.reset(getDefaultValues());
+        }
+    }, [teams, editRound, isEditMode, form, getDefaultValues]);
 
     const [isGoingTeam, isUsWet, isUsPit, isThemWet, isThemPit] = useWatch({
         control: form.control,
@@ -140,11 +195,16 @@ export default function CreateRoundDialog(props: Props) {
     function handleClose() {
         form.reset();
         setOpen(false);
+        if (onOpenChange) {
+            onOpenChange(false);
+        }
     }
 
-    async function submitRound(data: CreateRoundForm) {
+    // Helper function to calculate fame values for both teams
+    function calculateFameValues(data: CreateRoundForm) {
         let ourFame = data.us.fame ?? 0;
         let theirFame = data.them.fame ?? 0;
+
         if (data.us.isWet) {
             ourFame = 0;
             theirFame += data.us.fame ?? 0;
@@ -160,33 +220,187 @@ export default function CreateRoundDialog(props: Props) {
             theirFame += 100;
         }
 
+        return { ourFame, theirFame };
+    }
+
+    // Helper function to handle server updates/creation
+    async function handleServerUpdate(
+        data: CreateRoundForm,
+        ourFame: number,
+        theirFame: number,
+    ) {
         if (teams == null || isGoingTeam == null) {
             return;
         }
 
-        const currentRoundNumber = await getRoundNumber(scoreboardId);
+        if (isEditMode && editRound) {
+            // Edit mode: update existing round
+            const ourRound: AppUpdateKlaverjasRound = {
+                id: editRound.team1.id,
+                roundNumber: editRound.roundNumber,
+                points: data.us.points ?? 0,
+                fame: ourFame,
+                isWet: data.us.isWet,
+                isPit: data.us.isPit,
+                isGoing: isGoingTeam === teams.us.id,
+            };
 
-        const ourRound: AppCreateKlaverjasRound = {
-            roundNumber: currentRoundNumber,
-            points: data.us.points ?? 0,
-            fame: ourFame,
-            isWet: data.us.isWet,
-            isPit: data.us.isPit,
-            isGoing: isGoingTeam === teams.us.id,
-        };
+            const theirRound: AppUpdateKlaverjasRound = {
+                id: editRound.team2.id,
+                roundNumber: editRound.roundNumber,
+                points: data.them.points ?? 0,
+                fame: theirFame,
+                isWet: data.them.isWet,
+                isPit: data.them.isPit,
+                isGoing: isGoingTeam === teams.them.id,
+            };
 
-        const theirRound: AppCreateKlaverjasRound = {
-            roundNumber: currentRoundNumber,
-            points: data.them.points ?? 0,
-            fame: theirFame,
-            isWet: data.them.isWet,
-            isPit: data.them.isPit,
-            isGoing: isGoingTeam === teams.them.id,
-        };
+            await updateRound(teams.us.id, ourRound);
+            await updateRound(teams.them.id, theirRound);
+        } else {
+            // Create mode: create new round
+            const currentRoundNumber = await getRoundNumber(scoreboardId);
 
-        await createRound(teams.us.id, ourRound);
-        await createRound(teams.them.id, theirRound);
+            const ourRound: AppCreateKlaverjasRound = {
+                roundNumber: currentRoundNumber,
+                points: data.us.points ?? 0,
+                fame: ourFame,
+                isWet: data.us.isWet,
+                isPit: data.us.isPit,
+                isGoing: isGoingTeam === teams.us.id,
+            };
 
+            const theirRound: AppCreateKlaverjasRound = {
+                roundNumber: currentRoundNumber,
+                points: data.them.points ?? 0,
+                fame: theirFame,
+                isWet: data.them.isWet,
+                isPit: data.them.isPit,
+                isGoing: isGoingTeam === teams.them.id,
+            };
+
+            await createRound(teams.us.id, ourRound);
+            await createRound(teams.them.id, theirRound);
+        }
+    }
+
+    // Helper function to update optimistic query data
+    function updateOptimisticData(
+        data: CreateRoundForm,
+        ourFame: number,
+        theirFame: number,
+    ) {
+        if (teams == null || isGoingTeam == null) {
+            return;
+        }
+
+        // Get current rounds data
+        const currentRounds =
+            queryClient.getQueryData<Array<MergedRound>>([
+                QUERY_KEY.KLAVERJAS_ROUNDS_FOR_SCOREBOARD,
+                { scoreboardId },
+            ]) || [];
+
+        let updatedRounds: Array<MergedRound>;
+
+        if (isEditMode && editRound) {
+            // Update existing round
+            updatedRounds = currentRounds.map((round) =>
+                round.roundNumber === editRound.roundNumber
+                    ? {
+                          ...round,
+                          team1: {
+                              ...round.team1,
+                              points: data.us.points ?? 0,
+                              fame: ourFame,
+                              isWet: data.us.isWet,
+                              isPit: data.us.isPit,
+                              isGoing: isGoingTeam === teams.us.id,
+                          },
+                          team2: {
+                              ...round.team2,
+                              points: data.them.points ?? 0,
+                              fame: theirFame,
+                              isWet: data.them.isWet,
+                              isPit: data.them.isPit,
+                              isGoing: isGoingTeam === teams.them.id,
+                          },
+                      }
+                    : round,
+            );
+        } else {
+            // Add new round
+            const newRoundNumber =
+                Math.max(...currentRounds.map((r) => r.roundNumber), 0) + 1;
+            const now = new Date();
+            const newRound: MergedRound = {
+                roundNumber: newRoundNumber,
+                team1: {
+                    id: teams.us.id,
+                    createdAt: now,
+                    updatedAt: now,
+                    roundNumber: newRoundNumber,
+                    points: data.us.points ?? 0,
+                    fame: ourFame,
+                    isWet: data.us.isWet,
+                    isPit: data.us.isPit,
+                    isGoing: isGoingTeam === teams.us.id,
+                    klaverjasTeam: teams.us.id,
+                },
+                team2: {
+                    id: teams.them.id,
+                    createdAt: now,
+                    updatedAt: now,
+                    roundNumber: newRoundNumber,
+                    points: data.them.points ?? 0,
+                    fame: theirFame,
+                    isWet: data.them.isWet,
+                    isPit: data.them.isPit,
+                    isGoing: isGoingTeam === teams.them.id,
+                    klaverjasTeam: teams.them.id,
+                },
+            };
+            updatedRounds = [...currentRounds, newRound].sort(
+                (a, b) => a.roundNumber - b.roundNumber,
+            );
+        }
+
+        // Calculate new totals using the same logic as the server
+        const newTotals = calculateTotalsFromRounds(updatedRounds);
+
+        console.log({ updatedRounds, newTotals });
+
+        // Set the optimistic data
+        queryClient.setQueryData(
+            [QUERY_KEY.KLAVERJAS_ROUNDS_FOR_SCOREBOARD, { scoreboardId }],
+            updatedRounds,
+        );
+
+        queryClient.setQueryData(
+            [QUERY_KEY.KLAVERJAS_TOTALS_FOR_SCOREBOARD, { scoreboardId }],
+            newTotals,
+        );
+    }
+
+    // Helper function to calculate totals from rounds
+    function calculateTotalsFromRounds(rounds: Array<MergedRound>) {
+        return rounds.reduce(
+            (acc, round) => {
+                // Use the getFame function to calculate fame correctly
+                const team1Fame = getFame(round, "team1");
+                const team2Fame = getFame(round, "team2");
+
+                return {
+                    us: acc.us + round.team1.points + team1Fame,
+                    them: acc.them + round.team2.points + team2Fame,
+                };
+            },
+            { us: 0, them: 0 },
+        );
+    }
+
+    // Helper function to invalidate queries
+    function invalidateQueries() {
         void queryClient.invalidateQueries({
             queryKey: [QUERY_KEY.KLAVERJAS_ROUNDS_FOR_SCOREBOARD],
         });
@@ -194,8 +408,28 @@ export default function CreateRoundDialog(props: Props) {
         void queryClient.invalidateQueries({
             queryKey: [QUERY_KEY.KLAVERJAS_TOTALS_FOR_SCOREBOARD],
         });
+    }
 
-        handleClose();
+    async function submitRound(data: CreateRoundForm) {
+        try {
+            setIsLoading(true);
+
+            // Calculate fame values
+            const { ourFame, theirFame } = calculateFameValues(data);
+
+            // Handle server update/creation
+            await handleServerUpdate(data, ourFame, theirFame);
+
+            // Update optimistic data
+            updateOptimisticData(data, ourFame, theirFame);
+
+            // Invalidate to ensure server sync
+            invalidateQueries();
+
+            handleClose();
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     if (isPending) {
@@ -212,23 +446,35 @@ export default function CreateRoundDialog(props: Props) {
 
     return (
         <>
-            <Button variant="default" onClick={() => setOpen(true)}>
-                {t("newRound")}
-            </Button>
+            {!isEditMode && (
+                <Button variant="default" onClick={() => setOpen(true)}>
+                    {t("newRound")}
+                </Button>
+            )}
             <Dialog
-                open={open}
+                open={isEditMode || open}
                 onOpenChange={(isOpen) => {
-                    if (isOpen) {
-                        setOpen(true);
+                    if (isEditMode) {
+                        if (onOpenChange) {
+                            onOpenChange(isOpen);
+                        }
                     } else {
-                        handleClose();
+                        if (isOpen) {
+                            setOpen(true);
+                        } else {
+                            handleClose();
+                        }
                     }
                 }}
             >
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                        <DialogTitle>{t("title")}</DialogTitle>
-                        <DialogDescription>{t("description")}</DialogDescription>
+                        <DialogTitle>
+                            {isEditMode ? t("editTitle") : t("title")}
+                        </DialogTitle>
+                        <DialogDescription>
+                            {isEditMode ? t("editDescription") : t("description")}
+                        </DialogDescription>
                     </DialogHeader>
                     <Form {...form}>
                         <form
@@ -631,8 +877,14 @@ export default function CreateRoundDialog(props: Props) {
                         </form>
                     </Form>
                     <DialogFooter>
-                        <Button onClick={form.handleSubmit(submitRound)}>
-                            {t("confirmButton")}
+                        <Button
+                            disabled={isLoading}
+                            onClick={form.handleSubmit(submitRound)}
+                        >
+                            {isLoading ? (
+                                <Loader2Icon className="animate-spin" />
+                            ) : null}
+                            {isEditMode ? t("updateButton") : t("confirmButton")}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

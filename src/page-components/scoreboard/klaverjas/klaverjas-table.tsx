@@ -13,11 +13,15 @@ import {
 } from "@/components/ui/table";
 import useKlaverjasTeamsQuery from "@/queries/use-klaverjas-teams-query";
 import { CreateKlaverjasGameDialog } from "@/page-components/scoreboard/klaverjas/create-klaverjas-game-dialog";
-import CreateRoundDialog from "@/page-components/scoreboard/klaverjas/create-round-dialog";
+import CreateRoundButton from "@/page-components/scoreboard/klaverjas/create-round-button";
+import RoundDialog from "@/page-components/scoreboard/klaverjas/round-dialog";
 import useKlaverjasRoundsForScoreboardQuery from "@/queries/use-klaverjas-rounds-for-scoreboard-query";
 import useKlaverjasTotalsForScoreboardQuery from "@/queries/use-klaverjas-totals-for-scoreboard-query";
-import { Asterisk, Droplets, Loader2Icon, Sparkles } from "lucide-react";
+import { Asterisk, Droplets, Loader2Icon, Sparkles, Edit } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { MergedRound } from "@/models/app/klaverjas-round/merged-round";
 
 type Props = {
     scoreboardId: UUID;
@@ -27,6 +31,9 @@ export default function KlaverjasTable(props: Props) {
     const { scoreboardId } = props;
 
     const t = useTranslations("klaverjas.table");
+
+    const [editRound, setEditRound] = useState<MergedRound | null>(null);
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
 
     const {
         data: scoreboard,
@@ -78,7 +85,7 @@ export default function KlaverjasTable(props: Props) {
                                 <Loader2Icon className="animate-spin" />
                             ) : null}
                         </div>
-                        <CreateRoundDialog scoreboardId={scoreboardId} />
+                        <CreateRoundButton scoreboardId={scoreboardId} />
                     </div>
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
                         <div className="flex-2 overflow-x-auto rounded-lg border border-b-gray-400 bg-gray-200 p-4 dark:border-b-gray-700 dark:bg-gray-900">
@@ -94,6 +101,9 @@ export default function KlaverjasTable(props: Props) {
                                         <TableHead className="font-bold">
                                             {teams?.them.name ?? t("teamThem")}
                                         </TableHead>
+                                        <TableHead className="w-[100px] font-bold">
+                                            Actions
+                                        </TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -108,7 +118,7 @@ export default function KlaverjasTable(props: Props) {
                                                 <div className="flex flex-row items-center gap-2">
                                                     {round.team1.points}
                                                     {round.team1.fame > 0 ? (
-                                                        <p className="rounded-sm bg-gray-600 p-0.5 px-2 dark:bg-gray-600">
+                                                        <p className="rounded-sm bg-gray-300 p-0.5 px-2 dark:bg-gray-600">
                                                             {round.team1.fame}
                                                         </p>
                                                     ) : null}
@@ -127,7 +137,7 @@ export default function KlaverjasTable(props: Props) {
                                                 <div className="flex flex-row items-center gap-2">
                                                     {round.team2.points}
                                                     {round.team2.fame > 0 ? (
-                                                        <p className="rounded-sm bg-gray-600 p-0.5 px-2 dark:bg-gray-600">
+                                                        <p className="rounded-sm bg-gray-300 p-0.5 px-2 dark:bg-gray-600">
                                                             {round.team2.fame}
                                                         </p>
                                                     ) : null}
@@ -141,6 +151,18 @@ export default function KlaverjasTable(props: Props) {
                                                         <Droplets size={16} />
                                                     ) : null}
                                                 </div>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    onClick={() => {
+                                                        setEditRound(round);
+                                                        setEditDialogOpen(true);
+                                                    }}
+                                                >
+                                                    <Edit size={16} />
+                                                </Button>
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -156,6 +178,9 @@ export default function KlaverjasTable(props: Props) {
                                         <TableCell className="font-bold">
                                             {totals.them}
                                         </TableCell>
+                                        <TableCell>
+                                            {/* Empty cell for Actions column */}
+                                        </TableCell>
                                     </TableRow>
                                 </TableFooter>
                             </Table>
@@ -164,6 +189,20 @@ export default function KlaverjasTable(props: Props) {
                 </div>
             </div>
             <CreateKlaverjasGameDialog scoreboardId={scoreboardId} />
+            {editRound && (
+                <RoundDialog
+                    scoreboardId={scoreboardId}
+                    editRound={editRound}
+                    isEditMode={true}
+                    open={editDialogOpen}
+                    onOpenChange={(open) => {
+                        setEditDialogOpen(open);
+                        if (!open) {
+                            setEditRound(null);
+                        }
+                    }}
+                />
+            )}
         </>
     );
 }

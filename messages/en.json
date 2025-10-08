@@ -59,13 +59,16 @@
       "loadingButton": "Loading...",
       "newRound": "New round",
       "title": "Add new round",
+      "editTitle": "Edit round",
       "description": "Fill in all the information for this round. Make sure to fill in the fame as it is scored in the round. A fame switch will be taken into account when you click on \"Wet\".",
+      "editDescription": "Edit the information for this round. Make sure to fill in the fame as it is scored in the round. A fame switch will be taken into account when you click on \"Wet\".",
       "isGoingSelectLabel": "Choose who is going this round",
       "fameScoredByLabel": "Fame scored by {value}",
       "pointsScoredByLabel": "Points scored by {value}",
       "wet": "Wet",
       "pit": "Pit",
-      "confirmButton": "Add Round"
+      "confirmButton": "Add Round",
+      "updateButton": "Update Round"
     }
   }
 }

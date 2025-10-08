@@ -59,13 +59,16 @@
       "loadingButton": "Laden...",
       "newRound": "Nieuwe ronde",
       "title": "Nieuwe ronde toevoegen",
+      "editTitle": "Ronde bewerken",
       "description": "Vul alle informatie in voor deze rond. Zorg ervoor dat je de roem invult zoals het in de ronde wordt gescoord. Er wordt rekening gehouden met een roemwissel als je op \"Nat\" klikt.",
+      "editDescription": "Bewerk de informatie voor deze ronde. Zorg ervoor dat je de roem invult zoals het in de ronde wordt gescoord. Er wordt rekening gehouden met een roemwissel als je op \"Nat\" klikt.",
       "isGoingSelectLabel": "Kies wie er gaat deze ronde",
       "fameScoredByLabel": "Roem gescoord door {value}",
       "pointsScoredByLabel": "Punten gescoord door {value}",
       "wet": "Nat",
       "pit": "Pit",
-      "confirmButton": "Ronde toevoegen"
+      "confirmButton": "Ronde toevoegen",
+      "updateButton": "Ronde bijwerken"
     }
   }
 }
