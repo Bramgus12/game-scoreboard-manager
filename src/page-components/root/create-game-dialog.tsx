@@ -27,13 +27,13 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { GAME_TYPE } from "@/constants/gameType";
-import { createScoreboard } from "@/actions/scoreboard-actions";
 import { AppCreateScoreboard } from "@/models/app/scoreboard/create-scoreboard";
 import { useQueryClient } from "@tanstack/react-query";
 import QUERY_KEY from "@/constants/query-key";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+import { createScoreboard } from "@/server/service/scoreboard";
 
 const createGameValidationSchema = z.object({
     name: z.string().min(1, "Name is required"),

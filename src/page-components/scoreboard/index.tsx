@@ -1,7 +1,7 @@
 import { UUID } from "crypto";
 import { GAME_TYPE } from "@/constants/gameType";
 import Klaverjas from "@/page-components/scoreboard/klaverjas";
-import { getScoreboardById } from "@/actions/scoreboard-actions";
+import { getScoreboardById } from "@/server/service/scoreboard";
 
 type Props = {
     scoreboardId: UUID;

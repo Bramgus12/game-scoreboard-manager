@@ -33,18 +33,18 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AppCreateKlaverjasRound } from "@/models/app/klaverjas-round/create-klaverjas-round";
-import {
-    createRound,
-    getRoundNumber,
-    updateRound,
-} from "@/actions/klaverjas-actions";
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Asterisk, Droplets, Loader2Icon, Sparkles } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import QUERY_KEY from "@/constants/query-key";
 import { MergedRound } from "@/models/app/klaverjas-round/merged-round";
 import { AppUpdateKlaverjasRound } from "@/models/app/klaverjas-round/update-klaverjas-round";
+import {
+    createKlaverjasRoundsForBothTeams,
+    getRoundNumber,
+    updateKlaverjasRoundsForBothTeams,
+} from "@/server/service/klaverjas";
 
 const createRoundSchema = z
     .object({
@@ -241,8 +241,11 @@ export default function RoundDialog(props: Props) {
                     isGoing: isGoingTeam === teams.them.id,
                 };
 
-                await updateRound(teams.us.id, ourRound);
-                await updateRound(teams.them.id, theirRound);
+                await updateKlaverjasRoundsForBothTeams(
+                    scoreboardId,
+                    ourRound,
+                    theirRound,
+                );
             } else {
                 // Create mode: create new round
                 const currentRoundNumber = await getRoundNumber(scoreboardId);
@@ -265,8 +268,11 @@ export default function RoundDialog(props: Props) {
                     isGoing: isGoingTeam === teams.them.id,
                 };
 
-                await createRound(teams.us.id, ourRound);
-                await createRound(teams.them.id, theirRound);
+                await createKlaverjasRoundsForBothTeams(
+                    scoreboardId,
+                    ourRound,
+                    theirRound,
+                );
             }
 
             void queryClient.invalidateQueries({

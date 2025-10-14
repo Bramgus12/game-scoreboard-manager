@@ -1,11 +1,11 @@
 "use server";
 
-import { currentUser } from "@clerk/nextjs/server";
-import { randomUUID } from "node:crypto";
 import { AppUser } from "@/models/app/user/user";
+import { currentUser } from "@clerk/nextjs/server";
 import { domainToAppUser } from "@/mappers/user";
+import { randomUUID } from "node:crypto";
+import { PrismaClient } from "../../../prisma/generated/prisma";
 import { AppCreateUpdateUser } from "@/models/app/user/create-update-user";
-import { PrismaClient } from "../../prisma/generated/prisma";
 
 const prisma = new PrismaClient();
 
@@ -13,7 +13,7 @@ export async function getDatabaseUser(): Promise<AppUser> {
     const authUser = await currentUser();
 
     if (authUser == null) {
-        throw new Error("User ID is null");
+        throw new Error("Auth user is null");
     }
 
     const user = await prisma.user.findFirst({

@@ -26,11 +26,11 @@ import {
 } from "@/validation/create-klaverjas-game-schema";
 import { useTranslations } from "next-intl";
 import { UUID } from "crypto";
-import { createKlaverjasGame } from "@/actions/klaverjas-actions";
 import { useQueryClient } from "@tanstack/react-query";
 import QUERY_KEY from "@/constants/query-key";
 import { useEffect, useState } from "react";
 import useKlaverjasTeamsQuery from "@/queries/use-klaverjas-teams-query";
+import { createKlaverjasGame } from "@/server/service/klaverjas";
 
 type Props = {
     scoreboardId: UUID;

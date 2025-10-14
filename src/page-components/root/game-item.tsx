@@ -17,9 +17,9 @@ import { Loader2Icon, Trash } from "lucide-react";
 import { AppScoreboard } from "@/models/app/scoreboard/scoreboard";
 import { useFormatter, useNow, useTranslations } from "next-intl";
 import { UUID } from "crypto";
-import { deleteScoreboardById } from "@/actions/scoreboard-actions";
 import QUERY_KEY from "@/constants/query-key";
 import { useQueryClient } from "@tanstack/react-query";
+import { deleteScoreboardById } from "@/server/service/scoreboard";
 
 type Props = {
     scoreboard: AppScoreboard;
