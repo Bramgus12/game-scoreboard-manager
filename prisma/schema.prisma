@@ -1,11 +1,13 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "generated/prisma"
+  provider               = "prisma-client"
+  output                 = "./generated/prisma"
+  generatedFileExtension = "ts"
+  importFileExtension    = "ts"
+  moduleFormat           = "esm"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model boerenbridge_game {

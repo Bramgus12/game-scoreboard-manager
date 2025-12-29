@@ -15,7 +15,6 @@ import {
 } from "@/server/repository/klaverjas-team";
 import {
     createKlaverjasRound,
-    deleteKlaverjasRound,
     getRoundsForTeam,
     updateKlaverjasRound,
 } from "@/server/repository/klaverjas-round";
@@ -61,26 +60,6 @@ function calculateTotals(mergedRounds: Array<MergedRound>) {
     );
 }
 
-export async function getTeamNames(scoreboardId: UUID) {
-    const teams = await repoGetTeamsForScoreboard(scoreboardId);
-
-    if (teams == null) {
-        return null;
-    }
-
-    const ourTeam = teams.find((team) => team.type === TEAM_TYPE.US);
-    const theirTeam = teams.find((team) => team.type === TEAM_TYPE.THEM);
-
-    if (!ourTeam || !theirTeam) {
-        return null;
-    }
-
-    return {
-        us: ourTeam.name,
-        them: theirTeam.name,
-    };
-}
-
 export async function getRoundsForScoreboard(scoreboardId: UUID) {
     const teams = await repoGetTeamsForScoreboard(scoreboardId);
 
@@ -110,28 +89,6 @@ export async function getTotals(scoreboardId: UUID) {
         await getRoundsForScoreboard(scoreboardId);
 
     return calculateTotals(mergedRounds);
-}
-
-export async function deleteRoundFromBothTeams(
-    scoreboardId: UUID,
-    roundNumber: number,
-) {
-    const teams = await repoGetTeamsForScoreboard(scoreboardId);
-
-    if (teams == null) {
-        throw new Error("Teams not found");
-    }
-
-    const ourTeam = teams.find((team) => team.type === TEAM_TYPE.US);
-    const theirTeam = teams.find((team) => team.type === TEAM_TYPE.THEM);
-
-    if (!ourTeam || !theirTeam) {
-        throw new Error("Both teams must exist to delete a round");
-    }
-
-    void deleteKlaverjasRound(ourTeam.id, roundNumber);
-
-    void deleteKlaverjasRound(theirTeam.id, roundNumber);
 }
 
 export async function getRoundNumber(scoreboardId: UUID) {

@@ -2,13 +2,11 @@
 
 import { UUID } from "crypto";
 import { AppCreateKlaverjasTeam } from "@/models/app/klaverjas-team/create-klaverjas-team";
-import { PrismaClient } from "../../../prisma/generated/prisma";
 import { GAME_TYPE } from "@/constants/gameType";
 import { randomUUID } from "node:crypto";
 import { domainToAppKlaverjasTeamArray } from "@/mappers/klaverjas-team";
 import { getDatabaseUser } from "@/server/repository/user";
-
-const prisma = new PrismaClient();
+import prisma from "@/utils/prisma";
 
 export async function createTeamsForScoreboard(
     scoreboardId: UUID,

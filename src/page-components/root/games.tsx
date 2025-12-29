@@ -7,11 +7,21 @@ import { Loader2Icon, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import CreateGameDialog from "@/page-components/root/create-game-dialog";
 import { useState } from "react";
+import { CreateKlaverjasGameDialog } from "@/page-components/root/create-klaverjas-game-dialog";
+import { UUID } from "crypto";
+import { GAME_TYPE } from "@/constants/gameType";
+import { useRouter } from "@/i18n/navigation";
 
 export default function Games() {
     const { data, isPending, isError, isRefetching } = useScoreboardsQuery();
+    const router = useRouter();
     const t = useTranslations("gamesTable");
     const [isCreateGameDialogOpen, setIsCreateGameDialogOpen] = useState(false);
+    const [createKlaverjasGameDialogState, setCreateKlaverjasGameDialogState] =
+        useState<{ open: boolean; scoreboardId: UUID | null }>({
+            open: false,
+            scoreboardId: null,
+        });
 
     if (isPending || isError) {
         return null;
@@ -78,7 +88,35 @@ export default function Games() {
             </div>
             <CreateGameDialog
                 open={isCreateGameDialogOpen}
-                onOpenChange={setIsCreateGameDialogOpen}
+                onClose={() => setIsCreateGameDialogOpen(false)}
+                onGameCreated={(scoreboardId, gameType) => {
+                    if (gameType === GAME_TYPE.KLAVERJAS) {
+                        setCreateKlaverjasGameDialogState({
+                            open: true,
+                            scoreboardId,
+                        });
+                        return;
+                    }
+                    router.push(`/scoreboard/${scoreboardId}`);
+                }}
+            />
+            <CreateKlaverjasGameDialog
+                scoreboardId={createKlaverjasGameDialogState.scoreboardId}
+                open={createKlaverjasGameDialogState.open}
+                onClose={(created) => {
+                    setCreateKlaverjasGameDialogState({
+                        open: false,
+                        scoreboardId: null,
+                    });
+                    if (
+                        created &&
+                        createKlaverjasGameDialogState.scoreboardId != null
+                    ) {
+                        router.push(
+                            `/scoreboard/${createKlaverjasGameDialogState.scoreboardId}`,
+                        );
+                    }
+                }}
             />
         </>
     );

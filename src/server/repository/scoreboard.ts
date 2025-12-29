@@ -2,12 +2,9 @@
 
 import { AppCreateScoreboard } from "@/models/app/scoreboard/create-scoreboard";
 import { randomUUID } from "node:crypto";
-import { PrismaClient } from "../../../prisma/generated/prisma";
 import { UUID } from "crypto";
-import { AppUpdateScoreboard } from "@/models/app/scoreboard/update-scoreboard";
 import { getDatabaseUser } from "@/server/repository/user";
-
-const prisma = new PrismaClient();
+import prisma from "@/utils/prisma";
 
 export async function createScoreboard(scoreboard: AppCreateScoreboard) {
     const user = await getDatabaseUser();
@@ -72,23 +69,4 @@ export async function deleteScoreboardById(id: UUID) {
     });
 
     await prisma.$disconnect();
-}
-
-export async function updateScoreboard(
-    scoreboardId: UUID,
-    data: AppUpdateScoreboard,
-) {
-    const user = await getDatabaseUser();
-
-    const updatedScoreboard = await prisma.scoreboard.update({
-        where: { id: scoreboardId, user_id: user.id },
-        data: {
-            scoreboard_name: data.scoreboardName,
-            updated_at: new Date(),
-        },
-    });
-
-    await prisma.$disconnect();
-
-    return updatedScoreboard;
 }

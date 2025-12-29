@@ -1,8 +1,7 @@
 "use client";
 
-import * as React from "react";
-import { ReactNode, useState } from "react";
-import { Link } from "@/i18n/navigation";
+import {ReactNode, useState} from "react";
+import {Link} from "@/i18n/navigation";
 import {
     AlertDialog,
     AlertDialogContent,
@@ -12,14 +11,14 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { Loader2Icon, Trash } from "lucide-react";
-import { AppScoreboard } from "@/models/app/scoreboard/scoreboard";
-import { useFormatter, useNow, useTranslations } from "next-intl";
-import { UUID } from "crypto";
+import {Button} from "@/components/ui/button";
+import {Loader2Icon, Trash} from "lucide-react";
+import {AppScoreboard} from "@/models/app/scoreboard/scoreboard";
+import {useFormatter, useNow, useTranslations} from "next-intl";
+import {UUID} from "crypto";
 import QUERY_KEY from "@/constants/query-key";
-import { useQueryClient } from "@tanstack/react-query";
-import { deleteScoreboardById } from "@/server/service/scoreboard";
+import {useQueryClient} from "@tanstack/react-query";
+import {deleteScoreboardById} from "@/server/service/scoreboard";
 
 type Props = {
     scoreboard: AppScoreboard;

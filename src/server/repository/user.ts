@@ -4,10 +4,8 @@ import { AppUser } from "@/models/app/user/user";
 import { currentUser } from "@clerk/nextjs/server";
 import { domainToAppUser } from "@/mappers/user";
 import { randomUUID } from "node:crypto";
-import { PrismaClient } from "../../../prisma/generated/prisma";
 import { AppCreateUpdateUser } from "@/models/app/user/create-update-user";
-
-const prisma = new PrismaClient();
+import prisma from "@/utils/prisma";
 
 export async function getDatabaseUser(): Promise<AppUser> {
     const authUser = await currentUser();

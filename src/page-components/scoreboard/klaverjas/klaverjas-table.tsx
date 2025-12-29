@@ -12,16 +12,24 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import useKlaverjasTeamsQuery from "@/queries/use-klaverjas-teams-query";
-import { CreateKlaverjasGameDialog } from "@/page-components/scoreboard/klaverjas/create-klaverjas-game-dialog";
 import CreateRoundButton from "@/page-components/scoreboard/klaverjas/create-round-button";
 import RoundDialog from "@/page-components/scoreboard/klaverjas/round-dialog";
 import useKlaverjasRoundsForScoreboardQuery from "@/queries/use-klaverjas-rounds-for-scoreboard-query";
 import useKlaverjasTotalsForScoreboardQuery from "@/queries/use-klaverjas-totals-for-scoreboard-query";
-import { Asterisk, Droplets, Loader2Icon, Sparkles, Edit } from "lucide-react";
+import {
+    ArrowLeftIcon,
+    Asterisk,
+    Droplets,
+    Edit,
+    Loader2Icon,
+    Sparkles,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { MergedRound } from "@/models/app/klaverjas-round/merged-round";
+import Paper from "@/components/paper";
+import { useRouter } from "@/i18n/navigation";
 
 type Props = {
     scoreboardId: UUID;
@@ -30,7 +38,9 @@ type Props = {
 export default function KlaverjasTable(props: Props) {
     const { scoreboardId } = props;
 
-    const t = useTranslations("klaverjas.table");
+    const router = useRouter();
+
+    const t = useTranslations();
 
     const [editRound, setEditRound] = useState<MergedRound | null>(null);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -76,9 +86,15 @@ export default function KlaverjasTable(props: Props) {
 
     return (
         <>
-            <div className="flex justify-center py-10">
+            <div className="flex justify-center pb-10">
                 <div className="container m-4 flex flex-col gap-4">
-                    <div className="flex items-center justify-between rounded-lg border border-b-gray-400 bg-gray-200 p-4 text-2xl dark:border-b-gray-700 dark:bg-gray-900">
+                    <div>
+                        <Button variant="ghost" onClick={() => router.push("/")}>
+                            <ArrowLeftIcon />
+                            {t("scoreboard.backToGames")}
+                        </Button>
+                    </div>
+                    <Paper className="flex items-center justify-between p-4 text-2xl">
                         <div className="flex items-center gap-4">
                             {scoreboard?.scoreboardName}
                             {isRoundsRefetching || isTotalsRefetching ? (
@@ -86,9 +102,9 @@ export default function KlaverjasTable(props: Props) {
                             ) : null}
                         </div>
                         <CreateRoundButton scoreboardId={scoreboardId} />
-                    </div>
+                    </Paper>
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-                        <div className="flex-2 overflow-x-auto rounded-lg border border-b-gray-400 bg-gray-200 p-4 dark:border-b-gray-700 dark:bg-gray-900">
+                        <Paper className="flex-2 overflow-x-auto p-4">
                             <Table>
                                 <TableHeader>
                                     <TableRow>
@@ -96,13 +112,15 @@ export default function KlaverjasTable(props: Props) {
                                             #
                                         </TableHead>
                                         <TableHead className="font-bold">
-                                            {teams?.us.name ?? t("teamUs")}
+                                            {teams?.us.name ??
+                                                t("klaverjas.table.teamUs")}
                                         </TableHead>
                                         <TableHead className="font-bold">
-                                            {teams?.them.name ?? t("teamThem")}
+                                            {teams?.them.name ??
+                                                t("klaverjas.table.teamThem")}
                                         </TableHead>
                                         <TableHead className="w-[100px] font-bold">
-                                            Actions
+                                            {t("klaverjas.table.actions")}
                                         </TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -170,7 +188,7 @@ export default function KlaverjasTable(props: Props) {
                                 <TableFooter>
                                     <TableRow>
                                         <TableCell className="font-bold">
-                                            {t("total")}
+                                            {t("klaverjas.table.total")}
                                         </TableCell>
                                         <TableCell className="font-bold">
                                             {totals.us}
@@ -184,11 +202,10 @@ export default function KlaverjasTable(props: Props) {
                                     </TableRow>
                                 </TableFooter>
                             </Table>
-                        </div>
+                        </Paper>
                     </div>
                 </div>
             </div>
-            <CreateKlaverjasGameDialog scoreboardId={scoreboardId} />
             {editRound && (
                 <RoundDialog
                     scoreboardId={scoreboardId}

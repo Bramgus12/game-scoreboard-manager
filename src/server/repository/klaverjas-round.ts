@@ -1,13 +1,11 @@
 "use server";
 
 import { randomUUID } from "node:crypto";
-import { PrismaClient } from "../../../prisma/generated/prisma";
 import { UUID } from "crypto";
 import { AppCreateKlaverjasRound } from "@/models/app/klaverjas-round/create-klaverjas-round";
 import { AppUpdateKlaverjasRound } from "@/models/app/klaverjas-round/update-klaverjas-round";
 import { getDatabaseUser } from "@/server/repository/user";
-
-const prisma = new PrismaClient();
+import prisma from "@/utils/prisma";
 
 export async function createKlaverjasRound(
     teamId: UUID,
@@ -109,8 +107,13 @@ export async function deleteKlaverjasRound(teamId: UUID, roundNumber: number) {
 }
 
 export async function getRoundsForTeam(teamId: UUID) {
+    const user = await getDatabaseUser();
+
     return prisma.klaverjas_round.findMany({
-        where: { klaverjas_team_id: teamId },
+        where: {
+            klaverjas_team_id: teamId,
+            klaverjas_team: { scoreboard: { user_id: user.id } },
+        },
         orderBy: { round_number: "asc" },
     });
 }

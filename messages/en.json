@@ -53,7 +53,8 @@
     "table": {
       "teamUs": "Our team",
       "teamThem": "Their team",
-      "total": "Total"
+      "total": "Total",
+      "actions": "Actions"
     },
     "createRoundDialog": {
       "loadingButton": "Loading...",

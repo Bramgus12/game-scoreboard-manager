@@ -53,7 +53,8 @@
     "table": {
       "teamUs": "Wij",
       "teamThem": "Zij",
-      "total": "Totaal"
+      "total": "Totaal",
+      "actions": "Acties"
     },
     "createRoundDialog": {
       "loadingButton": "Laden...",

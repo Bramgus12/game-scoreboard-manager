@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { UUID } from "crypto";
 import RoundDialog from "./round-dialog";
 import useKlaverjasTeamsQuery from "@/queries/use-klaverjas-teams-query";
+import { Plus } from "lucide-react";
 
 type Props = {
     scoreboardId: UUID;
@@ -35,6 +36,7 @@ export default function CreateRoundButton(props: Props) {
     return (
         <>
             <Button variant="default" onClick={() => setOpen(true)}>
+                <Plus />
                 {t("newRound")}
             </Button>
             <RoundDialog

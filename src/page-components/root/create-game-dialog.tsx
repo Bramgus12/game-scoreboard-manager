@@ -28,12 +28,11 @@ import {
 } from "@/components/ui/select";
 import { GAME_TYPE } from "@/constants/gameType";
 import { AppCreateScoreboard } from "@/models/app/scoreboard/create-scoreboard";
-import { useQueryClient } from "@tanstack/react-query";
-import QUERY_KEY from "@/constants/query-key";
-import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 import { createScoreboard } from "@/server/service/scoreboard";
+import { UUID } from "crypto";
+import { AppGameType } from "@/models/app/scoreboard/game-type";
 
 const createGameValidationSchema = z.object({
     name: z.string().min(1, "Name is required"),
@@ -51,7 +50,8 @@ type CreateGameForm = z.infer<typeof createGameValidationSchema>;
 
 type Props = {
     open: boolean;
-    onOpenChange: (open: boolean) => void;
+    onClose: (open: boolean) => void;
+    onGameCreated?: (scoreboardId: UUID, gameType: AppGameType) => void;
 };
 
 function toAppModel(data: CreateGameForm): AppCreateScoreboard {
@@ -69,16 +69,14 @@ function toAppModel(data: CreateGameForm): AppCreateScoreboard {
 }
 
 export default function CreateGameDialog(props: Props) {
-    const { open, onOpenChange } = props;
+    const { open, onClose, onGameCreated } = props;
 
-    const queryClient = useQueryClient();
     const t = useTranslations("gamesTable.createGameDialog");
-
-    const router = useRouter();
 
     const form = useForm<CreateGameForm>({
         defaultValues: {
             name: "",
+            gameType: GAME_TYPE.KLAVERJAS,
         },
         mode: "onBlur",
         resolver: zodResolver(createGameValidationSchema),
@@ -88,7 +86,7 @@ export default function CreateGameDialog(props: Props) {
         if (!open) {
             form.reset();
         }
-        onOpenChange(open);
+        onClose(open);
     }
 
     async function handleSubmitNewGame(data: CreateGameForm) {
@@ -96,13 +94,9 @@ export default function CreateGameDialog(props: Props) {
 
         const createdScoreboard = await createScoreboard(appModel);
 
-        void queryClient.invalidateQueries({
-            queryKey: [QUERY_KEY.SCOREBOARDS_FOR_USER],
-        });
-
         handleOpenChange(false);
 
-        router.push(`/scoreboard/${createdScoreboard.id}`);
+        onGameCreated?.(createdScoreboard.id, data.gameType as AppGameType);
     }
 
     return (
@@ -165,11 +159,11 @@ export default function CreateGameDialog(props: Props) {
                                                 >
                                                     {t("klaverjas")}
                                                 </SelectItem>
-                                                <SelectItem
-                                                    value={GAME_TYPE.BOERENBRIDGE}
-                                                >
-                                                    {t("boerenbridge")}
-                                                </SelectItem>
+                                                {/*<SelectItem*/}
+                                                {/*    value={GAME_TYPE.BOERENBRIDGE}*/}
+                                                {/*>*/}
+                                                {/*    {t("boerenbridge")}*/}
+                                                {/*</SelectItem>*/}
                                             </SelectContent>
                                         </Select>
                                         <FormDescription>
