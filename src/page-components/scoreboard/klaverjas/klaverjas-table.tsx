@@ -89,7 +89,10 @@ export default function KlaverjasTable(props: Props) {
             <div className="flex justify-center pb-10">
                 <div className="container m-4 flex flex-col gap-4">
                     <div>
-                        <Button variant="ghost" onClick={() => router.push("/")}>
+                        <Button
+                            variant="ghost"
+                            onClick={() => router.push("/scoreboards")}
+                        >
                             <ArrowLeftIcon />
                             {t("scoreboard.backToGames")}
                         </Button>

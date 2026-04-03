@@ -6,9 +6,22 @@ import { NextResponse } from "next/server";
 const intlMiddleware = createMiddleware(routing);
 
 export default clerkMiddleware(async (auth, req) => {
-    await auth.protect();
+    const pathname = req.nextUrl.pathname;
 
-    if (req.nextUrl.pathname.startsWith("/api")) {
+    const isPublicRoute =
+        pathname === "/" ||
+        /^\/(en|nl)$/.test(pathname) ||
+        /^\/(en|nl)\/sign-in(\/.*)?$/.test(pathname) ||
+        /^\/(en|nl)\/sign-up(\/.*)?$/.test(pathname) ||
+        pathname === "/sign-in" ||
+        pathname === "/sign-up" ||
+        pathname.startsWith("/api");
+
+    if (!isPublicRoute) {
+        await auth.protect();
+    }
+
+    if (pathname.startsWith("/api")) {
         return NextResponse.next();
     }
 
