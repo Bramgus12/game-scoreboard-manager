@@ -3,7 +3,8 @@ import { GAME_TYPE } from "@/constants/gameType";
 import Klaverjas from "@/page-components/scoreboard/klaverjas";
 import Boerenbridge from "@/page-components/scoreboard/boerenbridge";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { getScoreboardByIdQueryOptions } from "@/queries/use-scoreboard-by-id-query";
+import { getScoreboardById } from "@/server/service/scoreboard";
+import QUERY_KEY from "@/constants/query-key";
 
 type Props = {
     scoreboardId: UUID;
@@ -14,9 +15,10 @@ export default async function Scoreboard(props: Props) {
 
     const queryClient = new QueryClient();
 
-    const scoreboard = await queryClient.fetchQuery(
-        getScoreboardByIdQueryOptions(scoreboardId),
-    );
+    const scoreboard = await queryClient.fetchQuery({
+        queryKey: [QUERY_KEY.SCOREBOARD_BY_ID, { id: scoreboardId }],
+        queryFn: () => getScoreboardById(scoreboardId),
+    });
 
     switch (scoreboard.gameType) {
         case GAME_TYPE.KLAVERJAS:

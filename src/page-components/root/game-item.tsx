@@ -1,7 +1,7 @@
 "use client";
 
-import {ReactNode, useState} from "react";
-import {Link} from "@/i18n/navigation";
+import { ReactNode, useState } from "react";
+import { Link } from "@/i18n/navigation";
 import {
     AlertDialog,
     AlertDialogContent,
@@ -11,14 +11,12 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import {Button} from "@/components/ui/button";
-import {Loader2Icon, Trash} from "lucide-react";
-import {AppScoreboard} from "@/models/app/scoreboard/scoreboard";
-import {useFormatter, useNow, useTranslations} from "next-intl";
-import {UUID} from "crypto";
-import QUERY_KEY from "@/constants/query-key";
-import {useQueryClient} from "@tanstack/react-query";
-import {deleteScoreboardById} from "@/server/service/scoreboard";
+import { Button } from "@/components/ui/button";
+import { Loader2Icon, Trash } from "lucide-react";
+import { AppScoreboard } from "@/models/app/scoreboard/scoreboard";
+import { useFormatter, useNow, useTranslations } from "next-intl";
+import { UUID } from "crypto";
+import { useDeleteScoreboardMutation } from "@/mutations/use-scoreboard-mutations";
 
 type Props = {
     scoreboard: AppScoreboard;
@@ -27,7 +25,7 @@ type Props = {
 
 export default function GameItem(props: Props) {
     const { scoreboard, isLastItem } = props;
-    const queryClient = useQueryClient();
+    const deleteScoreboardMutation = useDeleteScoreboardMutation();
     const format = useFormatter();
     const now = useNow({ updateInterval: 60000 });
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
@@ -36,14 +34,10 @@ export default function GameItem(props: Props) {
 
     async function deleteScoreboard(id: UUID) {
         setIsDeleting(true);
-        await deleteScoreboardById(id);
+        await deleteScoreboardMutation.mutateAsync(id);
 
         setIsDeleting(false);
         setIsDeleteDialogOpen(false);
-
-        void queryClient.invalidateQueries({
-            queryKey: [QUERY_KEY.SCOREBOARDS_FOR_USER],
-        });
     }
 
     const subText = [

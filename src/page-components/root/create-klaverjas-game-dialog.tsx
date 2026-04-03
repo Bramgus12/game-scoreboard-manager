@@ -24,9 +24,7 @@ import {
 } from "@/validation/create-klaverjas-game-schema";
 import { useTranslations } from "next-intl";
 import { UUID } from "crypto";
-import { useQueryClient } from "@tanstack/react-query";
-import QUERY_KEY from "@/constants/query-key";
-import { createKlaverjasGame } from "@/server/service/klaverjas";
+import { useCreateKlaverjasGameMutation } from "@/mutations/use-klaverjas-mutations";
 
 type Props = {
     open: boolean;
@@ -37,7 +35,7 @@ type Props = {
 export function CreateKlaverjasGameDialog(props: Props) {
     const { open, onClose, scoreboardId } = props;
     const t = useTranslations("klaverjas.createGameDialog");
-    const queryClient = useQueryClient();
+    const createKlaverjasGameMutation = useCreateKlaverjasGameMutation();
 
     const form = useForm<CreateKlaverjasGameForm>({
         mode: "onBlur",
@@ -57,14 +55,10 @@ export function CreateKlaverjasGameDialog(props: Props) {
         if (scoreboardId == null) {
             throw new Error("Scoreboard ID is required");
         }
-        const teams = await createKlaverjasGame(data, scoreboardId);
-        void queryClient.invalidateQueries({
-            queryKey: [QUERY_KEY.SCOREBOARDS_FOR_USER],
+        await createKlaverjasGameMutation.mutateAsync({
+            scoreboardId,
+            data,
         });
-        queryClient.setQueryData(
-            [QUERY_KEY.KLAVERJAS_TEAMS_FOR_SCOREBOARD, { scoreboardId }],
-            teams,
-        );
 
         handleClose(true);
     }

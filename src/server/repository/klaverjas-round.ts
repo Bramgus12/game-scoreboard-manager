@@ -1,5 +1,3 @@
-"use server";
-
 import { randomUUID } from "node:crypto";
 import { UUID } from "crypto";
 import { AppCreateKlaverjasRound } from "@/models/app/klaverjas-round/create-klaverjas-round";

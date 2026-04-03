@@ -1,4 +1,4 @@
-import { z, ZodNullable, ZodNumber } from "zod";
+import { z } from "zod";
 import stringToNumber from "@/utils/funcs/string-to-number";
 
 /**
@@ -20,12 +20,12 @@ import stringToNumber from "@/utils/funcs/string-to-number";
  * @param outputSchema The schema to use for the output. Defaults to {@link z.number `z.number`}. This is where you can add additional validation.
  * @param errorMessage The error message to use when the value is not a valid number..
  */
-export default function createNumberSchema<T extends ZodNullable<ZodNumber>>(
-    outputSchema?: T,
+export default function createNumberSchema(
+    outputSchema?: z.ZodType<number | null>,
     errorMessage?: string,
 ) {
     const message = errorMessage ?? "Invalid number";
-    const schema = (outputSchema ?? z.number({ message }).nullable()) as T;
+    const schema = outputSchema ?? z.number({ message }).nullable();
 
     return z.preprocess((val, ctx) => {
         try {
@@ -33,7 +33,11 @@ export default function createNumberSchema<T extends ZodNullable<ZodNumber>>(
                 return null;
             }
 
-            return stringToNumber(val as string);
+            if (typeof val !== "string") {
+                throw new Error("Value is not a string");
+            }
+
+            return stringToNumber(val);
         } catch {
             ctx.addIssue({
                 message: message,

@@ -2,7 +2,7 @@ import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import QUERY_KEY from "@/constants/query-key";
 import { UUID } from "crypto";
 import { MergedRound } from "@/models/app/klaverjas-round/merged-round";
-import { getRoundsForScoreboard } from "@/server/service/klaverjas";
+import { getRoundsForScoreboard } from "@/api/klaverjas";
 
 export function getKlaverjasRoundsForScoreboardQueryOptions(
     scoreboardId: UUID | null,
@@ -16,6 +16,7 @@ export function getKlaverjasRoundsForScoreboardQueryOptions(
 
             return getRoundsForScoreboard(scoreboardId);
         },
+        enabled: scoreboardId != null,
     };
 }
 

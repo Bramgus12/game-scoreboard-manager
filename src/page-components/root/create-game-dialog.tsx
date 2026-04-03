@@ -30,9 +30,9 @@ import { GAME_TYPE } from "@/constants/gameType";
 import { AppCreateScoreboard } from "@/models/app/scoreboard/create-scoreboard";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
-import { createScoreboard } from "@/server/service/scoreboard";
 import { UUID } from "crypto";
 import { AppGameType } from "@/models/app/scoreboard/game-type";
+import { useCreateScoreboardMutation } from "@/mutations/use-scoreboard-mutations";
 
 const createGameValidationSchema = z.object({
     name: z.string().min(1, "Name is required"),
@@ -68,10 +68,15 @@ function toAppModel(data: CreateGameForm): AppCreateScoreboard {
     };
 }
 
+function isAppGameType(value: string | undefined): value is AppGameType {
+    return value === GAME_TYPE.BOERENBRIDGE || value === GAME_TYPE.KLAVERJAS;
+}
+
 export default function CreateGameDialog(props: Props) {
     const { open, onClose, onGameCreated } = props;
 
     const t = useTranslations("gamesTable.createGameDialog");
+    const createScoreboardMutation = useCreateScoreboardMutation();
 
     const form = useForm<CreateGameForm>({
         defaultValues: {
@@ -92,11 +97,16 @@ export default function CreateGameDialog(props: Props) {
     async function handleSubmitNewGame(data: CreateGameForm) {
         const appModel = toAppModel(data);
 
-        const createdScoreboard = await createScoreboard(appModel);
+        const createdScoreboard =
+            await createScoreboardMutation.mutateAsync(appModel);
 
         handleOpenChange(false);
 
-        onGameCreated?.(createdScoreboard.id, data.gameType as AppGameType);
+        if (!isAppGameType(data.gameType)) {
+            return;
+        }
+
+        onGameCreated?.(createdScoreboard.id, data.gameType);
     }
 
     return (

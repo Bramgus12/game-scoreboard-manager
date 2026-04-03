@@ -1,0 +1,39 @@
+import { AppCreateScoreboard } from "@/models/app/scoreboard/create-scoreboard";
+import { AppScoreboard } from "@/models/app/scoreboard/scoreboard";
+import { UUID } from "crypto";
+import { deleteJson, getJson, postJson } from "@/api/client";
+
+function toScoreboard(scoreboard: AppScoreboard): AppScoreboard {
+    return {
+        ...scoreboard,
+        createdAt: new Date(scoreboard.createdAt),
+        updatedAt: new Date(scoreboard.updatedAt),
+    };
+}
+
+export async function getScoreboardsForUser(): Promise<Array<AppScoreboard>> {
+    const scoreboards = await getJson<Array<AppScoreboard>>("/scoreboards");
+
+    return scoreboards.map(toScoreboard);
+}
+
+export async function getScoreboardById(id: UUID): Promise<AppScoreboard> {
+    const scoreboard = await getJson<AppScoreboard>(`/scoreboards/${id}`);
+
+    return toScoreboard(scoreboard);
+}
+
+export async function createScoreboard(
+    scoreboard: AppCreateScoreboard,
+): Promise<AppScoreboard> {
+    const createdScoreboard = await postJson<AppCreateScoreboard, AppScoreboard>(
+        "/scoreboards",
+        scoreboard,
+    );
+
+    return toScoreboard(createdScoreboard);
+}
+
+export async function deleteScoreboardById(id: UUID): Promise<void> {
+    await deleteJson(`/scoreboards/${id}`);
+}

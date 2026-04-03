@@ -1,11 +1,16 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "@/i18n/routing";
+import { NextResponse } from "next/server";
 
 const intlMiddleware = createMiddleware(routing);
 
 export default clerkMiddleware(async (auth, req) => {
     await auth.protect();
+
+    if (req.nextUrl.pathname.startsWith("/api")) {
+        return NextResponse.next();
+    }
 
     return intlMiddleware(req);
 });

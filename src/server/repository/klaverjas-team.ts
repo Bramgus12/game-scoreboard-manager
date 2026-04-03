@@ -1,5 +1,3 @@
-"use server";
-
 import { UUID } from "crypto";
 import { AppCreateKlaverjasTeam } from "@/models/app/klaverjas-team/create-klaverjas-team";
 import { GAME_TYPE } from "@/constants/gameType";

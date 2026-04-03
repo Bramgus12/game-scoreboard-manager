@@ -1,5 +1,3 @@
-"use server";
-
 import { AppCreateScoreboard } from "@/models/app/scoreboard/create-scoreboard";
 import { randomUUID } from "node:crypto";
 import { UUID } from "crypto";

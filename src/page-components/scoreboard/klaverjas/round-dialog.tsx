@@ -34,15 +34,13 @@ import { AppCreateKlaverjasRound } from "@/models/app/klaverjas-round/create-kla
 import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Asterisk, Droplets, Loader2Icon, Sparkles } from "lucide-react";
-import { useQueryClient } from "@tanstack/react-query";
-import QUERY_KEY from "@/constants/query-key";
 import { MergedRound } from "@/models/app/klaverjas-round/merged-round";
 import { AppUpdateKlaverjasRound } from "@/models/app/klaverjas-round/update-klaverjas-round";
+import { getRoundNumber } from "@/api/klaverjas";
 import {
-    createKlaverjasRoundsForBothTeams,
-    getRoundNumber,
-    updateKlaverjasRoundsForBothTeams,
-} from "@/server/service/klaverjas";
+    useCreateKlaverjasRoundsForBothTeamsMutation,
+    useUpdateKlaverjasRoundsForBothTeamsMutation,
+} from "@/mutations/use-klaverjas-mutations";
 
 const createRoundSchema = z
     .object({
@@ -118,7 +116,8 @@ export default function RoundDialog(props: Props) {
         onOpenChange,
     } = props;
 
-    const queryClient = useQueryClient();
+    const createRoundsMutation = useCreateKlaverjasRoundsForBothTeamsMutation();
+    const updateRoundsMutation = useUpdateKlaverjasRoundsForBothTeamsMutation();
 
     const t = useTranslations("klaverjas.createRoundDialog");
 
@@ -239,11 +238,11 @@ export default function RoundDialog(props: Props) {
                     isGoing: isGoingTeam === teams.them.id,
                 };
 
-                await updateKlaverjasRoundsForBothTeams(
+                await updateRoundsMutation.mutateAsync({
                     scoreboardId,
-                    ourRound,
-                    theirRound,
-                );
+                    teamUsRound: ourRound,
+                    teamThemRound: theirRound,
+                });
             } else {
                 // Create mode: create new round
                 const currentRoundNumber = await getRoundNumber(scoreboardId);
@@ -266,20 +265,12 @@ export default function RoundDialog(props: Props) {
                     isGoing: isGoingTeam === teams.them.id,
                 };
 
-                await createKlaverjasRoundsForBothTeams(
+                await createRoundsMutation.mutateAsync({
                     scoreboardId,
-                    ourRound,
-                    theirRound,
-                );
+                    teamUsRound: ourRound,
+                    teamThemRound: theirRound,
+                });
             }
-
-            void queryClient.invalidateQueries({
-                queryKey: [QUERY_KEY.KLAVERJAS_ROUNDS_FOR_SCOREBOARD],
-            });
-
-            void queryClient.invalidateQueries({
-                queryKey: [QUERY_KEY.KLAVERJAS_TOTALS_FOR_SCOREBOARD],
-            });
 
             handleClose();
         } finally {

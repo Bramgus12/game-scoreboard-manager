@@ -1,7 +1,7 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import QUERY_KEY from "@/constants/query-key";
 import { UUID } from "crypto";
-import { getTotals } from "@/server/service/klaverjas";
+import { getTotals } from "@/api/klaverjas";
 
 export function getKlaverjasTotalsQueryOptions(
     scoreboardId: UUID | null,
@@ -15,6 +15,7 @@ export function getKlaverjasTotalsQueryOptions(
 
             return getTotals(scoreboardId);
         },
+        enabled: scoreboardId != null,
     };
 }
 
