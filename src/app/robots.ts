@@ -9,7 +9,15 @@ export default function robots(): MetadataRoute.Robots {
         rules: [
             {
                 userAgent: "*",
-                allow: ["/", "/en", "/nl", "/en/sign-in", "/nl/sign-in"],
+                allow: [
+                    "/",
+                    "/en",
+                    "/nl",
+                    "/en/sign-in",
+                    "/nl/sign-in",
+                    "/en/how-to-play/",
+                    "/nl/how-to-play/",
+                ],
                 disallow: [
                     "/api/",
                     "/en/scoreboards",

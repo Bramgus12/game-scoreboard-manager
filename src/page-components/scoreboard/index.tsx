@@ -30,7 +30,7 @@ export default async function Scoreboard(props: Props) {
         case GAME_TYPE.BOERENBRIDGE:
             return (
                 <HydrationBoundary state={dehydrate(queryClient)}>
-                    <Boerenbridge />
+                    <Boerenbridge scoreboardId={scoreboardId} />
                 </HydrationBoundary>
             );
         default:

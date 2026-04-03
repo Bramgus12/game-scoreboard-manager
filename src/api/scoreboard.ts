@@ -2,6 +2,7 @@ import { AppCreateScoreboard } from "@/models/app/scoreboard/create-scoreboard";
 import { AppScoreboard } from "@/models/app/scoreboard/scoreboard";
 import { UUID } from "crypto";
 import { deleteJson, getJson, postJson } from "@/api/client";
+import { CreateBoerenbridgeScoreboardForm } from "@/validation/create-boerenbridge-scoreboard-schema";
 
 function toScoreboard(scoreboard: AppScoreboard): AppScoreboard {
     return {
@@ -30,6 +31,17 @@ export async function createScoreboard(
         "/scoreboards",
         scoreboard,
     );
+
+    return toScoreboard(createdScoreboard);
+}
+
+export async function createBoerenbridgeScoreboardWithGame(
+    data: CreateBoerenbridgeScoreboardForm,
+): Promise<AppScoreboard> {
+    const createdScoreboard = await postJson<
+        CreateBoerenbridgeScoreboardForm,
+        AppScoreboard
+    >("/scoreboards/boerenbridge", data);
 
     return toScoreboard(createdScoreboard);
 }

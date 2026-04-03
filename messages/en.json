@@ -4,36 +4,37 @@
         "hero": {
             "badge": "Game Scoreboard Manager",
             "title": "Track your card game scores without spreadsheets or paper notes.",
-            "description": "Create scoreboards, add rounds quickly, and always know who is ahead. Built for game nights that move fast.",
-            "goToScoreboards": "Go to my scoreboards",
+            "description": "Create games, add rounds quickly, and always know who is ahead. Built for game nights that move fast.",
+            "goToScoreboards": "Go to my games",
             "login": "Log in",
             "createAccount": "Create account"
         },
         "availableGames": {
             "title": "Available games",
-            "description": "Start a scoreboard in seconds with the games that are already supported.",
+            "description": "Start a game in seconds with the games that are already supported.",
             "klaverjas": "Klaverjas",
             "boerenbridge": "Oh Hell",
             "mahjong": "Mahjong",
             "availableNow": "Available now",
-            "comingSoon": "Coming soon"
+            "comingSoon": "Coming soon",
+            "learnToPlay": "How to play"
         },
         "howItWorks": {
             "title": "How it works",
-            "step1": "Create a scoreboard for the game you want to play.",
+            "step1": "Create a game for what you want to play.",
             "step2": "Add rounds or turns and register scores as the game progresses.",
             "step3": "Track totals and history so everyone stays in sync."
         }
     },
     "homeSeo": {
         "title": "Game Scoreboard Manager | Track Klaverjas and card game scores",
-        "description": "Track game scores online with an easy scoreboard app. Create scoreboards, add rounds, and follow totals for Klaverjas and more games soon.",
+        "description": "Track game scores online with an easy game score app. Create games, add rounds, and follow totals for Klaverjas and more games soon.",
         "keywords": [
-            "game scoreboard",
+            "game scores",
             "score tracker",
             "klaverjas score app",
             "card game score keeper",
-            "online scoreboard"
+            "online game scores"
         ]
     },
     "themeSwitch": {
@@ -61,7 +62,7 @@
         },
         "createGameDialog": {
             "title": "Create new game",
-            "description": "Create a new scoreboard to start tracking scores for your game.",
+            "description": "Create a new game to start tracking scores.",
             "gameNameLabel": "Game Name",
             "gameNamePlaceholder": "Fun game with family",
             "gameTypeLabel": "Game Type",
@@ -77,6 +78,7 @@
         "backToGames": "Back to all games"
     },
     "klaverjas": {
+        "howToPlay": "How to play",
         "createGameDialog": {
             "title": "Create new Klaverjas game",
             "description": "Fill in the names for your teams.",
@@ -106,6 +108,277 @@
             "pit": "Pit",
             "confirmButton": "Add Round",
             "updateButton": "Update Round"
+        }
+    },
+    "boerenbridge": {
+        "howToPlay": "How to play",
+        "createGameDialog": {
+            "title": "Create new Oh Hell game",
+            "description": "Set up players and point rules before you start.",
+            "pointsPerCorrectGuessLabel": "Points per card won",
+            "playerLabel": "Player {index}",
+            "playerPlaceholder": "Player {index}",
+            "addPlayerButton": "Add player",
+            "confirmButton": "Start Game"
+        },
+        "table": {
+            "actions": "Actions",
+            "total": "Total",
+            "cards": "Cards",
+            "expectedWins": "Guess",
+            "runningTotal": "Points",
+            "expectedWinsValue": "Expected: {value}",
+            "actualWinsValue": "Actual: {value}",
+            "deltaValue": "Difference: {value}"
+        },
+        "roundDialog": {
+            "loadingButton": "Loading...",
+            "newRound": "New round",
+            "title": "Add new round",
+            "editTitle": "Edit round",
+            "stepOneDescription": "Step 1: Fill in expected wins for each player.",
+            "stepTwoDescription": "Step 2: Fill in actual wins for each player.",
+            "expectedWins": "Expected wins",
+            "actualWins": "Actual wins",
+            "continueButton": "Continue",
+            "backButton": "Back",
+            "expectedWinsRangeError": "Expected wins must be between 0 and {round}.",
+            "expectedWinsSumError": "Total expected wins cannot be {round}.",
+            "actualWinsRangeError": "Actual wins must be between 0 and {round}.",
+            "actualWinsSumError": "Total actual wins must be exactly {round}.",
+            "confirmButton": "Add Round",
+            "updateButton": "Update Round"
+        },
+        "roundProgress": {
+            "current": "Round cards: {currentRound} (max {maxRound}) • Progress: {completedTurns}/{totalTurns}",
+            "finished": "Game finished"
+        },
+        "emptyState": {
+            "title": "No rounds yet",
+            "description": "Start by adding the first round using the button above."
+        },
+        "initializeDialog": {
+            "title": "Set up Oh Hell players",
+            "description": "This game has no players yet. Add players to start scoring rounds.",
+            "playerLabel": "Player {index}",
+            "playerPlaceholder": "Player {index}",
+            "addPlayerButton": "Add player",
+            "confirmButton": "Save players"
+        }
+    },
+    "howToPlayBoerenbridge": {
+        "seo": {
+            "title": "How to play Oh Hell | Game Scoreboard Manager",
+            "description": "Learn the rules of Oh Hell (Boerenbridge), understand the scoring, and see how Game Scoreboard Manager helps you track every round.",
+            "keywords": [
+                "oh hell rules",
+                "boerenbridge rules",
+                "oh hell card game",
+                "how to play oh hell",
+                "oh hell scoring",
+                "trick-taking card game",
+                "boerenbridge kaartspel",
+                "oh hell score tracker"
+            ]
+        },
+        "badge": "Card Game Guide",
+        "title": "How to play Oh Hell",
+        "subtitle": "A classic trick-taking card game where predicting your wins matters more than winning itself.",
+        "backToHome": "Back to home",
+        "learnMore": "Learn how the app helps",
+        "overview": {
+            "title": "Game overview",
+            "playersTitle": "Players",
+            "playersDescription": "3 to 10 players. Best with 4-6.",
+            "deckTitle": "Deck",
+            "deckDescription": "Standard 52-card deck. No jokers.",
+            "goalTitle": "Goal",
+            "goalDescription": "Predict exactly how many tricks you will win each round.",
+            "roundsTitle": "Rounds",
+            "roundsDescription": "Cards go up from 1 to max (played twice), then back down."
+        },
+        "howToPlay": {
+            "title": "How to play",
+            "step1Title": "Deal cards",
+            "step1Description": "Each round, the dealer gives every player a number of cards equal to the round number. Round 1 = 1 card, Round 2 = 2 cards, and so on.",
+            "step2Title": "Flip trump",
+            "step2Description": "After dealing, flip the top card of the remaining deck face-up. That suit is trump for this round. Trump cards beat any other suit. Exception: when playing the maximum number of cards, all cards are dealt out and there is no trump.",
+            "step3Title": "Predict your tricks",
+            "step3Description": "Starting left of the dealer, each player predicts how many tricks they will win. The catch: the total predictions cannot equal the number of cards dealt.",
+            "step4Title": "Play tricks",
+            "step4Description": "The player left of the dealer leads the first trick. Players must follow suit if they can. The highest card of the led suit wins, unless a trump card is played.",
+            "step5Title": "Score the round",
+            "step5Description": "After all tricks are played, compare predictions to results. Correct guesses earn bonus points, wrong guesses cost you."
+        },
+        "roundStructure": {
+            "title": "Round structure",
+            "description": "The number of cards dealt changes every round, creating a unique pyramid pattern. The top round (maximum cards) is played twice. With {playerCount} players the game goes:",
+            "cardsPerRound": "cards",
+            "ascending": "Going up",
+            "descending": "Coming down",
+            "topRound": "Top (no trump)",
+            "maxCards": "Max cards per player = 52 / number of players (rounded down)",
+            "totalRounds": "Total rounds with {playerCount} players: {totalRounds}",
+            "exampleLabel": "Example: {playerCount} players",
+            "noTrumpTitle": "No trump at the top",
+            "noTrumpDescription": "When playing the maximum number of cards (the top rounds), there is no trump suit. All cards remaining are dealt out, so there is no card left to flip. These rounds are played without trump, making them extra challenging."
+        },
+        "scoring": {
+            "title": "Scoring",
+            "correctTitle": "Correct prediction",
+            "correctFormula": "10 + (tricks won x points per trick)",
+            "correctDescription": "You predicted 3 and won 3? That's 10 + 3 x 2 = 16 points (with default 2 points per trick).",
+            "wrongTitle": "Wrong prediction",
+            "wrongFormula": "-(difference x points per trick)",
+            "wrongDescription": "You predicted 3 but won 1? That's -(2 x 2) = -4 points. The penalty grows with bigger misses.",
+            "strategyTitle": "Strategy tip",
+            "strategyDescription": "Predicting 0 and winning 0 tricks is a safe play worth 10 points. But correctly predicting higher numbers pays off more."
+        },
+        "appFeatures": {
+            "title": "How the app helps",
+            "feature1Title": "Automatic score calculation",
+            "feature1Description": "No more mental math or arguments. The app calculates scores instantly after each round.",
+            "feature2Title": "Round tracking",
+            "feature2Description": "The app knows which round you are on, how many cards to deal, and when the game ends.",
+            "feature3Title": "Running totals",
+            "feature3Description": "See cumulative scores after every round so you always know who is in the lead.",
+            "feature4Title": "Edit any round",
+            "feature4Description": "Made a mistake? Go back and fix any round. Totals update automatically.",
+            "feature5Title": "Validation built in",
+            "feature5Description": "The app prevents invalid entries: predictions cannot equal the round number, and actual tricks must add up correctly.",
+            "feature6Title": "Custom point values",
+            "feature6Description": "Set how many points each correctly won trick is worth when you create the game."
+        },
+        "cta": {
+            "title": "Ready to play?",
+            "description": "Create an account and start your first Oh Hell game in seconds.",
+            "loginButton": "Log in",
+            "signUpButton": "Create account",
+            "goToGames": "Go to my games"
+        }
+    },
+    "howToPlayKlaverjas": {
+        "seo": {
+            "title": "How to play Klaverjas | Game Scoreboard Manager",
+            "description": "Learn the rules of Klaverjas, understand card values, roem, and the difference between Amsterdams and Rotterdams. See how Game Scoreboard Manager helps you track every round.",
+            "keywords": [
+                "klaverjas rules",
+                "how to play klaverjas",
+                "klaverjas card game",
+                "klaverjas roem",
+                "klaverjas scoring",
+                "amsterdams rotterdams klaverjas",
+                "dutch card game",
+                "klaverjas score tracker"
+            ]
+        },
+        "badge": "Card Game Guide",
+        "title": "How to play Klaverjas",
+        "subtitle": "A classic Dutch trick-taking card game played in teams of two, where trump cards change everything and roem can turn the tide.",
+        "backToHome": "Back to home",
+        "learnMore": "Learn how the app helps",
+        "overview": {
+            "title": "Game overview",
+            "playersTitle": "Players",
+            "playersDescription": "4 players in 2 teams. Partners sit across from each other.",
+            "deckTitle": "Deck",
+            "deckDescription": "Piquet deck: 32 cards (7 and up in each suit). No cards below 7.",
+            "goalTitle": "Goal",
+            "goalDescription": "Score more points than the opposing team by winning tricks with high-value cards and bonus combinations.",
+            "teamsTitle": "Teams",
+            "teamsDescription": "Two teams of two. You play with the person sitting across from you."
+        },
+        "howToPlay": {
+            "title": "How to play",
+            "step1Title": "Deal cards",
+            "step1Description": "The dealer gives each player 8 cards from the 32-card piquet deck, usually dealt in groups of 3-2-3 or 4-4.",
+            "step2Title": "Determine trump",
+            "step2Description": "A trump suit is chosen. In classic play, a card is turned face-up to propose the trump suit. Players then bid to play or pass. The team that plays must score more than half the points. In the Jack and Nine are the highest trump cards.",
+            "step3Title": "Play 8 tricks",
+            "step3Description": "The player left of the dealer leads the first trick. You must follow suit if you can. If you cannot follow suit, you must trump (rules differ by variant). The highest card wins the trick.",
+            "step4Title": "Count points and roem",
+            "step4Description": "After all 8 tricks, count the card points won by each team. Add any roem (bonus combinations) scored during play. The playing team must have more than half the total to avoid going nat (wet).",
+            "step5Title": "Play the next hand",
+            "step5Description": "A full match is 16 hands (4 deals per player), or play until one team reaches 1500 points. The team with the most points wins."
+        },
+        "cardValues": {
+            "title": "Card values",
+            "description": "Cards have different point values depending on whether they are trump or not. In trump, the Jack (Jas) and Nine (Nel) become the two most powerful cards.",
+            "trumpTitle": "Trump cards",
+            "nonTrumpTitle": "Non-trump cards",
+            "jack": "Jack",
+            "nine": "Nine",
+            "ace": "Ace",
+            "ten": "Ten",
+            "king": "King",
+            "queen": "Queen",
+            "eight": "Eight",
+            "seven": "Seven",
+            "totalTitle": "162 total points",
+            "totalDescription": "Every hand has exactly 162 points: 62 from trump, 3 x 30 from non-trump suits, plus 10 for the last trick. The playing team needs more than half (including roem) to avoid going nat."
+        },
+        "roem": {
+            "title": "Roem (bonus points)",
+            "description": "Roem are bonus points for specific card combinations played within a single trick. They count toward the total when determining if the playing team goes nat.",
+            "threeInRow": "Three in a row (same suit)",
+            "fourInRow": "Four in a row (same suit)",
+            "fourOfKind": "Four of a kind (10, J, Q, K, or A)",
+            "fourJacks": "Four Jacks",
+            "stuk": "Stuk (King + Queen of trump)",
+            "stukNote": "If stuk is part of a sequence, both bonuses stack. For example: a four-in-a-row that includes the King and Queen of trump scores 50 + 20 = 70 points. Sequences follow standard order: 7-8-9-10-J-Q-K-A."
+        },
+        "variants": {
+            "title": "Amsterdams vs. Rotterdams",
+            "description": "The two main rule variants differ in what happens when you cannot follow suit and your partner is already winning the trick.",
+            "amsterdamsTitle": "Amsterdams",
+            "amsterdamsDescription": "You do not have to trump if your partner is already winning the trick. You can freely discard a card from another suit. This creates more room for teamwork and signaling between partners.",
+            "rotterdamsTitle": "Rotterdams",
+            "rotterdamsDescription": "You must always trump (or overtrump) when you cannot follow suit, even if your partner is winning. Only if you have no trump at all may you play another suit.",
+            "comparisonTitle": "When a non-trump suit is led and you cannot follow suit:",
+            "rule1": "Follow suit",
+            "rule2Amsterdams": "Trump/overtrump (not if partner wins)",
+            "rule2Rotterdams": "Trump/overtrump (always)",
+            "rule3Amsterdams": "Play other suit",
+            "rule3Rotterdams": "Undertrump",
+            "rule4Amsterdams": "Undertrump",
+            "rule4Rotterdams": "Play other suit",
+            "keyDifferenceTitle": "The key difference",
+            "keyDifferenceDescription": "In Amsterdams, when your partner has the highest card in the trick and you cannot follow suit, you are free to discard any card. In Rotterdams, you must always trump regardless. This makes Amsterdams more team-oriented with more signaling opportunities."
+        },
+        "scoring": {
+            "title": "Scoring",
+            "winTitle": "Winning a hand",
+            "winDescription": "The playing team (who chose trump) must score more than half of all points, including roem. With 162 base points and no roem, that means more than 81 points.",
+            "natTitle": "Going nat (wet)",
+            "natDescription": "If the playing team does not score more than half, they go nat: they get 0 points and the opposing team receives all 162 points plus all roem from both teams.",
+            "pitTitle": "Pit (march)",
+            "pitDescription": "If the playing team wins all 8 tricks, they score 100 extra roem on top of the 162 points. If the opposing team wins all 8 tricks, the playing team goes nat.",
+            "lastTrickTitle": "Last trick bonus",
+            "lastTrickDescription": "The team that wins the last trick receives 10 bonus points. These are already included in the 162 total.",
+            "strategyTitle": "Strategy tip",
+            "strategyDescription": "Roem counts toward the nat threshold. If the opposing team scores roem, you need even more card points to stay safe. Sometimes it is better not to report your own roem if it would help the opponent."
+        },
+        "appFeatures": {
+            "title": "How the app helps",
+            "feature1Title": "Automatic nat calculation",
+            "feature1Description": "The app handles the nat logic automatically. Enter points and roem, and it figures out who wins the hand.",
+            "feature2Title": "Roem tracking",
+            "feature2Description": "Track roem (fame) per team per round. The app accounts for roem when calculating whether a team goes nat.",
+            "feature3Title": "Running totals",
+            "feature3Description": "See cumulative team scores after every hand so you always know who is ahead.",
+            "feature4Title": "Edit any round",
+            "feature4Description": "Made a mistake? Go back and fix any round. Totals update automatically.",
+            "feature5Title": "Pit and wet indicators",
+            "feature5Description": "Clear visual markers show which rounds had a pit or went nat, so you can see key moments at a glance.",
+            "feature6Title": "Team management",
+            "feature6Description": "Set up team names when you create the game. The scoreboard keeps everything organized per team."
+        },
+        "cta": {
+            "title": "Ready to play?",
+            "description": "Create an account and start your first Klaverjas game in seconds.",
+            "loginButton": "Log in",
+            "signUpButton": "Create account",
+            "goToGames": "Go to my games"
         }
     }
 }

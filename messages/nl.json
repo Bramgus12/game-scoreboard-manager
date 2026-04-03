@@ -4,36 +4,37 @@
         "hero": {
             "badge": "Game Scoreboard Manager",
             "title": "Houd scores van je kaartspel bij zonder spreadsheets of papieren notities.",
-            "description": "Maak scoreboards aan, voeg snel rondes toe en zie altijd wie er voor staat. Gemaakt voor spelavonden die snel gaan.",
-            "goToScoreboards": "Ga naar mijn scoreboards",
+            "description": "Maak spellen aan, voeg snel rondes toe en zie altijd wie er voor staat. Gemaakt voor spelavonden die snel gaan.",
+            "goToScoreboards": "Ga naar mijn spellen",
             "login": "Inloggen",
             "createAccount": "Account aanmaken"
         },
         "availableGames": {
             "title": "Beschikbare spellen",
-            "description": "Start binnen enkele seconden een scoreboard met de spellen die nu al worden ondersteund.",
+            "description": "Start binnen enkele seconden een spel met de spellen die nu al worden ondersteund.",
             "klaverjas": "Klaverjas",
-            "boerenbridge": "Oh Hell",
+            "boerenbridge": "Boerenbridge",
             "mahjong": "Mahjong",
             "availableNow": "Nu beschikbaar",
-            "comingSoon": "Binnenkort"
+            "comingSoon": "Binnenkort",
+            "learnToPlay": "Speluitleg"
         },
         "howItWorks": {
             "title": "Hoe het werkt",
-            "step1": "Maak een scoreboard voor het spel dat je wilt spelen.",
+            "step1": "Maak een spel aan voor wat je wilt spelen.",
             "step2": "Voeg rondes of beurten toe en registreer scores tijdens het spel.",
             "step3": "Volg totalen en historie zodat iedereen dezelfde stand ziet."
         }
     },
     "homeSeo": {
         "title": "Game Scoreboard Manager | Houd Klaverjas en kaartspel scores bij",
-        "description": "Houd eenvoudig scores online bij met een scoreboard app. Maak scoreboards aan, voeg rondes toe en volg totalen voor Klaverjas en binnenkort meer spellen.",
+        "description": "Houd eenvoudig scores online bij met een game score app. Maak spellen aan, voeg rondes toe en volg totalen voor Klaverjas en binnenkort meer spellen.",
         "keywords": [
-            "scoreboard app",
+            "game score app",
             "scores bijhouden",
             "klaverjas score app",
             "kaartspel score bijhouden",
-            "online scoreboard"
+            "online scores"
         ]
     },
     "themeSwitch": {
@@ -47,7 +48,7 @@
         "numberOfTotalGames": "Totaal {count} spellen",
         "noGames": "Je hebt nog geen spellen.",
         "klaverjas": "Klaverjas",
-        "boerenbridge": "Oh Hell",
+        "boerenbridge": "Boerenbridge",
         "created": "{value} gemaakt",
         "updated": "{value} bijgewerkt",
         "createGame": "Maak een spel aan om te starten.",
@@ -61,13 +62,13 @@
         },
         "createGameDialog": {
             "title": "Maak een nieuw spel",
-            "description": "Maak een nieuw scoreboard om te starten met het bijhouden van je scores.",
+            "description": "Maak een nieuw spel om te starten met het bijhouden van je scores.",
             "gameNameLabel": "Spelnaam",
             "gameNamePlaceholder": "Gezellig spel met de familie",
             "gameTypeLabel": "Speltype",
             "gameTypePlaceholder": "Selecteer een speltype",
             "klaverjas": "Klaverjas",
-            "boerenbridge": "Oh Hell",
+            "boerenbridge": "Boerenbridge",
             "gameTypeDescription": "Selecteer het type spel waar je scores van wil bijhouden.",
             "confirmButton": "Spel maken"
         }
@@ -77,6 +78,7 @@
         "backToGames": "Terug naar alle spellen"
     },
     "klaverjas": {
+        "howToPlay": "Speluitleg",
         "createGameDialog": {
             "title": "Maak een nieuw Klaverjas spel",
             "description": "Vul de namen van je teams in.",
@@ -106,6 +108,277 @@
             "pit": "Pit",
             "confirmButton": "Ronde toevoegen",
             "updateButton": "Ronde bijwerken"
+        }
+    },
+    "boerenbridge": {
+        "howToPlay": "Speluitleg",
+        "createGameDialog": {
+            "title": "Maak een nieuw Boerenbridge spel",
+            "description": "Stel spelers en puntregels in voordat je start.",
+            "pointsPerCorrectGuessLabel": "Punten per gewonnen slag",
+            "playerLabel": "Speler {index}",
+            "playerPlaceholder": "Speler {index}",
+            "addPlayerButton": "Speler toevoegen",
+            "confirmButton": "Start spel"
+        },
+        "table": {
+            "actions": "Acties",
+            "total": "Totaal",
+            "cards": "Kaarten",
+            "expectedWins": "Gok",
+            "runningTotal": "Punten",
+            "expectedWinsValue": "Verwacht: {value}",
+            "actualWinsValue": "Behaald: {value}",
+            "deltaValue": "Verschil: {value}"
+        },
+        "roundDialog": {
+            "loadingButton": "Laden...",
+            "newRound": "Nieuwe ronde",
+            "title": "Nieuwe ronde toevoegen",
+            "editTitle": "Ronde bewerken",
+            "stepOneDescription": "Stap 1: Vul per speler in hoeveel slagen die verwacht te winnen.",
+            "stepTwoDescription": "Stap 2: Vul per speler in hoeveel slagen die echt gewonnen heeft.",
+            "expectedWins": "Verwachte slagen",
+            "actualWins": "Gewonnen slagen",
+            "continueButton": "Verder",
+            "backButton": "Terug",
+            "expectedWinsRangeError": "Verwachte slagen moeten tussen 0 en {round} liggen.",
+            "expectedWinsSumError": "Totaal verwachte slagen mag niet gelijk zijn aan {round}.",
+            "actualWinsRangeError": "Gewonnen slagen moeten tussen 0 en {round} liggen.",
+            "actualWinsSumError": "Totaal gewonnen slagen moet precies {round} zijn.",
+            "confirmButton": "Ronde toevoegen",
+            "updateButton": "Ronde bijwerken"
+        },
+        "roundProgress": {
+            "current": "Kaarten deze ronde: {currentRound} (max {maxRound}) • Voortgang: {completedTurns}/{totalTurns}",
+            "finished": "Spel is afgerond"
+        },
+        "emptyState": {
+            "title": "Nog geen rondes",
+            "description": "Begin door de eerste ronde toe te voegen met de knop hierboven."
+        },
+        "initializeDialog": {
+            "title": "Stel Boerenbridge spelers in",
+            "description": "Dit spel heeft nog geen spelers. Voeg spelers toe om rondes te kunnen scoren.",
+            "playerLabel": "Speler {index}",
+            "playerPlaceholder": "Speler {index}",
+            "addPlayerButton": "Speler toevoegen",
+            "confirmButton": "Spelers opslaan"
+        }
+    },
+    "howToPlayBoerenbridge": {
+        "seo": {
+            "title": "Hoe speel je Boerenbridge | Game Scoreboard Manager",
+            "description": "Leer de regels van Boerenbridge (Oh Hell), begrijp de scoring en ontdek hoe Game Scoreboard Manager je helpt elke ronde bij te houden.",
+            "keywords": [
+                "boerenbridge regels",
+                "oh hell regels",
+                "boerenbridge kaartspel",
+                "hoe speel je boerenbridge",
+                "boerenbridge scoring",
+                "slagenspel regels",
+                "oh hell kaartspel",
+                "boerenbridge score bijhouden"
+            ]
+        },
+        "badge": "Kaartspel uitleg",
+        "title": "Hoe speel je Boerenbridge",
+        "subtitle": "Een klassiek slagenspel waarbij het voorspellen van je slagen belangrijker is dan het winnen zelf.",
+        "backToHome": "Terug naar home",
+        "learnMore": "Bekijk hoe de app helpt",
+        "overview": {
+            "title": "Speloverzicht",
+            "playersTitle": "Spelers",
+            "playersDescription": "3 tot 10 spelers. Het beste met 4-6.",
+            "deckTitle": "Kaarten",
+            "deckDescription": "Standaard kaartspel van 52 kaarten. Geen jokers.",
+            "goalTitle": "Doel",
+            "goalDescription": "Voorspel precies hoeveel slagen je wint per ronde.",
+            "roundsTitle": "Rondes",
+            "roundsDescription": "Kaarten gaan omhoog van 1 naar max (twee keer gespeeld), en dan weer omlaag."
+        },
+        "howToPlay": {
+            "title": "Hoe te spelen",
+            "step1Title": "Deel kaarten",
+            "step1Description": "Elke ronde geeft de deler iedere speler een aantal kaarten gelijk aan het rondenummer. Ronde 1 = 1 kaart, Ronde 2 = 2 kaarten, enzovoort.",
+            "step2Title": "Draai troef",
+            "step2Description": "Na het delen draai je de bovenste kaart van de resterende stapel open. Die kleur is troef voor deze ronde. Troefkaarten winnen van elke andere kleur. Uitzondering: bij het maximale aantal kaarten worden alle kaarten uitgedeeld en is er geen troef.",
+            "step3Title": "Voorspel je slagen",
+            "step3Description": "Beginnend links van de deler voorspelt elke speler hoeveel slagen die denkt te winnen. De regel: het totaal van alle voorspellingen mag niet gelijk zijn aan het aantal gedeelde kaarten.",
+            "step4Title": "Speel slagen",
+            "step4Description": "De speler links van de deler speelt de eerste slag. Spelers moeten kleur bekennen als ze kunnen. De hoogste kaart van de gespeelde kleur wint, tenzij er troef is gespeeld.",
+            "step5Title": "Scoor de ronde",
+            "step5Description": "Na alle slagen vergelijk je voorspellingen met resultaten. Juiste voorspellingen leveren bonuspunten op, foute voorspellingen kosten punten."
+        },
+        "roundStructure": {
+            "title": "Rondestructuur",
+            "description": "Het aantal gedeelde kaarten verandert elke ronde en vormt een piramidepatroon. De topronde (maximaal aantal kaarten) wordt twee keer gespeeld. Met {playerCount} spelers gaat het spel zo:",
+            "cardsPerRound": "kaarten",
+            "ascending": "Omhoog",
+            "descending": "Omlaag",
+            "topRound": "Top (geen troef)",
+            "maxCards": "Max kaarten per speler = 52 / aantal spelers (naar beneden afgerond)",
+            "totalRounds": "Totaal rondes met {playerCount} spelers: {totalRounds}",
+            "exampleLabel": "Voorbeeld: {playerCount} spelers",
+            "noTrumpTitle": "Geen troef aan de top",
+            "noTrumpDescription": "Bij het spelen met het maximale aantal kaarten (de toprondes) is er geen troefkleur. Alle kaarten worden uitgedeeld, dus er is geen kaart over om om te draaien. Deze rondes worden zonder troef gespeeld, wat ze extra uitdagend maakt."
+        },
+        "scoring": {
+            "title": "Puntentelling",
+            "correctTitle": "Juiste voorspelling",
+            "correctFormula": "10 + (gewonnen slagen x punten per slag)",
+            "correctDescription": "Je voorspelde 3 en won 3? Dat is 10 + 3 x 2 = 16 punten (met standaard 2 punten per slag).",
+            "wrongTitle": "Foute voorspelling",
+            "wrongFormula": "-(verschil x punten per slag)",
+            "wrongDescription": "Je voorspelde 3 maar won 1? Dat is -(2 x 2) = -4 punten. De straf groeit bij grotere missers.",
+            "strategyTitle": "Strategietip",
+            "strategyDescription": "0 voorspellen en 0 slagen winnen is een veilige zet van 10 punten. Maar hogere juiste voorspellingen leveren meer op."
+        },
+        "appFeatures": {
+            "title": "Hoe de app helpt",
+            "feature1Title": "Automatische scoreberekening",
+            "feature1Description": "Geen hoofdrekenen of discussies meer. De app berekent scores direct na elke ronde.",
+            "feature2Title": "Ronde bijhouden",
+            "feature2Description": "De app weet in welke ronde je zit, hoeveel kaarten je moet delen en wanneer het spel eindigt.",
+            "feature3Title": "Lopende totalen",
+            "feature3Description": "Zie cumulatieve scores na elke ronde zodat je altijd weet wie er voor staat.",
+            "feature4Title": "Elke ronde bewerken",
+            "feature4Description": "Foutje gemaakt? Ga terug en corrigeer elke ronde. Totalen worden automatisch bijgewerkt.",
+            "feature5Title": "Ingebouwde validatie",
+            "feature5Description": "De app voorkomt ongeldige invoer: voorspellingen mogen niet gelijk zijn aan het rondenummer en daadwerkelijke slagen moeten correct optellen.",
+            "feature6Title": "Aangepaste puntwaarden",
+            "feature6Description": "Stel in hoeveel punten elke correct gewonnen slag waard is wanneer je het spel aanmaakt."
+        },
+        "cta": {
+            "title": "Klaar om te spelen?",
+            "description": "Maak een account aan en start je eerste Boerenbridge spel in seconden.",
+            "loginButton": "Inloggen",
+            "signUpButton": "Account aanmaken",
+            "goToGames": "Ga naar mijn spellen"
+        }
+    },
+    "howToPlayKlaverjas": {
+        "seo": {
+            "title": "Hoe speel je Klaverjas | Game Scoreboard Manager",
+            "description": "Leer de regels van Klaverjas, begrijp kaartwaarden, roem en het verschil tussen Amsterdams en Rotterdams. Ontdek hoe Game Scoreboard Manager je helpt elke ronde bij te houden.",
+            "keywords": [
+                "klaverjas regels",
+                "hoe speel je klaverjas",
+                "klaverjas kaartspel",
+                "klaverjas roem",
+                "klaverjas scoring",
+                "amsterdams rotterdams klaverjas",
+                "nederlands kaartspel",
+                "klaverjas score bijhouden"
+            ]
+        },
+        "badge": "Kaartspel uitleg",
+        "title": "Hoe speel je Klaverjas",
+        "subtitle": "Een klassiek Nederlands slagenspel in teams van twee, waarbij troefkaarten alles veranderen en roem de doorslag kan geven.",
+        "backToHome": "Terug naar home",
+        "learnMore": "Bekijk hoe de app helpt",
+        "overview": {
+            "title": "Speloverzicht",
+            "playersTitle": "Spelers",
+            "playersDescription": "4 spelers in 2 teams. Partners zitten tegenover elkaar.",
+            "deckTitle": "Kaarten",
+            "deckDescription": "Piketkaarten: 32 kaarten (7 en hoger in elke kleur). Geen kaarten onder 7.",
+            "goalTitle": "Doel",
+            "goalDescription": "Scoor meer punten dan het andere team door slagen te winnen met waardevolle kaarten en bonuscombinaties.",
+            "teamsTitle": "Teams",
+            "teamsDescription": "Twee teams van twee. Je speelt met de persoon die tegenover je zit."
+        },
+        "howToPlay": {
+            "title": "Hoe te spelen",
+            "step1Title": "Deel kaarten",
+            "step1Description": "De deler geeft elke speler 8 kaarten uit het piketspel van 32 kaarten, meestal gedeeld in groepen van 3-2-3 of 4-4.",
+            "step2Title": "Bepaal troef",
+            "step2Description": "Er wordt een troefkleur gekozen. Bij klassiek spelen wordt een kaart omgedraaid als troefvoorstel. Spelers bieden dan om te spelen of te passen. Het team dat speelt moet meer dan de helft van de punten halen. De Boer en Negen zijn de hoogste troefkaarten.",
+            "step3Title": "Speel 8 slagen",
+            "step3Description": "De speler links van de deler speelt de eerste slag. Je moet kleur bekennen als je kunt. Als je niet kunt bekennen, moet je troeven (regels verschillen per variant). De hoogste kaart wint de slag.",
+            "step4Title": "Tel punten en roem",
+            "step4Description": "Na alle 8 slagen tel je de kaartpunten per team. Tel eventuele roem (bonuscombinaties) erbij op. Het spelende team moet meer dan de helft van het totaal hebben om niet nat te gaan.",
+            "step5Title": "Speel de volgende hand",
+            "step5Description": "Een volledige wedstrijd bestaat uit 16 handen (4 deelbeurten per speler), of speel tot een team 1500 punten bereikt. Het team met de meeste punten wint."
+        },
+        "cardValues": {
+            "title": "Kaartwaarden",
+            "description": "Kaarten hebben verschillende puntwaarden afhankelijk van of ze troef zijn of niet. Bij troef worden de Boer (Jas) en Negen (Nel) de twee sterkste kaarten.",
+            "trumpTitle": "Troefkaarten",
+            "nonTrumpTitle": "Niet-troefkaarten",
+            "jack": "Boer",
+            "nine": "Negen",
+            "ace": "Aas",
+            "ten": "Tien",
+            "king": "Heer",
+            "queen": "Vrouw",
+            "eight": "Acht",
+            "seven": "Zeven",
+            "totalTitle": "162 totale punten",
+            "totalDescription": "Elke hand heeft precies 162 punten: 62 van troef, 3 x 30 van niet-troefkleuren, plus 10 voor de laatste slag. Het spelende team moet meer dan de helft (inclusief roem) halen om niet nat te gaan."
+        },
+        "roem": {
+            "title": "Roem (bonuspunten)",
+            "description": "Roem zijn bonuspunten voor specifieke kaartcombinaties gespeeld binnen een enkele slag. Ze tellen mee bij het bepalen of het spelende team nat gaat.",
+            "threeInRow": "Drie op een rij (zelfde kleur)",
+            "fourInRow": "Vier op een rij (zelfde kleur)",
+            "fourOfKind": "Vier gelijke (10, B, V, H of A)",
+            "fourJacks": "Vier Boeren",
+            "stuk": "Stuk (Heer + Vrouw van troef)",
+            "stukNote": "Als stuk deel uitmaakt van een reeks, worden beide bonussen opgeteld. Bijvoorbeeld: vier op een rij met de Heer en Vrouw van troef scoort 50 + 20 = 70 punten. Reeksen volgen de standaardvolgorde: 7-8-9-10-B-V-H-A."
+        },
+        "variants": {
+            "title": "Amsterdams vs. Rotterdams",
+            "description": "De twee belangrijkste regelvarianten verschillen in wat er gebeurt als je niet kunt bekennen en je maat al de slag wint.",
+            "amsterdamsTitle": "Amsterdams",
+            "amsterdamsDescription": "Je hoeft niet te troeven als je maat al de slag wint. Je mag vrij een kaart van een andere kleur bijleggen. Dit geeft meer ruimte voor teamwork en seinen tussen partners.",
+            "rotterdamsTitle": "Rotterdams",
+            "rotterdamsDescription": "Je moet altijd troeven (of overtroeven) als je niet kunt bekennen, ook als je maat al wint. Alleen als je helemaal geen troef hebt mag je een andere kleur spelen.",
+            "comparisonTitle": "Als er een niet-troefkleur wordt gevraagd en je kunt niet bekennen:",
+            "rule1": "Kleur bekennen",
+            "rule2Amsterdams": "Troeven/overtroeven (niet als maat wint)",
+            "rule2Rotterdams": "Troeven/overtroeven (altijd)",
+            "rule3Amsterdams": "Andere kleur spelen",
+            "rule3Rotterdams": "Ondertroeven",
+            "rule4Amsterdams": "Ondertroeven",
+            "rule4Rotterdams": "Andere kleur spelen",
+            "keyDifferenceTitle": "Het belangrijkste verschil",
+            "keyDifferenceDescription": "Bij Amsterdams, als je maat de hoogste kaart in de slag heeft en je kunt niet bekennen, mag je vrij een willekeurige kaart bijleggen. Bij Rotterdams moet je altijd troeven, ongeacht. Dit maakt Amsterdams meer teamgericht met meer seinmogelijkheden."
+        },
+        "scoring": {
+            "title": "Puntentelling",
+            "winTitle": "Een hand winnen",
+            "winDescription": "Het spelende team (dat troef heeft gekozen) moet meer dan de helft van alle punten scoren, inclusief roem. Met 162 basispunten en geen roem betekent dat meer dan 81 punten.",
+            "natTitle": "Nat gaan",
+            "natDescription": "Als het spelende team niet meer dan de helft scoort, gaan ze nat: ze krijgen 0 punten en het andere team ontvangt alle 162 punten plus alle roem van beide teams.",
+            "pitTitle": "Pit (doormars)",
+            "pitDescription": "Als het spelende team alle 8 slagen wint, krijgen ze 100 extra roem bovenop de 162 punten. Als het andere team alle 8 slagen wint, gaat het spelende team nat.",
+            "lastTrickTitle": "Laatste slag bonus",
+            "lastTrickDescription": "Het team dat de laatste slag wint ontvangt 10 bonuspunten. Deze zijn al inbegrepen in het totaal van 162.",
+            "strategyTitle": "Strategietip",
+            "strategyDescription": "Roem telt mee voor de nat-grens. Als het andere team roem scoort, heb je nog meer kaartpunten nodig om veilig te blijven. Soms is het beter je eigen roem niet te melden als het de tegenstander zou helpen."
+        },
+        "appFeatures": {
+            "title": "Hoe de app helpt",
+            "feature1Title": "Automatische nat-berekening",
+            "feature1Description": "De app handelt de nat-logica automatisch af. Voer punten en roem in, en het berekent wie de hand wint.",
+            "feature2Title": "Roem bijhouden",
+            "feature2Description": "Houd roem per team per ronde bij. De app houdt rekening met roem bij het berekenen of een team nat gaat.",
+            "feature3Title": "Lopende totalen",
+            "feature3Description": "Zie cumulatieve teamscores na elke hand zodat je altijd weet wie er voor staat.",
+            "feature4Title": "Elke ronde bewerken",
+            "feature4Description": "Foutje gemaakt? Ga terug en corrigeer elke ronde. Totalen worden automatisch bijgewerkt.",
+            "feature5Title": "Pit- en nat-indicatoren",
+            "feature5Description": "Duidelijke visuele markeringen tonen welke rondes een pit hadden of nat gingen, zodat je belangrijke momenten in een oogopslag ziet.",
+            "feature6Title": "Teambeheer",
+            "feature6Description": "Stel teamnamen in wanneer je het spel aanmaakt. Het scorebord houdt alles per team georganiseerd."
+        },
+        "cta": {
+            "title": "Klaar om te spelen?",
+            "description": "Maak een account aan en start je eerste Klaverjas spel in seconden.",
+            "loginButton": "Inloggen",
+            "signUpButton": "Account aanmaken",
+            "goToGames": "Ga naar mijn spellen"
         }
     }
 }

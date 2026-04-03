@@ -13,6 +13,7 @@ export default clerkMiddleware(async (auth, req) => {
         /^\/(en|nl)$/.test(pathname) ||
         /^\/(en|nl)\/sign-in(\/.*)?$/.test(pathname) ||
         /^\/(en|nl)\/sign-up(\/.*)?$/.test(pathname) ||
+        /^\/(en|nl)\/how-to-play(\/.*)?$/.test(pathname) ||
         pathname === "/sign-in" ||
         pathname === "/sign-up" ||
         pathname.startsWith("/api");
