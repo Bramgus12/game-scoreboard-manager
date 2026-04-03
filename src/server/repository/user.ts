@@ -1,5 +1,3 @@
-"use server";
-
 import { AppUser } from "@/models/app/user/user";
 import { currentUser } from "@clerk/nextjs/server";
 import { domainToAppUser } from "@/mappers/user";

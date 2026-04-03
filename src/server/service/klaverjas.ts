@@ -1,5 +1,3 @@
-"use server";
-
 import { UUID } from "crypto";
 import { TEAM_TYPE } from "@/constants/teamType";
 import { domainToAppKlaverjasRoundArray } from "@/mappers/klaverjas-round";

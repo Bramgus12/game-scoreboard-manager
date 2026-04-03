@@ -2,7 +2,7 @@ import QUERY_KEY from "@/constants/query-key";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { UUID } from "crypto";
 import { AppKlaverjasTeam } from "@/models/app/klaverjas-team/klaverjas-team";
-import { getTeamsForScoreboard } from "@/server/service/klaverjas";
+import { getTeamsForScoreboard } from "@/api/klaverjas";
 
 export function getKlaverjasTeamsQueryOptions(
     scoreboardId: UUID,

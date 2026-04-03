@@ -1,7 +1,7 @@
 import { AppScoreboard } from "@/models/app/scoreboard/scoreboard";
 import QUERY_KEY from "@/constants/query-key";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { getScoreboardsForUser } from "@/server/service/scoreboard";
+import { getScoreboardsForUser } from "@/api/scoreboard";
 
 export function getScoreboardsQueryOptions(): UseQueryOptions<Array<AppScoreboard>> {
     return {

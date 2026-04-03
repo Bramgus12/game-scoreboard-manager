@@ -1,16 +1,16 @@
 import { DomainKlaverjasTeam } from "@/models/domain/klaverjas-team/klaverjas-team";
 import { AppKlaverjasTeam } from "@/models/app/klaverjas-team/klaverjas-team";
-import { UUID } from "crypto";
-import { AppTeamType } from "@/models/app/klaverjas-team/team-type";
+import { parseAppTeamType } from "@/lib/team-type";
+import { parseUuid } from "@/lib/uuid";
 
 export function domainToAppKlaverjasTeam(
     domainModel: DomainKlaverjasTeam,
 ): AppKlaverjasTeam {
     return {
-        type: domainModel.type as AppTeamType,
+        type: parseAppTeamType(domainModel.type),
         name: domainModel.name,
-        id: domainModel.id as UUID,
-        scoreboard: domainModel.scoreboard_id as UUID,
+        id: parseUuid(domainModel.id),
+        scoreboard: parseUuid(domainModel.scoreboard_id),
         createdAt: domainModel.created_at,
         updatedAt: domainModel.updated_at,
     };

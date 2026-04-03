@@ -1,8 +1,11 @@
--- CreateSchema
-CREATE SCHEMA IF NOT EXISTS "public";
+-- CreateEnum
+CREATE TYPE "game_type" AS ENUM ('boerenbridge', 'klaverjas');
+
+-- CreateEnum
+CREATE TYPE "team_type" AS ENUM ('us', 'them');
 
 -- CreateTable
-CREATE TABLE "public"."boerenbridge_game" (
+CREATE TABLE "boerenbridge_game" (
     "id" UUID NOT NULL,
     "created_at" TIMESTAMPTZ(6) NOT NULL,
     "updated_at" TIMESTAMPTZ(6) NOT NULL,
@@ -14,7 +17,7 @@ CREATE TABLE "public"."boerenbridge_game" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."boerenbridge_player" (
+CREATE TABLE "boerenbridge_player" (
     "id" UUID NOT NULL,
     "created_at" TIMESTAMPTZ(6) NOT NULL,
     "updated_at" TIMESTAMPTZ(6) NOT NULL,
@@ -25,7 +28,7 @@ CREATE TABLE "public"."boerenbridge_player" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."boerenbridge_round" (
+CREATE TABLE "boerenbridge_round" (
     "id" UUID NOT NULL,
     "created_at" TIMESTAMPTZ(6) NOT NULL,
     "updated_at" TIMESTAMPTZ(6) NOT NULL,
@@ -39,7 +42,7 @@ CREATE TABLE "public"."boerenbridge_round" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."klaverjas_round" (
+CREATE TABLE "klaverjas_round" (
     "id" UUID NOT NULL,
     "created_at" TIMESTAMPTZ(6) NOT NULL,
     "updated_at" TIMESTAMPTZ(6) NOT NULL,
@@ -55,11 +58,11 @@ CREATE TABLE "public"."klaverjas_round" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."klaverjas_team" (
+CREATE TABLE "klaverjas_team" (
     "id" UUID NOT NULL,
     "created_at" TIMESTAMPTZ(6) NOT NULL,
     "updated_at" TIMESTAMPTZ(6) NOT NULL,
-    "type" VARCHAR(255) NOT NULL,
+    "type" "team_type" NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "scoreboard_id" UUID NOT NULL,
 
@@ -67,19 +70,19 @@ CREATE TABLE "public"."klaverjas_team" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."scoreboard" (
+CREATE TABLE "scoreboard" (
     "id" UUID NOT NULL,
     "created_at" TIMESTAMPTZ(6) NOT NULL,
     "updated_at" TIMESTAMPTZ(6) NOT NULL,
     "scoreboard_name" VARCHAR(255) NOT NULL,
     "user_id" UUID NOT NULL,
-    "game_type" VARCHAR(255) NOT NULL,
+    "game_type" "game_type" NOT NULL,
 
     CONSTRAINT "scoreboard_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "public"."user" (
+CREATE TABLE "user" (
     "id" UUID NOT NULL,
     "created_at" TIMESTAMPTZ(6) NOT NULL,
     "updated_at" TIMESTAMPTZ(6) NOT NULL,
@@ -92,20 +95,19 @@ CREATE TABLE "public"."user" (
 );
 
 -- AddForeignKey
-ALTER TABLE "public"."boerenbridge_game" ADD CONSTRAINT "boerenbridge_game_scoreboard_id_foreign" FOREIGN KEY ("scoreboard_id") REFERENCES "public"."scoreboard"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
+ALTER TABLE "boerenbridge_game" ADD CONSTRAINT "boerenbridge_game_scoreboard_id_foreign" FOREIGN KEY ("scoreboard_id") REFERENCES "scoreboard"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."boerenbridge_player" ADD CONSTRAINT "boerenbridge_player_game_id_foreign" FOREIGN KEY ("game_id") REFERENCES "public"."boerenbridge_game"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
+ALTER TABLE "boerenbridge_player" ADD CONSTRAINT "boerenbridge_player_game_id_foreign" FOREIGN KEY ("game_id") REFERENCES "boerenbridge_game"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."boerenbridge_round" ADD CONSTRAINT "boerenbridge_round_player_id_foreign" FOREIGN KEY ("player_id") REFERENCES "public"."boerenbridge_player"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
+ALTER TABLE "boerenbridge_round" ADD CONSTRAINT "boerenbridge_round_player_id_foreign" FOREIGN KEY ("player_id") REFERENCES "boerenbridge_player"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."klaverjas_round" ADD CONSTRAINT "klaverjas_round_klaverjas_team_id_foreign" FOREIGN KEY ("klaverjas_team_id") REFERENCES "public"."klaverjas_team"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
+ALTER TABLE "klaverjas_round" ADD CONSTRAINT "klaverjas_round_klaverjas_team_id_foreign" FOREIGN KEY ("klaverjas_team_id") REFERENCES "klaverjas_team"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."klaverjas_team" ADD CONSTRAINT "klaverjas_team_scoreboard_id_foreign" FOREIGN KEY ("scoreboard_id") REFERENCES "public"."scoreboard"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
+ALTER TABLE "klaverjas_team" ADD CONSTRAINT "klaverjas_team_scoreboard_id_foreign" FOREIGN KEY ("scoreboard_id") REFERENCES "scoreboard"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."scoreboard" ADD CONSTRAINT "scoreboard_user_id_foreign" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
-
+ALTER TABLE "scoreboard" ADD CONSTRAINT "scoreboard_user_id_foreign" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE CASCADE;

@@ -1,14 +1,14 @@
 import { DomainScoreboard } from "@/models/domain/scoreboard/scoreboard";
 import { AppScoreboard } from "@/models/app/scoreboard/scoreboard";
-import { UUID } from "crypto";
-import { AppGameType } from "@/models/app/scoreboard/game-type";
+import { parseAppGameType } from "@/lib/game-type";
+import { parseUuid } from "@/lib/uuid";
 
 export function domainToAppScoreboard(domainModel: DomainScoreboard): AppScoreboard {
     return {
-        id: domainModel.id as UUID,
+        id: parseUuid(domainModel.id),
         scoreboardName: domainModel.scoreboard_name,
-        gameType: domainModel.game_type as AppGameType,
-        user: domainModel.user_id as UUID,
+        gameType: parseAppGameType(domainModel.game_type),
+        user: parseUuid(domainModel.user_id),
         createdAt: domainModel.created_at,
         updatedAt: domainModel.updated_at,
     };
