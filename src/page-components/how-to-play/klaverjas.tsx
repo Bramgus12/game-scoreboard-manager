@@ -10,7 +10,6 @@ import { CardValuesSection } from "@/page-components/how-to-play/klaverjas/card-
 import { RoemSection } from "@/page-components/how-to-play/klaverjas/roem-section";
 import { KlaverjasScoring } from "@/page-components/how-to-play/klaverjas/scoring-section";
 import { VariantsSection } from "@/page-components/how-to-play/klaverjas/variants-section";
-import { auth } from "@clerk/nextjs/server";
 import {
     Calculator,
     ChartColumnBig,
@@ -30,7 +29,6 @@ import { getTranslations } from "next-intl/server";
 
 export default async function HowToPlayKlaverjas() {
     const t = await getTranslations("howToPlayKlaverjas");
-    const { userId } = await auth();
 
     const schema = {
         "@context": "https://schema.org",
@@ -371,7 +369,6 @@ export default async function HowToPlayKlaverjas() {
                 goToGames={t("cta.goToGames")}
                 loginButton={t("cta.loginButton")}
                 signUpButton={t("cta.signUpButton")}
-                userId={userId}
             />
         </HowToPlayLayout>
     );
