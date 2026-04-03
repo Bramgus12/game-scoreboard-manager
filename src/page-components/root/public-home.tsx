@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { auth } from "@clerk/nextjs/server";
 import {
     ArrowRight,
+    BookOpen,
     ChartColumnBig,
     Gamepad2,
     ListChecks,
@@ -84,19 +85,37 @@ export default async function PublicHome() {
                         </p>
                         <div className="mt-5 space-y-3">
                             <div className="flex items-center justify-between rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3">
-                                <span className="font-medium">
-                                    {t("availableGames.klaverjas")}
-                                </span>
+                                <div className="flex items-center gap-2">
+                                    <span className="font-medium">
+                                        {t("availableGames.klaverjas")}
+                                    </span>
+                                    <Link
+                                        href="/how-to-play/klaverjas"
+                                        className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-xs underline-offset-2 transition-colors hover:underline"
+                                    >
+                                        <BookOpen size={12} />
+                                        {t("availableGames.learnToPlay")}
+                                    </Link>
+                                </div>
                                 <span className="rounded-full bg-emerald-500/20 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
                                     {t("availableGames.availableNow")}
                                 </span>
                             </div>
-                            <div className="flex items-center justify-between rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3">
-                                <span className="font-medium">
-                                    {t("availableGames.boerenbridge")}
-                                </span>
-                                <span className="rounded-full bg-amber-500/20 px-2.5 py-1 text-xs font-semibold text-amber-700 dark:text-amber-300">
-                                    {t("availableGames.comingSoon")}
+                            <div className="flex items-center justify-between rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3">
+                                <div className="flex items-center gap-2">
+                                    <span className="font-medium">
+                                        {t("availableGames.boerenbridge")}
+                                    </span>
+                                    <Link
+                                        href="/how-to-play/boerenbridge"
+                                        className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-xs underline-offset-2 transition-colors hover:underline"
+                                    >
+                                        <BookOpen size={12} />
+                                        {t("availableGames.learnToPlay")}
+                                    </Link>
+                                </div>
+                                <span className="rounded-full bg-emerald-500/20 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+                                    {t("availableGames.availableNow")}
                                 </span>
                             </div>
                             <div className="flex items-center justify-between rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3">

@@ -19,8 +19,6 @@ export async function getDatabaseUser(): Promise<AppUser> {
     });
 
     if (user != null) {
-        await prisma.$disconnect();
-
         return domainToAppUser(user);
     }
 
@@ -35,8 +33,6 @@ export async function getDatabaseUser(): Promise<AppUser> {
             where: { id: userBasedOnEmail.id },
             data: { external_id: authUser.id },
         });
-
-        await prisma.$disconnect();
 
         return domainToAppUser(updatedUser);
     }
@@ -53,8 +49,6 @@ export async function getDatabaseUser(): Promise<AppUser> {
         },
     });
 
-    await prisma.$disconnect();
-
     return domainToAppUser(createdUser);
 }
 
@@ -70,8 +64,6 @@ export async function updateDatabaseUser(data: AppCreateUpdateUser) {
             last_name: data.lastName,
         },
     });
-
-    await prisma.$disconnect();
 
     return domainToAppUser(updatedUser);
 }

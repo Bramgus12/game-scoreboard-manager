@@ -11,6 +11,7 @@ import { CreateKlaverjasGameDialog } from "@/page-components/root/create-klaverj
 import { UUID } from "crypto";
 import { GAME_TYPE } from "@/constants/gameType";
 import { useRouter } from "@/i18n/navigation";
+import CreateBoerenbridgeScoreboardDialog from "@/page-components/root/create-boerenbridge-scoreboard-dialog";
 
 export default function Games() {
     const { data, isPending, isError, isRefetching } = useScoreboardsQuery();
@@ -22,6 +23,13 @@ export default function Games() {
             open: false,
             scoreboardId: null,
         });
+    const [
+        createBoerenbridgeScoreboardDialogState,
+        setCreateBoerenbridgeScoreboardDialogState,
+    ] = useState<{ open: boolean; scoreboardName: string }>({
+        open: false,
+        scoreboardName: "",
+    });
 
     if (isPending || isError) {
         return null;
@@ -97,7 +105,17 @@ export default function Games() {
                         });
                         return;
                     }
+                    if (gameType === GAME_TYPE.BOERENBRIDGE) {
+                        router.push(`/scoreboard/${scoreboardId}`);
+                        return;
+                    }
                     router.push(`/scoreboard/${scoreboardId}`);
+                }}
+                onBoerenbridgeCreationRequested={(scoreboardName) => {
+                    setCreateBoerenbridgeScoreboardDialogState({
+                        open: true,
+                        scoreboardName,
+                    });
                 }}
             />
             <CreateKlaverjasGameDialog
@@ -115,6 +133,22 @@ export default function Games() {
                         router.push(
                             `/scoreboard/${createKlaverjasGameDialogState.scoreboardId}`,
                         );
+                    }
+                }}
+            />
+            <CreateBoerenbridgeScoreboardDialog
+                open={createBoerenbridgeScoreboardDialogState.open}
+                scoreboardName={
+                    createBoerenbridgeScoreboardDialogState.scoreboardName
+                }
+                onClose={(createdScoreboardId) => {
+                    setCreateBoerenbridgeScoreboardDialogState({
+                        open: false,
+                        scoreboardName: "",
+                    });
+
+                    if (createdScoreboardId != null) {
+                        router.push(`/scoreboard/${createdScoreboardId}`);
                     }
                 }}
             />

@@ -35,8 +35,6 @@ export async function createTeamsForScoreboard(
         })),
     });
 
-    await prisma.$disconnect();
-
     if (creationResult.count !== teams.length) {
         throw new Error("Failed to create all teams");
     }
@@ -53,8 +51,6 @@ export async function getTeamsForScoreboard(scoreboardId: UUID) {
             },
         },
     });
-
-    await prisma.$disconnect();
 
     if (teams == null) {
         throw new Error("Teams not found");
@@ -79,8 +75,6 @@ export async function updateTeam(teamId: UUID, name: string) {
         },
     });
 
-    await prisma.$disconnect();
-
     if (updatedTeam.count === 0) {
         throw new Error("Team not found or not updated");
     }
@@ -97,8 +91,6 @@ export async function deleteTeam(teamId: UUID) {
             },
         },
     });
-
-    await prisma.$disconnect();
 
     if (deletedTeam.count === 0) {
         throw new Error("Team not found or not deleted");

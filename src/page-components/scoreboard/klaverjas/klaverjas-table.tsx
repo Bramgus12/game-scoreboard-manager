@@ -19,6 +19,7 @@ import useKlaverjasTotalsForScoreboardQuery from "@/queries/use-klaverjas-totals
 import {
     ArrowLeftIcon,
     Asterisk,
+    BookOpen,
     Droplets,
     Edit,
     Loader2Icon,
@@ -29,7 +30,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { MergedRound } from "@/models/app/klaverjas-round/merged-round";
 import Paper from "@/components/paper";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 
 type Props = {
     scoreboardId: UUID;
@@ -88,13 +89,19 @@ export default function KlaverjasTable(props: Props) {
         <>
             <div className="flex justify-center pb-10">
                 <div className="container m-4 flex flex-col gap-4">
-                    <div>
+                    <div className="flex items-center gap-2">
                         <Button
                             variant="ghost"
                             onClick={() => router.push("/scoreboards")}
                         >
                             <ArrowLeftIcon />
                             {t("scoreboard.backToGames")}
+                        </Button>
+                        <Button variant="ghost" size="sm" asChild>
+                            <Link href="/how-to-play/klaverjas">
+                                <BookOpen size={16} />
+                                {t("klaverjas.howToPlay")}
+                            </Link>
                         </Button>
                     </div>
                     <Paper className="flex items-center justify-between p-4 text-2xl">

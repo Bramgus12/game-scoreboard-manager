@@ -52,6 +52,7 @@ type Props = {
     open: boolean;
     onClose: (open: boolean) => void;
     onGameCreated?: (scoreboardId: UUID, gameType: AppGameType) => void;
+    onBoerenbridgeCreationRequested?: (scoreboardName: string) => void;
 };
 
 function toAppModel(data: CreateGameForm): AppCreateScoreboard {
@@ -73,7 +74,7 @@ function isAppGameType(value: string | undefined): value is AppGameType {
 }
 
 export default function CreateGameDialog(props: Props) {
-    const { open, onClose, onGameCreated } = props;
+    const { open, onClose, onGameCreated, onBoerenbridgeCreationRequested } = props;
 
     const t = useTranslations("gamesTable.createGameDialog");
     const createScoreboardMutation = useCreateScoreboardMutation();
@@ -95,6 +96,13 @@ export default function CreateGameDialog(props: Props) {
     }
 
     async function handleSubmitNewGame(data: CreateGameForm) {
+        if (data.gameType === GAME_TYPE.BOERENBRIDGE) {
+            onBoerenbridgeCreationRequested?.(data.name);
+            handleOpenChange(false);
+
+            return;
+        }
+
         const appModel = toAppModel(data);
 
         const createdScoreboard =
@@ -169,11 +177,11 @@ export default function CreateGameDialog(props: Props) {
                                                 >
                                                     {t("klaverjas")}
                                                 </SelectItem>
-                                                {/*<SelectItem*/}
-                                                {/*    value={GAME_TYPE.BOERENBRIDGE}*/}
-                                                {/*>*/}
-                                                {/*    {t("boerenbridge")}*/}
-                                                {/*</SelectItem>*/}
+                                                <SelectItem
+                                                    value={GAME_TYPE.BOERENBRIDGE}
+                                                >
+                                                    {t("boerenbridge")}
+                                                </SelectItem>
                                             </SelectContent>
                                         </Select>
                                         <FormDescription>

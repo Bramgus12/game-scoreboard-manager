@@ -24,8 +24,6 @@ export async function createKlaverjasRound(
     });
 
     if (existingRound != null) {
-        await prisma.$disconnect();
-
         throw new Error("Round already exists");
     }
 
@@ -43,8 +41,6 @@ export async function createKlaverjasRound(
             id: randomUUID(),
         },
     });
-
-    await prisma.$disconnect();
 
     return createdRound;
 }
@@ -75,8 +71,6 @@ export async function updateKlaverjasRound(
         },
     });
 
-    await prisma.$disconnect();
-
     if (updatedRounds.count === 0) {
         throw new Error("Failed to update round");
     }
@@ -96,8 +90,6 @@ export async function deleteKlaverjasRound(teamId: UUID, roundNumber: number) {
             },
         },
     });
-
-    await prisma.$disconnect();
 
     if (deletedRounds.count === 0) {
         throw new Error("Failed to delete round");

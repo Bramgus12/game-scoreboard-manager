@@ -7,10 +7,9 @@ export function domainToAppBoerenbridgeRound(
 ): AppBoerenbridgeRound {
     return {
         id: parseUuid(domain.id),
-        guess: domain.guess,
-        isCorrect: domain.is_correct,
+        expectedWins: domain.guess,
+        actualWins: domain.penalty_points,
         roundNumber: domain.round_number,
-        penaltyPoints: domain.penalty_points,
         createdAt: domain.created_at,
         updatedAt: domain.updated_at,
     };
