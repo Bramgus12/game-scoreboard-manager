@@ -7,8 +7,24 @@ import TanstackProvider from "@/components/tanstack-provider";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
-    title: "Game scoreboard manager",
-    description: "Manage and track game scores with ease.",
+    title: {
+        default: "Game Scoreboard Manager",
+        template: "%s | Game Scoreboard Manager",
+    },
+    description: "Track game scores online with easy scoreboards and live totals.",
+    metadataBase: new URL(
+        process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
+    ),
+    robots: {
+        index: true,
+        follow: true,
+    },
+    alternates: {
+        languages: {
+            en: "/en",
+            nl: "/nl",
+        },
+    },
 };
 
 type Props = Readonly<{

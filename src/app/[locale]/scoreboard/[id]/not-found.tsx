@@ -11,7 +11,7 @@ export default async function NotFound() {
             <CircleX size={36} />
             <h1 className="text-xl">{t("gameNotFound")}</h1>
             <Button asChild>
-                <Link href="/">{t("backToGames")}</Link>
+                <Link href="/scoreboards">{t("backToGames")}</Link>
             </Button>
         </div>
     );
