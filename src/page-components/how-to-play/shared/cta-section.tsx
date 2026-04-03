@@ -1,5 +1,8 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
+import { useAuth } from "@clerk/nextjs";
 import { ArrowRight, ChartColumnBig, Trophy } from "lucide-react";
 
 export function CtaSection({
@@ -8,15 +11,15 @@ export function CtaSection({
     goToGames,
     loginButton,
     signUpButton,
-    userId,
 }: {
     title: string;
     description: string;
     goToGames: string;
     loginButton: string;
     signUpButton: string;
-    userId: string | null;
 }) {
+    const { userId } = useAuth();
+
     return (
         <section className="border-border/70 bg-card/80 rounded-xl border p-6 text-center backdrop-blur-sm md:p-10">
             <Trophy className="text-primary mx-auto h-10 w-10" />

@@ -8,7 +8,6 @@ import { OverviewGrid } from "@/page-components/how-to-play/shared/overview-grid
 import { StepsList } from "@/page-components/how-to-play/shared/steps-list";
 import { RoundStructureSection } from "@/page-components/how-to-play/boerenbridge/round-structure-section";
 import { ScoringSection } from "@/page-components/how-to-play/boerenbridge/scoring-section";
-import { auth } from "@clerk/nextjs/server";
 import {
     Calculator,
     ChartColumnBig,
@@ -27,7 +26,6 @@ import { getTranslations } from "next-intl/server";
 
 export default async function HowToPlayBoerenbridge() {
     const t = await getTranslations("howToPlayBoerenbridge");
-    const { userId } = await auth();
 
     const playerCount = 4;
     const maxRound = Math.floor(52 / playerCount);
@@ -303,7 +301,6 @@ export default async function HowToPlayBoerenbridge() {
                 goToGames={t("cta.goToGames")}
                 loginButton={t("cta.loginButton")}
                 signUpButton={t("cta.signUpButton")}
-                userId={userId}
             />
         </HowToPlayLayout>
     );
