@@ -4,6 +4,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
+import CookieConsentBanner from "@/components/cookie-consent-banner";
 
 type Props = {
     children: ReactNode;
@@ -24,6 +25,7 @@ export default async function RootLayout({ children, params }: Props) {
             <div className="bg-background text-foreground flex min-h-screen flex-col antialiased">
                 <Header />
                 {children}
+                <CookieConsentBanner />
             </div>
         </NextIntlClientProvider>
     );
