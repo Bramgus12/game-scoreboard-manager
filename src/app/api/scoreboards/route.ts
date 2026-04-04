@@ -5,6 +5,8 @@ import {
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { GAME_TYPE } from "@/constants/gameType";
+import { currentUser } from "@clerk/nextjs/server";
+import { getPostHogClient } from "@/lib/posthog-server";
 
 const createScoreboardSchema = z.object({
     scoreboardName: z.string().min(1),
@@ -28,6 +30,20 @@ export async function POST(request: Request) {
     try {
         const body = createScoreboardSchema.parse(await request.json());
         const scoreboard = await createScoreboard(body);
+
+        const user = await currentUser();
+        if (user) {
+            const posthog = getPostHogClient();
+            posthog.capture({
+                distinctId: user.id,
+                event: "scoreboard_created",
+                properties: {
+                    scoreboard_id: scoreboard.id,
+                    scoreboard_name: scoreboard.scoreboardName,
+                    game_type: body.gameType,
+                },
+            });
+        }
 
         return NextResponse.json(scoreboard, { status: 201 });
     } catch (error) {

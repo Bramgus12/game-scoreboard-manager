@@ -94,6 +94,18 @@
             "total": "Totaal",
             "actions": "Acties"
         },
+        "battle": {
+            "subtitle": "Teamduel",
+            "title": "Wedstrijdverloop",
+            "roundsPlayed": "{count, plural, one {# ronde} other {# rondes}}",
+            "tied": "Beide teams staan gelijk",
+            "leadBy": "{team} staat {points} punten voor",
+            "roundsWon": "Rondes gewonnen",
+            "natCount": "Nat gegaan",
+            "pitCount": "Pit",
+            "avgPoints": "Gem punten",
+            "pointsSplit": "Puntenverdeling: {usPoints}% vs {themPoints}%"
+        },
         "createRoundDialog": {
             "loadingButton": "Laden...",
             "newRound": "Nieuwe ronde",
@@ -164,6 +176,11 @@
             "playerPlaceholder": "Speler {index}",
             "addPlayerButton": "Speler toevoegen",
             "confirmButton": "Spelers opslaan"
+        },
+        "standings": {
+            "title": "Stand",
+            "points": "ptn",
+            "otherPlayers": "Overige spelers"
         }
     },
     "howToPlayBoerenbridge": {

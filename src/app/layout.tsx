@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import TanstackProvider from "@/components/tanstack-provider";
 import { Toaster } from "@/components/ui/sonner";
+import PostHogIdentify from "@/components/posthog-identify";
 
 export const metadata: Metadata = {
     title: {
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: Props) {
                         disableTransitionOnChange
                     >
                         <TanstackProvider>
+                            <PostHogIdentify />
                             {children}
                             <Toaster />
                         </TanstackProvider>

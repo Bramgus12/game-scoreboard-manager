@@ -31,6 +31,7 @@ import { useState } from "react";
 import { MergedRound } from "@/models/app/klaverjas-round/merged-round";
 import Paper from "@/components/paper";
 import { Link, useRouter } from "@/i18n/navigation";
+import KlaverjasBattleOverview from "@/page-components/scoreboard/klaverjas/klaverjas-battle-overview";
 
 type Props = {
     scoreboardId: UUID;
@@ -113,6 +114,7 @@ export default function KlaverjasTable(props: Props) {
                         </div>
                         <CreateRoundButton scoreboardId={scoreboardId} />
                     </Paper>
+                    <KlaverjasBattleOverview scoreboardId={scoreboardId} />
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
                         <Paper className="flex-2 overflow-x-auto p-4">
                             <Table>

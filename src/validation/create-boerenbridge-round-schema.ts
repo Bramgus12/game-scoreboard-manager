@@ -2,14 +2,17 @@ import { UUID } from "crypto";
 import { z } from "zod";
 import { isUuid } from "@/lib/uuid";
 
-const numberFromText = z
-    .string()
-    .trim()
-    .min(1, "Value must be a number")
-    .refine((value) => !Number.isNaN(Number(value)), {
-        message: "Value must be a number",
-    })
-    .transform((value) => Number(value));
+const numberFromText = z.union([
+    z.number(),
+    z
+        .string()
+        .trim()
+        .min(1, "Value must be a number")
+        .refine((value) => !Number.isNaN(Number(value)), {
+            message: "Value must be a number",
+        })
+        .transform((value) => Number(value)),
+]);
 
 const roundEntrySchema = z.object({
     playerId: z.custom<UUID>(

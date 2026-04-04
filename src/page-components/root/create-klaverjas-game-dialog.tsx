@@ -25,6 +25,7 @@ import {
 import { useTranslations } from "next-intl";
 import { UUID } from "crypto";
 import { useCreateKlaverjasGameMutation } from "@/mutations/use-klaverjas-mutations";
+import posthog from "posthog-js";
 
 type Props = {
     open: boolean;
@@ -58,6 +59,12 @@ export function CreateKlaverjasGameDialog(props: Props) {
         await createKlaverjasGameMutation.mutateAsync({
             scoreboardId,
             data,
+        });
+
+        posthog.capture("klaverjas_game_created", {
+            scoreboard_id: scoreboardId,
+            our_team_name: data.ourTeamName,
+            their_team_name: data.theirTeamName,
         });
 
         handleClose(true);

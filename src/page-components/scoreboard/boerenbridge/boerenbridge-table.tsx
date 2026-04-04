@@ -21,6 +21,9 @@ import {
     Edit,
     Loader2Icon,
     ClipboardList,
+    TrendingUp,
+    TrendingDown,
+    Minus,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
@@ -31,6 +34,7 @@ import { Fragment, useMemo, useState } from "react";
 import { AppBoerenbridgeRoundRow } from "@/models/app/boerenbridge-round/boerenbridge-round-row";
 import BoerenbridgeRoundDialog from "@/page-components/scoreboard/boerenbridge/round-dialog";
 import InitializeBoerenbridgeGameDialog from "@/page-components/scoreboard/boerenbridge/initialize-game-dialog";
+import StandingsPodium from "@/page-components/scoreboard/boerenbridge/standings-podium";
 
 type Props = {
     scoreboardId: UUID;
@@ -72,48 +76,64 @@ export default function BoerenbridgeTable(props: Props) {
         isError: isGameError,
     } = useBoerenbridgeGameQuery(scoreboardId);
 
-    const cumulativeScoresByRoundAndPlayer = useMemo(() => {
-        const map = new Map<string, number>();
+    const { cumulativeScoresByRoundAndPlayer, scoreChangeByRoundAndPlayer } =
+        useMemo(() => {
+            const cumulativeMap = new Map<string, number>();
+            const deltaMap = new Map<string, number>();
 
-        if (!players || !rounds || !game) {
-            return map;
-        }
+            if (!players || !rounds || !game) {
+                return {
+                    cumulativeScoresByRoundAndPlayer: cumulativeMap,
+                    scoreChangeByRoundAndPlayer: deltaMap,
+                };
+            }
 
-        const runningTotals = new Map<UUID, number>();
+            const runningTotals = new Map<UUID, number>();
 
-        players.forEach((player) => {
-            runningTotals.set(player.id, 0);
-        });
-
-        rounds.forEach((round) => {
             players.forEach((player) => {
-                const entry = round.entries.find(
-                    (roundEntry) => roundEntry.playerId === player.id,
-                );
-
-                const previousTotal = runningTotals.get(player.id) ?? 0;
-
-                if (!entry) {
-                    map.set(`${round.roundNumber}-${player.id}`, previousTotal);
-
-                    return;
-                }
-
-                const roundScore =
-                    entry.expectedWins === entry.actualWins
-                        ? 10 + entry.actualWins * game.pointsPerCorrectGuess
-                        : -Math.abs(entry.expectedWins - entry.actualWins) *
-                          game.pointsPerCorrectGuess;
-
-                const nextTotal = previousTotal + roundScore;
-
-                runningTotals.set(player.id, nextTotal);
-                map.set(`${round.roundNumber}-${player.id}`, nextTotal);
+                runningTotals.set(player.id, 0);
             });
-        });
 
-        return map;
-    }, [game, players, rounds]);
+            rounds.forEach((round) => {
+                players.forEach((player) => {
+                    const entry = round.entries.find(
+                        (roundEntry) => roundEntry.playerId === player.id,
+                    );
+
+                    const previousTotal = runningTotals.get(player.id) ?? 0;
+
+                    if (!entry) {
+                        cumulativeMap.set(
+                            `${round.roundNumber}-${player.id}`,
+                            previousTotal,
+                        );
+                        deltaMap.set(`${round.roundNumber}-${player.id}`, 0);
+
+                        return;
+                    }
+
+                    const roundScore =
+                        entry.expectedWins === entry.actualWins
+                            ? 10 + entry.actualWins * game.pointsPerCorrectGuess
+                            : -Math.abs(entry.expectedWins - entry.actualWins) *
+                              game.pointsPerCorrectGuess;
+
+                    const nextTotal = previousTotal + roundScore;
+
+                    runningTotals.set(player.id, nextTotal);
+                    cumulativeMap.set(
+                        `${round.roundNumber}-${player.id}`,
+                        nextTotal,
+                    );
+                    deltaMap.set(`${round.roundNumber}-${player.id}`, roundScore);
+                });
+            });
+
+            return {
+                cumulativeScoresByRoundAndPlayer: cumulativeMap,
+                scoreChangeByRoundAndPlayer: deltaMap,
+            };
+        }, [game, players, rounds]);
 
     if (
         isScoreboardPending ||
@@ -205,111 +225,155 @@ export default function BoerenbridgeTable(props: Props) {
                             </p>
                         </Paper>
                     ) : (
-                        <Paper className="overflow-x-auto p-4">
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead className="w-[100px] font-bold">
-                                            #
-                                        </TableHead>
-                                        {players.map((player) => (
-                                            <TableHead
-                                                className="border-l text-center font-bold"
-                                                colSpan={2}
-                                                key={`header-${player.id}`}
-                                            >
-                                                {player.name}
+                        <>
+                            <StandingsPodium scoreboardId={scoreboardId} />
+                            <Paper className="overflow-x-auto p-4">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead className="w-[100px] font-bold">
+                                                #
                                             </TableHead>
-                                        ))}
-                                        <TableHead className="w-[100px] font-bold">
-                                            {t("boerenbridge.table.actions")}
-                                        </TableHead>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableHead className="font-medium">
-                                            {t("boerenbridge.table.cards")}
-                                        </TableHead>
-                                        {players.map((player) => (
-                                            <Fragment
-                                                key={`subheaders-${player.id}`}
+                                            {players.map((player) => (
+                                                <TableHead
+                                                    className="border-l text-center font-bold"
+                                                    colSpan={2}
+                                                    key={`header-${player.id}`}
+                                                >
+                                                    {player.name}
+                                                </TableHead>
+                                            ))}
+                                            <TableHead className="w-[100px] font-bold">
+                                                {t("boerenbridge.table.actions")}
+                                            </TableHead>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableHead className="font-medium">
+                                                {t("boerenbridge.table.cards")}
+                                            </TableHead>
+                                            {players.map((player) => (
+                                                <Fragment
+                                                    key={`subheaders-${player.id}`}
+                                                >
+                                                    <TableHead className="border-l font-medium">
+                                                        {t(
+                                                            "boerenbridge.table.expectedWins",
+                                                        )}
+                                                    </TableHead>
+                                                    <TableHead className="font-medium">
+                                                        {t(
+                                                            "boerenbridge.table.runningTotal",
+                                                        )}
+                                                    </TableHead>
+                                                </Fragment>
+                                            ))}
+                                            <TableHead>{/* actions */}</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {rounds.map((round) => (
+                                            <TableRow
+                                                key={`round-${round.roundNumber}`}
                                             >
-                                                <TableHead className="border-l font-medium">
-                                                    {t(
-                                                        "boerenbridge.table.expectedWins",
-                                                    )}
-                                                </TableHead>
-                                                <TableHead className="font-medium">
-                                                    {t(
-                                                        "boerenbridge.table.runningTotal",
-                                                    )}
-                                                </TableHead>
-                                            </Fragment>
-                                        ))}
-                                        <TableHead>{/* actions */}</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {rounds.map((round) => (
-                                        <TableRow key={`round-${round.roundNumber}`}>
-                                            <TableCell className="font-medium">
-                                                {round.roundNumber}
-                                            </TableCell>
-                                            {players.map((player) => {
-                                                const entry = round.entries.find(
-                                                    (roundEntry) =>
-                                                        roundEntry.playerId ===
-                                                        player.id,
-                                                );
+                                                <TableCell className="font-medium">
+                                                    {round.roundNumber}
+                                                </TableCell>
+                                                {players.map((player) => {
+                                                    const entry = round.entries.find(
+                                                        (roundEntry) =>
+                                                            roundEntry.playerId ===
+                                                            player.id,
+                                                    );
 
-                                                if (!entry) {
+                                                    if (!entry) {
+                                                        return (
+                                                            <Fragment
+                                                                key={`empty-${player.id}`}
+                                                            >
+                                                                <TableCell className="border-l">
+                                                                    -
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    <span className="flex items-center gap-1">
+                                                                        {cumulativeScoresByRoundAndPlayer.get(
+                                                                            `${round.roundNumber}-${player.id}`,
+                                                                        ) ?? 0}
+                                                                    </span>
+                                                                </TableCell>
+                                                            </Fragment>
+                                                        );
+                                                    }
+
                                                     return (
                                                         <Fragment
-                                                            key={`empty-${player.id}`}
+                                                            key={`entry-${player.id}`}
                                                         >
                                                             <TableCell className="border-l">
-                                                                -
+                                                                {entry.expectedWins}
                                                             </TableCell>
                                                             <TableCell>
-                                                                {cumulativeScoresByRoundAndPlayer.get(
-                                                                    `${round.roundNumber}-${player.id}`,
-                                                                ) ?? 0}
+                                                                {(() => {
+                                                                    const total =
+                                                                        cumulativeScoresByRoundAndPlayer.get(
+                                                                            `${round.roundNumber}-${player.id}`,
+                                                                        ) ?? 0;
+                                                                    const delta =
+                                                                        scoreChangeByRoundAndPlayer.get(
+                                                                            `${round.roundNumber}-${player.id}`,
+                                                                        ) ?? 0;
+
+                                                                    return (
+                                                                        <span className="flex items-center gap-1">
+                                                                            {total}
+                                                                            {delta >
+                                                                            0 ? (
+                                                                                <TrendingUp
+                                                                                    size={
+                                                                                        14
+                                                                                    }
+                                                                                    className="text-green-500"
+                                                                                />
+                                                                            ) : delta <
+                                                                              0 ? (
+                                                                                <TrendingDown
+                                                                                    size={
+                                                                                        14
+                                                                                    }
+                                                                                    className="text-red-500"
+                                                                                />
+                                                                            ) : (
+                                                                                <Minus
+                                                                                    size={
+                                                                                        14
+                                                                                    }
+                                                                                    className="text-muted-foreground"
+                                                                                />
+                                                                            )}
+                                                                        </span>
+                                                                    );
+                                                                })()}
                                                             </TableCell>
                                                         </Fragment>
                                                     );
-                                                }
-
-                                                return (
-                                                    <Fragment
-                                                        key={`entry-${player.id}`}
+                                                })}
+                                                <TableCell>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => {
+                                                            setEditRound(round);
+                                                            setEditDialogOpen(true);
+                                                        }}
                                                     >
-                                                        <TableCell className="border-l">
-                                                            {entry.expectedWins}
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            {cumulativeScoresByRoundAndPlayer.get(
-                                                                `${round.roundNumber}-${player.id}`,
-                                                            ) ?? 0}
-                                                        </TableCell>
-                                                    </Fragment>
-                                                );
-                                            })}
-                                            <TableCell>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    onClick={() => {
-                                                        setEditRound(round);
-                                                        setEditDialogOpen(true);
-                                                    }}
-                                                >
-                                                    <Edit size={16} />
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </Paper>
+                                                        <Edit size={16} />
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </Paper>
+                        </>
                     )}
                 </div>
             </div>

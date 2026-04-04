@@ -41,6 +41,7 @@ import {
     useCreateKlaverjasRoundsForBothTeamsMutation,
     useUpdateKlaverjasRoundsForBothTeamsMutation,
 } from "@/mutations/use-klaverjas-mutations";
+import posthog from "posthog-js";
 
 const createRoundSchema = z
     .object({
@@ -243,6 +244,17 @@ export default function RoundDialog(props: Props) {
                     teamUsRound: ourRound,
                     teamThemRound: theirRound,
                 });
+
+                posthog.capture("klaverjas_round_updated", {
+                    scoreboard_id: scoreboardId,
+                    round_number: editRound.roundNumber,
+                    us_points: data.us.points ?? 0,
+                    them_points: data.them.points ?? 0,
+                    us_is_wet: data.us.isWet,
+                    them_is_wet: data.them.isWet,
+                    us_is_pit: data.us.isPit,
+                    them_is_pit: data.them.isPit,
+                });
             } else {
                 // Create mode: create new round
                 const currentRoundNumber = await getRoundNumber(scoreboardId);
@@ -269,6 +281,17 @@ export default function RoundDialog(props: Props) {
                     scoreboardId,
                     teamUsRound: ourRound,
                     teamThemRound: theirRound,
+                });
+
+                posthog.capture("klaverjas_round_created", {
+                    scoreboard_id: scoreboardId,
+                    round_number: currentRoundNumber,
+                    us_points: data.us.points ?? 0,
+                    them_points: data.them.points ?? 0,
+                    us_is_wet: data.us.isWet,
+                    them_is_wet: data.them.isWet,
+                    us_is_pit: data.us.isPit,
+                    them_is_pit: data.them.isPit,
                 });
             }
 

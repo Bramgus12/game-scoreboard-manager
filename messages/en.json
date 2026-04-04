@@ -94,6 +94,18 @@
             "total": "Total",
             "actions": "Actions"
         },
+        "battle": {
+            "subtitle": "Team showdown",
+            "title": "Match momentum",
+            "roundsPlayed": "{count, plural, one {# round} other {# rounds}}",
+            "tied": "Both teams are tied",
+            "leadBy": "{team} leads by {points} points",
+            "roundsWon": "Rounds won",
+            "natCount": "Went nat",
+            "pitCount": "Pit",
+            "avgPoints": "Avg points",
+            "pointsSplit": "Points split: {usPoints}% vs {themPoints}%"
+        },
         "createRoundDialog": {
             "loadingButton": "Loading...",
             "newRound": "New round",
@@ -164,6 +176,11 @@
             "playerPlaceholder": "Player {index}",
             "addPlayerButton": "Add player",
             "confirmButton": "Save players"
+        },
+        "standings": {
+            "title": "Standings",
+            "points": "pts",
+            "otherPlayers": "Other players"
         }
     },
     "howToPlayBoerenbridge": {
