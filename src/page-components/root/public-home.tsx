@@ -1,20 +1,10 @@
-import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
-import { auth } from "@clerk/nextjs/server";
-import {
-    ArrowRight,
-    BookOpen,
-    ChartColumnBig,
-    Gamepad2,
-    ListChecks,
-    Plus,
-    Rows3,
-} from "lucide-react";
+import { HomeHeroCta } from "@/page-components/root/home-hero-cta";
+import { BookOpen, Gamepad2, ListChecks, Plus, Rows3 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 export default async function PublicHome() {
     const t = await getTranslations("home");
-    const { userId } = await auth();
     const schema = {
         "@context": "https://schema.org",
         "@type": "WebApplication",
@@ -49,30 +39,11 @@ export default async function PublicHome() {
                     <p className="text-muted-foreground mt-4 max-w-2xl text-base md:text-lg">
                         {t("hero.description")}
                     </p>
-                    {userId ? (
-                        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                            <Button asChild size="lg">
-                                <Link href="/scoreboards">
-                                    <ChartColumnBig />
-                                    {t("hero.goToScoreboards")}
-                                </Link>
-                            </Button>
-                        </div>
-                    ) : (
-                        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                            <Button asChild size="lg">
-                                <Link href="/sign-in">
-                                    <ArrowRight />
-                                    {t("hero.login")}
-                                </Link>
-                            </Button>
-                            <Button asChild variant="outline" size="lg">
-                                <Link href="/sign-up">
-                                    {t("hero.createAccount")}
-                                </Link>
-                            </Button>
-                        </div>
-                    )}
+                    <HomeHeroCta
+                        goToScoreboards={t("hero.goToScoreboards")}
+                        login={t("hero.login")}
+                        createAccount={t("hero.createAccount")}
+                    />
                 </section>
 
                 <section className="grid gap-4 md:grid-cols-2">

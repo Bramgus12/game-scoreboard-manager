@@ -12,8 +12,6 @@ export function RoundStructureSection({
     maxCards,
     noTrumpTitle,
     noTrumpDescription,
-    playerCount,
-    totalRoundsCount,
     maxRound,
 }: {
     title: string;
@@ -26,8 +24,6 @@ export function RoundStructureSection({
     maxCards: string;
     noTrumpTitle: string;
     noTrumpDescription: string;
-    playerCount: number;
-    totalRoundsCount: number;
     maxRound: number;
 }) {
     return (

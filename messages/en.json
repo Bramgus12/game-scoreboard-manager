@@ -27,14 +27,18 @@
         }
     },
     "homeSeo": {
-        "title": "Game Scoreboard Manager | Track Klaverjas and card game scores",
-        "description": "Track game scores online with an easy game score app. Create games, add rounds, and follow totals for Klaverjas and more games soon.",
+        "title": "Track Klaverjas & Boerenbridge scores | Free online scorecard",
+        "description": "Track Klaverjas and Boerenbridge scores online with a fast scorecard. Keep points, rounds, and totals clear for every game night.",
         "keywords": [
-            "game scores",
-            "score tracker",
-            "klaverjas score app",
+            "klaverjas score tracker",
+            "klaverjassen score bijhouden",
+            "klaverjas point tracker",
+            "boerenbridge score tracker",
+            "boerenbridge score bijhouden",
             "card game score keeper",
-            "online game scores"
+            "online scorecard",
+            "bridge score app",
+            "kaartspel score bijhouden"
         ]
     },
     "themeSwitch": {
@@ -185,17 +189,20 @@
     },
     "howToPlayBoerenbridge": {
         "seo": {
-            "title": "How to play Oh Hell | Game Scoreboard Manager",
-            "description": "Learn the rules of Oh Hell (Boerenbridge), understand the scoring, and see how Game Scoreboard Manager helps you track every round.",
+            "title": "Boerenbridge score tracking and rules | Game Scoreboard Manager",
+            "description": "Learn Boerenbridge (Oh Hell) rules, understand scoring, and track every round with a clear online scorecard.",
             "keywords": [
                 "oh hell rules",
                 "boerenbridge rules",
+                "boerenbridge score tracker",
+                "boerenbridge point tracking",
                 "oh hell card game",
                 "how to play oh hell",
                 "oh hell scoring",
                 "trick-taking card game",
                 "boerenbridge kaartspel",
-                "oh hell score tracker"
+                "oh hell score tracker",
+                "boerenbridge score bijhouden"
             ]
         },
         "badge": "Card Game Guide",
@@ -276,17 +283,21 @@
     },
     "howToPlayKlaverjas": {
         "seo": {
-            "title": "How to play Klaverjas | Game Scoreboard Manager",
-            "description": "Learn the rules of Klaverjas, understand card values, roem, and the difference between Amsterdams and Rotterdams. See how Game Scoreboard Manager helps you track every round.",
+            "title": "Klaverjas score tracking and rules | Game Scoreboard Manager",
+            "description": "Learn Klaverjas rules, understand roem and scoring, and keep every round organized with an online score tracker.",
             "keywords": [
                 "klaverjas rules",
+                "klaverjassen rules",
+                "klaverjas score tracker",
+                "klaverjassen score bijhouden",
+                "klaverjas puntentelling",
                 "how to play klaverjas",
                 "klaverjas card game",
                 "klaverjas roem",
                 "klaverjas scoring",
                 "amsterdams rotterdams klaverjas",
                 "dutch card game",
-                "klaverjas score tracker"
+                "online klaverjas scorecard"
             ]
         },
         "badge": "Card Game Guide",
