@@ -16,13 +16,14 @@ export default clerkMiddleware(async (auth, req) => {
         /^\/(en|nl)\/how-to-play(\/.*)?$/.test(pathname) ||
         pathname === "/sign-in" ||
         pathname === "/sign-up" ||
-        pathname.startsWith("/api");
+        pathname.startsWith("/api") ||
+        pathname.startsWith("/p");
 
     if (!isPublicRoute) {
         await auth.protect();
     }
 
-    if (pathname.startsWith("/api")) {
+    if (pathname.startsWith("/api") || pathname.startsWith("/p")) {
         return NextResponse.next();
     }
 

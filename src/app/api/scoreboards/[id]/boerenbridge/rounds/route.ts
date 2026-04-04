@@ -7,6 +7,8 @@ import {
 } from "@/server/service/boerenbridge";
 import { createBoerenbridgeRoundSchema } from "@/validation/create-boerenbridge-round-schema";
 import { logApiError } from "@/app/api/_utils/route-error";
+import { currentUser } from "@clerk/nextjs/server";
+import { getPostHogClient } from "@/lib/posthog-server";
 
 type Props = {
     params: Promise<{ id: string }>;
@@ -47,6 +49,20 @@ export async function POST(request: Request, props: Props) {
 
         await createBoerenbridgeRound(scoreboardId, body.roundNumber, body.entries);
 
+        const user = await currentUser();
+        if (user) {
+            const posthog = getPostHogClient();
+            posthog.capture({
+                distinctId: user.id,
+                event: "boerenbridge_round_created",
+                properties: {
+                    scoreboard_id: scoreboardId,
+                    round_number: body.roundNumber,
+                    player_count: body.entries.length,
+                },
+            });
+        }
+
         return new NextResponse(null, { status: 204 });
     } catch (error) {
         logApiError({
@@ -75,6 +91,20 @@ export async function PUT(request: Request, props: Props) {
         const body = createBoerenbridgeRoundSchema.parse(await request.json());
 
         await updateBoerenbridgeRound(scoreboardId, body.roundNumber, body.entries);
+
+        const user = await currentUser();
+        if (user) {
+            const posthog = getPostHogClient();
+            posthog.capture({
+                distinctId: user.id,
+                event: "boerenbridge_round_updated",
+                properties: {
+                    scoreboard_id: scoreboardId,
+                    round_number: body.roundNumber,
+                    player_count: body.entries.length,
+                },
+            });
+        }
 
         return new NextResponse(null, { status: 204 });
     } catch (error) {

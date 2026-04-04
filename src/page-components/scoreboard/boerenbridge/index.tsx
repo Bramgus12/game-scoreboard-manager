@@ -5,6 +5,7 @@ import {
     getBoerenbridgeGame,
     getBoerenbridgePlayers,
     getBoerenbridgeRounds,
+    getBoerenbridgeTotals,
 } from "@/server/service/boerenbridge";
 import BoerenbridgeTable from "@/page-components/scoreboard/boerenbridge/boerenbridge-table";
 
@@ -35,6 +36,13 @@ export default async function Boerenbridge(props: Props) {
                 { scoreboardId },
             ],
             queryFn: () => getBoerenbridgeRounds(scoreboardId),
+        }),
+        queryClient.prefetchQuery({
+            queryKey: [
+                QUERY_KEY.BOERENBRIDGE_TOTALS_FOR_SCOREBOARD,
+                { scoreboardId },
+            ],
+            queryFn: () => getBoerenbridgeTotals(scoreboardId),
         }),
     ]);
 

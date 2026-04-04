@@ -17,6 +17,7 @@ import { AppScoreboard } from "@/models/app/scoreboard/scoreboard";
 import { useFormatter, useNow, useTranslations } from "next-intl";
 import { UUID } from "crypto";
 import { useDeleteScoreboardMutation } from "@/mutations/use-scoreboard-mutations";
+import posthog from "posthog-js";
 
 type Props = {
     scoreboard: AppScoreboard;
@@ -35,6 +36,12 @@ export default function GameItem(props: Props) {
     async function deleteScoreboard(id: UUID) {
         setIsDeleting(true);
         await deleteScoreboardMutation.mutateAsync(id);
+
+        posthog.capture("scoreboard_deleted", {
+            scoreboard_id: id,
+            scoreboard_name: scoreboard.scoreboardName,
+            game_type: scoreboard.gameType,
+        });
 
         setIsDeleting(false);
         setIsDeleteDialogOpen(false);

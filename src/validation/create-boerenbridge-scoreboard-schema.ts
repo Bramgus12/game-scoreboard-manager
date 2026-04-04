@@ -1,13 +1,16 @@
 import { z } from "zod";
 
-const numberFromText = z
-    .string()
-    .trim()
-    .min(1, "Value must be a number")
-    .refine((value) => !Number.isNaN(Number(value)), {
-        message: "Value must be a number",
-    })
-    .transform((value) => Number(value));
+const numberFromText = z.union([
+    z.number(),
+    z
+        .string()
+        .trim()
+        .min(1, "Value must be a number")
+        .refine((value) => !Number.isNaN(Number(value)), {
+            message: "Value must be a number",
+        })
+        .transform((value) => Number(value)),
+]);
 
 export const createBoerenbridgeScoreboardSchema = z.object({
     scoreboardName: z.string().trim().min(1),

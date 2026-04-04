@@ -51,6 +51,18 @@ export function useCreateBoerenbridgeRoundMutation() {
                         { scoreboardId: payload.scoreboardId },
                     ],
                 }),
+                queryClient.invalidateQueries({
+                    queryKey: [
+                        QUERY_KEY.BOERENBRIDGE_ROUND_NUMBER_FOR_SCOREBOARD,
+                        { scoreboardId: payload.scoreboardId },
+                    ],
+                }),
+                queryClient.invalidateQueries({
+                    queryKey: [
+                        QUERY_KEY.BOERENBRIDGE_TOTALS_FOR_SCOREBOARD,
+                        { scoreboardId: payload.scoreboardId },
+                    ],
+                }),
             ]);
         },
     });
