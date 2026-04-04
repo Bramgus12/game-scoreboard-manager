@@ -24,6 +24,10 @@
             "step1": "Maak een spel aan voor wat je wilt spelen.",
             "step2": "Voeg rondes of beurten toe en registreer scores tijdens het spel.",
             "step3": "Volg totalen en historie zodat iedereen dezelfde stand ziet."
+        },
+        "footer": {
+            "manageCookies": "Cookievoorkeuren",
+            "github": "Gemaakt door Bram op GitHub"
         }
     },
     "homeSeo": {

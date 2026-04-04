@@ -24,6 +24,10 @@
             "step1": "Create a game for what you want to play.",
             "step2": "Add rounds or turns and register scores as the game progresses.",
             "step3": "Track totals and history so everyone stays in sync."
+        },
+        "footer": {
+            "manageCookies": "Cookie preferences",
+            "github": "Built by Bram on GitHub"
         }
     },
     "homeSeo": {

@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { HomeHeroCta } from "@/page-components/root/home-hero-cta";
+import HomeFooter from "@/page-components/root/home-footer";
 import { BookOpen, Gamepad2, ListChecks, Plus, Rows3 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
@@ -126,6 +127,8 @@ export default async function PublicHome() {
                         </div>
                     </article>
                 </section>
+
+                <HomeFooter />
             </div>
         </main>
     );

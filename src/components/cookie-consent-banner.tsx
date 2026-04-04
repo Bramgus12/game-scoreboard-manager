@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import posthog from "posthog-js";
 import { Cookie, ShieldCheck } from "lucide-react";
@@ -9,31 +9,93 @@ import { Button } from "@/components/ui/button";
 type ConsentStatus = "pending" | "granted" | "denied";
 
 export default function CookieConsentBanner() {
-    const [consentStatus, setConsentStatus] = useState<ConsentStatus>(() =>
+    const initialConsentStatusRef = useRef<ConsentStatus>(
         typeof window === "undefined"
             ? "pending"
             : posthog.get_explicit_consent_status(),
     );
+    const [isRendered, setIsRendered] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    const openRafRef = useRef<number | null>(null);
     const t = useTranslations("cookieBanner");
+
+    const openBanner = () => {
+        if (openRafRef.current) {
+            window.cancelAnimationFrame(openRafRef.current);
+            openRafRef.current = null;
+        }
+        setIsVisible(false);
+        setIsRendered(true);
+        openRafRef.current = window.requestAnimationFrame(() => {
+            setIsVisible(true);
+            openRafRef.current = null;
+        });
+    };
+
+    const closeBanner = () => {
+        setIsVisible(false);
+    };
+
+    useEffect(() => {
+        const handleOpenBanner = () => {
+            openBanner();
+        };
+
+        window.addEventListener("posthog-open-consent-banner", handleOpenBanner);
+
+        return () => {
+            window.removeEventListener(
+                "posthog-open-consent-banner",
+                handleOpenBanner,
+            );
+            if (openRafRef.current) {
+                window.cancelAnimationFrame(openRafRef.current);
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        if (initialConsentStatusRef.current === "pending") {
+            openRafRef.current = window.requestAnimationFrame(() => {
+                openBanner();
+                openRafRef.current = null;
+            });
+        }
+
+        return () => {
+            if (openRafRef.current) {
+                window.cancelAnimationFrame(openRafRef.current);
+            }
+        };
+    }, []);
 
     const handleAccept = () => {
         posthog.opt_in_capturing();
-        setConsentStatus("granted");
         window.dispatchEvent(new Event("posthog-consent-updated"));
+        closeBanner();
     };
 
     const handleReject = () => {
         posthog.opt_out_capturing();
-        setConsentStatus("denied");
         window.dispatchEvent(new Event("posthog-consent-updated"));
+        closeBanner();
     };
 
-    if (consentStatus !== "pending") {
+    const handleTransitionEnd = () => {
+        if (!isVisible) {
+            setIsRendered(false);
+        }
+    };
+
+    if (!isRendered) {
         return null;
     }
 
     return (
-        <div className="pointer-events-none fixed right-0 bottom-0 left-0 z-50 px-4 pb-4 sm:px-6 sm:pb-6">
+        <div
+            className={`pointer-events-none fixed right-0 bottom-0 left-0 z-50 px-4 pb-4 transition-all duration-300 sm:px-6 sm:pb-6 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+            onTransitionEnd={handleTransitionEnd}
+        >
             <div className="pointer-events-auto mx-auto w-full max-w-3xl overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-r from-sky-50 via-cyan-50 to-teal-50 shadow-2xl shadow-sky-950/15 dark:border-slate-700 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:shadow-black/40">
                 <div className="relative px-5 py-5 sm:px-6 sm:py-6">
                     <div className="pointer-events-none absolute -top-20 -right-10 h-44 w-44 rounded-full bg-sky-300/30 blur-2xl dark:bg-sky-500/15" />
