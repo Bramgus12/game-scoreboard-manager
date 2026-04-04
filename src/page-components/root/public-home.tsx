@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { CardVisual } from "@/page-components/how-to-play/shared/card-visual";
 import { HomeHeroCta } from "@/page-components/root/home-hero-cta";
 import HomeFooter from "@/page-components/root/home-footer";
 import { BookOpen, Gamepad2, ListChecks, Plus, Rows3 } from "lucide-react";
@@ -45,13 +46,37 @@ export default async function PublicHome() {
                         login={t("hero.login")}
                         createAccount={t("hero.createAccount")}
                     />
+                    <div className="mt-8 flex items-end justify-center gap-2 md:gap-3">
+                        <div className="origin-bottom translate-y-2 -rotate-12">
+                            <CardVisual suit="club" value="J" isTrump />
+                        </div>
+                        <div className="origin-bottom translate-y-1 -rotate-6">
+                            <CardVisual suit="diamond" value="A" />
+                        </div>
+                        <div className="origin-bottom rotate-3">
+                            <CardVisual suit="heart" value="10" />
+                        </div>
+                        <div className="origin-bottom translate-y-1 rotate-9">
+                            <CardVisual suit="spade" value="K" />
+                        </div>
+                    </div>
                 </section>
 
                 <section className="grid gap-4 md:grid-cols-2">
                     <article className="border-border/70 bg-card/70 rounded-xl border p-5 md:p-6">
-                        <h2 className="text-xl font-semibold md:text-2xl">
-                            {t("availableGames.title")}
-                        </h2>
+                        <div className="flex items-start justify-between gap-4">
+                            <h2 className="text-xl font-semibold md:text-2xl">
+                                {t("availableGames.title")}
+                            </h2>
+                            <div className="hidden -space-x-2 sm:flex">
+                                <div className="origin-bottom -rotate-6">
+                                    <CardVisual suit="spade" value="A" small />
+                                </div>
+                                <div className="origin-bottom rotate-6">
+                                    <CardVisual suit="heart" value="Q" small />
+                                </div>
+                            </div>
+                        </div>
                         <p className="text-muted-foreground mt-2 text-sm md:text-base">
                             {t("availableGames.description")}
                         </p>
