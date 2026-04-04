@@ -27,14 +27,22 @@
         }
     },
     "homeSeo": {
-        "title": "Game Scoreboard Manager | Houd Klaverjas en kaartspel scores bij",
-        "description": "Houd eenvoudig scores online bij met een game score app. Maak spellen aan, voeg rondes toe en volg totalen voor Klaverjas en binnenkort meer spellen.",
+        "title": "Klaverjassen & Boerenbridge score bijhouden | Gratis online scorekaart",
+        "description": "Houd eenvoudig de score bij voor klaverjassen en boerenbridge. Snelle puntentelling, duidelijke online scorekaart en direct klaar voor je volgende potje.",
         "keywords": [
-            "game score app",
-            "scores bijhouden",
-            "klaverjas score app",
+            "klaverjassen score bijhouden",
+            "klaverjas score bijhouden",
+            "klaverjas puntentelling",
+            "klaverjassen scorekaart",
+            "online klaverjassen score",
+            "boerenbridge score bijhouden",
+            "boerenbridge puntentelling",
+            "boerenbridge scorekaart",
+            "bridge score app nederlands",
             "kaartspel score bijhouden",
-            "online scores"
+            "punten bijhouden kaartspel",
+            "online scorekaart kaartspel",
+            "gratis score app kaartspel"
         ]
     },
     "themeSwitch": {
@@ -185,17 +193,20 @@
     },
     "howToPlayBoerenbridge": {
         "seo": {
-            "title": "Hoe speel je Boerenbridge | Game Scoreboard Manager",
-            "description": "Leer de regels van Boerenbridge (Oh Hell), begrijp de scoring en ontdek hoe Game Scoreboard Manager je helpt elke ronde bij te houden.",
+            "title": "Boerenbridge score bijhouden en regels | Game Scoreboard Manager",
+            "description": "Leer de boerenbridge regels, bekijk de puntentelling en houd eenvoudig je boerenbridge score bij met een duidelijke online scorekaart.",
             "keywords": [
                 "boerenbridge regels",
+                "boerenbridge score bijhouden",
+                "boerenbridge puntentelling",
+                "boerenbridge scorekaart",
                 "oh hell regels",
                 "boerenbridge kaartspel",
                 "hoe speel je boerenbridge",
                 "boerenbridge scoring",
                 "slagenspel regels",
                 "oh hell kaartspel",
-                "boerenbridge score bijhouden"
+                "online boerenbridge score"
             ]
         },
         "badge": "Kaartspel uitleg",
@@ -276,17 +287,22 @@
     },
     "howToPlayKlaverjas": {
         "seo": {
-            "title": "Hoe speel je Klaverjas | Game Scoreboard Manager",
-            "description": "Leer de regels van Klaverjas, begrijp kaartwaarden, roem en het verschil tussen Amsterdams en Rotterdams. Ontdek hoe Game Scoreboard Manager je helpt elke ronde bij te houden.",
+            "title": "Klaverjassen score bijhouden en regels | Game Scoreboard Manager",
+            "description": "Leer de klaverjas regels, begrijp roem en puntentelling, en houd makkelijk je klaverjassen score bij met een online scorekaart.",
             "keywords": [
                 "klaverjas regels",
+                "klaverjassen regels",
+                "klaverjassen score bijhouden",
+                "klaverjas score bijhouden",
+                "klaverjas puntentelling",
+                "klaverjassen scorekaart",
                 "hoe speel je klaverjas",
                 "klaverjas kaartspel",
                 "klaverjas roem",
                 "klaverjas scoring",
                 "amsterdams rotterdams klaverjas",
                 "nederlands kaartspel",
-                "klaverjas score bijhouden"
+                "online klaverjassen score"
             ]
         },
         "badge": "Kaartspel uitleg",

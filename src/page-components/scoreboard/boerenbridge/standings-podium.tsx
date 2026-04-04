@@ -3,7 +3,7 @@
 import { UUID } from "crypto";
 import useBoerenbridgeTotalsQuery from "@/queries/use-boerenbridge-totals-query";
 import Paper from "@/components/paper";
-import { Trophy, Medal } from "lucide-react";
+import { Medal, Trophy } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 type Props = {
@@ -36,6 +36,10 @@ const MEDAL_COLORS = {
         label: "🥉",
     },
 } as const;
+
+function isOnPodium(rank: number): rank is 1 | 2 | 3 {
+    return rank >= 1 && rank <= 3;
+}
 
 const PODIUM_HEIGHTS = {
     1: "h-28",
@@ -81,9 +85,12 @@ export default function StandingsPodium(props: Props) {
             {/* Podium */}
             <div className="mb-6 flex items-end justify-center gap-3">
                 {podiumOrder.map((player) => {
-                    const rank = player.rank as 1 | 2 | 3;
-                    const colors = MEDAL_COLORS[rank];
-                    const height = PODIUM_HEIGHTS[rank];
+                    if (!isOnPodium(player.rank)) {
+                        throw new Error("Player rank does not match");
+                    }
+
+                    const colors = MEDAL_COLORS[player.rank];
+                    const height = PODIUM_HEIGHTS[player.rank];
 
                     return (
                         <div
@@ -114,7 +121,7 @@ export default function StandingsPodium(props: Props) {
                                     <span
                                         className={`text-xl font-bold ${colors.text}`}
                                     >
-                                        {rank}
+                                        {player.rank}
                                     </span>
                                 </div>
                             </div>

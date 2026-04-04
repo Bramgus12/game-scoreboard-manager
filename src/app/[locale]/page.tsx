@@ -1,10 +1,16 @@
 import PublicHome from "@/page-components/root/public-home";
+import { routing } from "@/i18n/routing";
+import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 
 type Props = {
     params: Promise<{ locale: "en" | "nl" }>;
 };
+
+export function generateStaticParams() {
+    return routing.locales.map((locale) => ({ locale }));
+}
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
     const { locale } = await props.params;
@@ -46,6 +52,9 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     };
 }
 
-export default async function Home() {
+export default async function Home(props: Props) {
+    const { locale } = await props.params;
+    setRequestLocale(locale);
+
     return <PublicHome />;
 }

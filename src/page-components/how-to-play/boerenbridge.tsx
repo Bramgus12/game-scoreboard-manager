@@ -230,8 +230,6 @@ export default async function HowToPlayBoerenbridge() {
                 maxCards={t("roundStructure.maxCards")}
                 noTrumpTitle={t("roundStructure.noTrumpTitle")}
                 noTrumpDescription={t("roundStructure.noTrumpDescription")}
-                playerCount={playerCount}
-                totalRoundsCount={totalRounds}
                 maxRound={maxRound}
             />
 
