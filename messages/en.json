@@ -47,6 +47,13 @@
         "dark": "Dark",
         "system": "System"
     },
+    "cookieBanner": {
+        "badge": "Privacy choices",
+        "title": "Help us improve with privacy-first analytics",
+        "description": "We use PostHog to understand which features help most. Accept to enable full analytics with cookies. Reject to stay in cookieless mode where only anonymous, privacy-preserving measurement is used.",
+        "accept": "Accept cookies",
+        "reject": "Reject cookies"
+    },
     "gamesTable": {
         "yourGames": "Your Games",
         "numberOfTotalGames": "{count} total games",

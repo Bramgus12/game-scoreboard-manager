@@ -51,6 +51,13 @@
         "dark": "Donker",
         "system": "Systeem"
     },
+    "cookieBanner": {
+        "badge": "Privacykeuze",
+        "title": "Help ons verbeteren met privacyvriendelijke analytics",
+        "description": "We gebruiken PostHog om te begrijpen welke functies het meest helpen. Accepteer om volledige analytics met cookies te gebruiken. Weiger om in cookieless modus te blijven, waarbij alleen anonieme en privacyvriendelijke meting wordt gebruikt.",
+        "accept": "Cookies accepteren",
+        "reject": "Cookies weigeren"
+    },
     "gamesTable": {
         "yourGames": "Jouw spellen",
         "numberOfTotalGames": "Totaal {count} spellen",
