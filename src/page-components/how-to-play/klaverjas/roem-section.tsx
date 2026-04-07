@@ -18,7 +18,8 @@ export function RoemSection({
     stukNote: string;
 }) {
     return (
-        <section className="border-border/70 bg-card/80 rounded-xl border p-6 backdrop-blur-sm md:p-8">
+        <section className="relative overflow-hidden rounded-xl border-2 border-amber-200/70 bg-gradient-to-br from-amber-50 via-white to-rose-50 p-6 backdrop-blur-sm dark:border-amber-500/30 dark:from-amber-950/20 dark:via-slate-950 dark:to-rose-950/20 md:p-8">
+            <div className="pointer-events-none absolute -top-12 -right-12 h-32 w-32 rounded-full bg-amber-300/20 blur-3xl dark:bg-amber-500/20" />
             <h2 className="text-xl font-semibold md:text-2xl">{title}</h2>
             <p className="text-muted-foreground mt-2 text-sm md:text-base">
                 {description}
@@ -27,7 +28,7 @@ export function RoemSection({
                 {items.map((item, index) => (
                     <div
                         key={index}
-                        className="border-border/70 bg-background/70 flex items-center gap-4 rounded-lg border p-3 sm:p-4"
+                        className="flex items-center gap-4 rounded-lg border border-white/70 bg-white/75 p-3 dark:border-slate-600/60 dark:bg-slate-900/60 sm:p-4"
                     >
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400">
                             <item.icon size={20} />

@@ -9,7 +9,7 @@ export function PointsTable({
 }) {
     return (
         <div
-            className={`border-border/70 rounded-lg border p-4 ${highlight ? "border-amber-500/30 bg-amber-500/5" : "bg-background/50"}`}
+            className={`rounded-lg border p-4 ${highlight ? "border-amber-300/70 bg-amber-100/60 dark:border-amber-500/40 dark:bg-amber-900/20" : "border-white/70 bg-white/75 dark:border-slate-600/60 dark:bg-slate-900/60"}`}
         >
             <h4
                 className={`mb-3 text-sm font-semibold ${highlight ? "text-amber-600 dark:text-amber-400" : ""}`}

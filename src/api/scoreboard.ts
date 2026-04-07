@@ -1,5 +1,6 @@
 import { AppCreateScoreboard } from "@/models/app/scoreboard/create-scoreboard";
 import { AppScoreboard } from "@/models/app/scoreboard/scoreboard";
+import { AppScoreboardsStats } from "@/models/app/scoreboard/scoreboard-stats";
 import { UUID } from "crypto";
 import { deleteJson, getJson, postJson } from "@/api/client";
 import { CreateBoerenbridgeScoreboardForm } from "@/validation/create-boerenbridge-scoreboard-schema";
@@ -16,6 +17,10 @@ export async function getScoreboardsForUser(): Promise<Array<AppScoreboard>> {
     const scoreboards = await getJson<Array<AppScoreboard>>("/scoreboards");
 
     return scoreboards.map(toScoreboard);
+}
+
+export async function getScoreboardsStatsForUser(): Promise<AppScoreboardsStats> {
+    return getJson<AppScoreboardsStats>("/scoreboards/stats");
 }
 
 export async function getScoreboardById(id: UUID): Promise<AppScoreboard> {

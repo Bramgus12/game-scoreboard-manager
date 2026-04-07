@@ -21,7 +21,8 @@ export function CardValuesSection({
     totalDescription: string;
 }) {
     return (
-        <section className="border-border/70 bg-card/80 rounded-xl border p-6 backdrop-blur-sm md:p-8">
+        <section className="relative overflow-hidden rounded-xl border-2 border-emerald-200/70 bg-gradient-to-br from-emerald-50 via-white to-sky-50 p-6 backdrop-blur-sm dark:border-emerald-500/30 dark:from-emerald-950/30 dark:via-slate-950 dark:to-sky-950/20 md:p-8">
+            <div className="pointer-events-none absolute -top-12 -right-12 h-32 w-32 rounded-full bg-emerald-300/20 blur-3xl dark:bg-emerald-500/20" />
             <h2 className="text-xl font-semibold md:text-2xl">{title}</h2>
             <p className="text-muted-foreground mt-2 text-sm md:text-base">
                 {description}
@@ -30,7 +31,7 @@ export function CardValuesSection({
                 <PointsTable title={trumpTitle} highlight rows={trumpRows} />
                 <PointsTable title={nonTrumpTitle} rows={nonTrumpRows} />
             </div>
-            <div className="mt-4 flex items-start gap-3 rounded-lg border border-blue-500/30 bg-blue-500/10 p-4">
+            <div className="mt-4 flex items-start gap-3 rounded-lg border border-sky-300/70 bg-sky-100/60 p-4 dark:border-sky-500/40 dark:bg-sky-900/20">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-500/20">
                     <Calculator
                         size={16}

@@ -23,10 +23,10 @@ export function OverviewGrid({
             {items.map((item, index) => (
                 <div
                     key={index}
-                    className="border-border/70 bg-card/70 flex items-start gap-4 rounded-xl border p-5 backdrop-blur-sm"
+                    className="relative overflow-hidden rounded-xl border-2 border-sky-200/70 bg-gradient-to-br from-sky-50/80 via-white to-indigo-50/70 p-5 backdrop-blur-sm dark:border-sky-500/30 dark:from-sky-950/20 dark:via-slate-950 dark:to-indigo-950/20"
                 >
                     <div
-                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${item.bg}`}
+                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/70 bg-white/80 dark:border-slate-600/60 dark:bg-slate-900/70 ${item.bg}`}
                     >
                         <item.icon size={20} className={item.color} />
                     </div>

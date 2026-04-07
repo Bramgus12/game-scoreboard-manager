@@ -105,21 +105,26 @@ export default function KlaverjasTable(props: Props) {
                             </Link>
                         </Button>
                     </div>
-                    <Paper className="flex items-center justify-between p-4 text-2xl">
-                        <div className="flex items-center gap-4">
-                            {scoreboard?.scoreboardName}
+                    <Paper className="relative flex items-center justify-between gap-4 overflow-hidden border-2 border-emerald-200/70 bg-gradient-to-br from-emerald-50 via-white to-sky-50 p-4 text-2xl dark:border-emerald-500/30 dark:from-emerald-950/30 dark:via-slate-950 dark:to-sky-950/20">
+                        <div className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-emerald-300/20 blur-3xl dark:bg-emerald-500/20" />
+                        <div className="relative flex items-center gap-4">
+                            <span>{scoreboard?.scoreboardName}</span>
                             {isRoundsRefetching || isTotalsRefetching ? (
                                 <Loader2Icon className="animate-spin" />
                             ) : null}
                         </div>
-                        <CreateRoundButton scoreboardId={scoreboardId} />
+                        <div className="relative">
+                            <CreateRoundButton scoreboardId={scoreboardId} />
+                        </div>
                     </Paper>
                     <KlaverjasBattleOverview scoreboardId={scoreboardId} />
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-                        <Paper className="flex-2 overflow-x-auto p-4">
+                        <Paper className="relative flex-2 overflow-hidden border-2 border-indigo-200/70 bg-gradient-to-br from-indigo-50 via-white to-sky-50 p-4 dark:border-indigo-500/30 dark:from-indigo-950/30 dark:via-slate-950 dark:to-sky-950/20">
+                            <div className="pointer-events-none absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-indigo-300/15 blur-3xl dark:bg-indigo-500/15" />
+                            <div className="relative overflow-x-auto">
                             <Table>
                                 <TableHeader>
-                                    <TableRow>
+                                    <TableRow className="bg-white/70 dark:bg-slate-950/40">
                                         <TableHead className="w-[100px] font-bold">
                                             #
                                         </TableHead>
@@ -198,7 +203,7 @@ export default function KlaverjasTable(props: Props) {
                                     ))}
                                 </TableBody>
                                 <TableFooter>
-                                    <TableRow>
+                                    <TableRow className="bg-white/70 dark:bg-slate-950/40">
                                         <TableCell className="font-bold">
                                             {t("klaverjas.table.total")}
                                         </TableCell>
@@ -214,6 +219,7 @@ export default function KlaverjasTable(props: Props) {
                                     </TableRow>
                                 </TableFooter>
                             </Table>
+                            </div>
                         </Paper>
                     </div>
                 </div>

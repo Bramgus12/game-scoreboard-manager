@@ -8,16 +8,8 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -33,6 +25,13 @@ import {
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { AppBoerenbridgeRoundRow } from "@/models/app/boerenbridge-round/boerenbridge-round-row";
+import {
+    getActualWinsOptions,
+    getExpectedWinsOptions,
+    getInitialRoundDialogValues,
+    hasExpectedWinsRangeError,
+} from "@/page-components/scoreboard/boerenbridge/round-dialog-helpers";
+import BoerenbridgeRoundDialogPlayerRow from "@/page-components/scoreboard/boerenbridge/round-dialog-player-row";
 
 type Props = {
     open: boolean;
@@ -43,49 +42,6 @@ type Props = {
     onOpenChange: (open: boolean) => void;
 };
 
-function getValuesForStepOne(
-    players: Array<AppBoerenbridgePlayer>,
-    roundNumber: number,
-    editRound?: AppBoerenbridgeRoundRow,
-): CreateBoerenbridgeRoundFormInput {
-    if (editRound != null) {
-        return {
-            roundNumber: String(editRound.roundNumber),
-            entries: players.map((player) => {
-                const entry = editRound.entries.find(
-                    (roundEntry) => roundEntry.playerId === player.id,
-                );
-
-                return {
-                    playerId: player.id,
-                    expectedWins: String(entry?.expectedWins ?? 0),
-                    actualWins: String(entry?.actualWins ?? 0),
-                };
-            }),
-        };
-    }
-
-    return {
-        roundNumber: String(roundNumber),
-        entries: players.map((player) => ({
-            playerId: player.id,
-            expectedWins: "0",
-            actualWins: "0",
-        })),
-    };
-}
-
-function getExpectedWinsValidationError(
-    expectedWins: number,
-    currentRound: number,
-): string | null {
-    if (expectedWins < 0 || expectedWins > currentRound) {
-        return "Expected wins must be between 0 and current round";
-    }
-
-    return null;
-}
-
 export default function BoerenbridgeRoundDialog(props: Props) {
     const { open, scoreboardId, players, roundNumber, editRound, onOpenChange } =
         props;
@@ -95,7 +51,7 @@ export default function BoerenbridgeRoundDialog(props: Props) {
     const updateRoundMutation = useUpdateBoerenbridgeRoundMutation();
 
     const initialValues = useMemo(
-        () => getValuesForStepOne(players, roundNumber, editRound),
+        () => getInitialRoundDialogValues(players, roundNumber, editRound),
         [players, roundNumber, editRound],
     );
 
@@ -112,6 +68,10 @@ export default function BoerenbridgeRoundDialog(props: Props) {
     });
 
     const isEditMode = editRound != null;
+    const actualWinsOptions = useMemo(
+        () => getActualWinsOptions(roundNumber, players.length),
+        [roundNumber, players.length],
+    );
 
     function handleClose() {
         setStep(1);
@@ -125,12 +85,7 @@ export default function BoerenbridgeRoundDialog(props: Props) {
         let hasError = false;
 
         parsedData.entries.forEach((entry, index) => {
-            const expectedWinsError = getExpectedWinsValidationError(
-                entry.expectedWins,
-                roundNumber,
-            );
-
-            if (expectedWinsError != null) {
+            if (hasExpectedWinsRangeError(entry.expectedWins, roundNumber)) {
                 form.setError(`entries.${index}.expectedWins`, {
                     type: "manual",
                     message: t("expectedWinsRangeError", { round: roundNumber }),
@@ -218,13 +173,9 @@ export default function BoerenbridgeRoundDialog(props: Props) {
         >
             <DialogContent className="sm:max-w-xl">
                 <DialogHeader>
-                    <DialogTitle>
-                        {isEditMode ? t("editTitle") : t("title")}
-                    </DialogTitle>
+                    <DialogTitle>{isEditMode ? t("editTitle") : t("title")}</DialogTitle>
                     <DialogDescription>
-                        {step === 1
-                            ? t("stepOneDescription")
-                            : t("stepTwoDescription")}
+                        {step === 1 ? t("stepOneDescription") : t("stepTwoDescription")}
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -237,63 +188,20 @@ export default function BoerenbridgeRoundDialog(props: Props) {
                         }
                     >
                         {players.map((player, index) => (
-                            <div
+                            <BoerenbridgeRoundDialogPlayerRow
                                 key={player.id}
-                                className="grid grid-cols-12 items-center gap-2"
-                            >
-                                <div className="col-span-12 sm:col-span-4">
-                                    <span className="text-sm font-medium">
-                                        {player.name}
-                                    </span>
-                                </div>
-                                {step === 1 ? (
-                                    <FormField
-                                        control={form.control}
-                                        name={`entries.${index}.expectedWins`}
-                                        render={({ field }) => (
-                                            <FormItem className="col-span-12 sm:col-span-8">
-                                                <FormLabel>
-                                                    {t("expectedWins")}
-                                                </FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        type="text"
-                                                        value={field.value ?? ""}
-                                                        onChange={field.onChange}
-                                                        onBlur={field.onBlur}
-                                                        name={field.name}
-                                                        ref={field.ref}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                ) : (
-                                    <FormField
-                                        control={form.control}
-                                        name={`entries.${index}.actualWins`}
-                                        render={({ field }) => (
-                                            <FormItem className="col-span-12 sm:col-span-8">
-                                                <FormLabel>
-                                                    {t("actualWins")}
-                                                </FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        type="text"
-                                                        value={field.value ?? ""}
-                                                        onChange={field.onChange}
-                                                        onBlur={field.onBlur}
-                                                        name={field.name}
-                                                        ref={field.ref}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
+                                playerName={player.name}
+                                playerIndex={index}
+                                step={step}
+                                form={form}
+                                expectedWinsOptions={getExpectedWinsOptions(
+                                    roundNumber,
+                                    players.length,
                                 )}
-                            </div>
+                                actualWinsOptions={actualWinsOptions}
+                                expectedWinsLabel={t("expectedWins")}
+                                actualWinsLabel={t("actualWins")}
+                            />
                         ))}
                         {form.formState.errors.entries?.message ? (
                             <p className="text-destructive text-sm">
