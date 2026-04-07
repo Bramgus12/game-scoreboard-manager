@@ -101,31 +101,31 @@ export default function CookieConsentBanner() {
                     <div className="pointer-events-none absolute -top-20 -right-10 h-44 w-44 rounded-full bg-sky-300/30 blur-2xl dark:bg-sky-500/15" />
                     <div className="pointer-events-none absolute -bottom-20 -left-10 h-44 w-44 rounded-full bg-teal-300/25 blur-2xl dark:bg-cyan-500/10" />
 
-                    <div className="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                        <div className="space-y-2">
+                    <div className="relative flex flex-col gap-4">
+                        <div className="min-w-0 space-y-2">
                             <div className="inline-flex items-center gap-2 rounded-full border border-sky-200/90 bg-white/75 px-3 py-1 text-xs font-semibold tracking-wide text-sky-800 uppercase dark:border-slate-600 dark:bg-slate-900/70 dark:text-sky-200">
                                 <Cookie className="size-3.5" />
                                 {t("badge")}
                             </div>
-                            <h2 className="flex items-center gap-2 text-base font-semibold text-slate-900 sm:text-lg dark:text-slate-100">
+                            <h2 className="flex items-center gap-2 break-words text-base font-semibold text-slate-900 sm:text-lg dark:text-slate-100">
                                 <ShieldCheck className="size-4 text-teal-700 dark:text-teal-300" />
                                 {t("title")}
                             </h2>
-                            <p className="max-w-xl text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                            <p className="max-w-2xl break-words text-sm leading-relaxed text-slate-700 dark:text-slate-300">
                                 {t("description")}
                             </p>
                         </div>
 
-                        <div className="flex flex-col gap-2 sm:min-w-56 sm:flex-row sm:justify-end">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
                             <Button
                                 variant="outline"
-                                className="border-slate-300 bg-white/80 text-slate-800 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-800"
+                                className="w-full border-slate-300 bg-white/80 text-slate-800 hover:bg-slate-100 sm:w-auto dark:border-slate-600 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-800"
                                 onClick={handleReject}
                             >
                                 {t("reject")}
                             </Button>
                             <Button
-                                className="bg-teal-700 text-white hover:bg-teal-600 dark:bg-teal-600 dark:hover:bg-teal-500"
+                                className="w-full bg-teal-700 text-white hover:bg-teal-600 sm:w-auto dark:bg-teal-600 dark:hover:bg-teal-500"
                                 onClick={handleAccept}
                             >
                                 {t("accept")}

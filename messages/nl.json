@@ -90,6 +90,32 @@
             "boerenbridge": "Boerenbridge",
             "gameTypeDescription": "Selecteer het type spel waar je scores van wil bijhouden.",
             "confirmButton": "Spel maken"
+        },
+        "overview": {
+            "badge": "Spelhub",
+            "title": "Jouw speloverzicht",
+            "description": "Volg activiteit over al je scoreborden en spring direct terug in een potje."
+        },
+        "stats": {
+            "subtitle": "Snelle stats",
+            "title": "Overzicht per speltype",
+            "description": "Je ziet nu statistieken voor {gameType}",
+            "empty": "Nog geen {gameType}-spellen. Maak er een om te beginnen.",
+            "loading": "Statistieken laden...",
+            "error": "Kon statistieken nu niet laden.",
+            "fromGames": "Over {count} spellen",
+            "klaverjasPitCount": "Totaal pit",
+            "klaverjasAveragePointsPerTeam": "Gem punten per team",
+            "klaverjasAverageNatPerGame": "Gem nat per spel",
+            "boerenbridgeCorrectGuesses": "Juiste voorspellingen",
+            "boerenbridgeWrongGuesses": "Foute voorspellingen",
+            "boerenbridgeAveragePointsPerPlayerPerGame": "Gem punten per speler per spel",
+            "totalGames": "Spellen",
+            "share": "{percent}% van al je spellen",
+            "lastCreated": "Laatst aangemaakt",
+            "lastUpdated": "Laatst bijgewerkt",
+            "activity": "Actief in de laatste 7 dagen",
+            "since": "Bijgehouden sinds {value}"
         }
     },
     "scoreboard": {

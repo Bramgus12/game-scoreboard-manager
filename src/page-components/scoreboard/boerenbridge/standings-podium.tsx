@@ -74,8 +74,10 @@ export default function StandingsPodium(props: Props) {
               : [topThree[0]];
 
     return (
-        <Paper className="p-6">
-            <div className="mb-6 flex items-center gap-2">
+        <Paper className="relative overflow-hidden border-2 border-amber-200/70 bg-gradient-to-br from-amber-50 via-white to-emerald-50 p-6 dark:border-amber-500/30 dark:from-amber-950/20 dark:via-slate-950 dark:to-emerald-950/20">
+            <div className="pointer-events-none absolute -top-14 -right-14 h-36 w-36 rounded-full bg-amber-300/20 blur-3xl dark:bg-amber-500/20" />
+            <div className="pointer-events-none absolute -bottom-14 -left-12 h-32 w-32 rounded-full bg-emerald-300/15 blur-3xl dark:bg-emerald-500/15" />
+            <div className="relative mb-6 flex items-center gap-2">
                 <Trophy size={20} className="text-yellow-500" />
                 <h3 className="text-lg font-semibold">
                     {t("boerenbridge.standings.title")}
@@ -83,7 +85,7 @@ export default function StandingsPodium(props: Props) {
             </div>
 
             {/* Podium */}
-            <div className="mb-6 flex items-end justify-center gap-3">
+            <div className="relative mb-6 flex items-end justify-center gap-3">
                 {podiumOrder.map((player) => {
                     if (!isOnPodium(player.rank)) {
                         throw new Error("Player rank does not match");
@@ -132,14 +134,14 @@ export default function StandingsPodium(props: Props) {
 
             {/* Rest of the players */}
             {rest.length > 0 && (
-                <div className="space-y-2">
+                <div className="relative space-y-2">
                     <div className="text-muted-foreground mb-1 text-xs font-medium tracking-wider uppercase">
                         {t("boerenbridge.standings.otherPlayers")}
                     </div>
                     {rest.map((player) => (
                         <div
                             key={player.playerId}
-                            className="bg-muted/50 flex items-center justify-between rounded-md px-4 py-2"
+                            className="flex items-center justify-between rounded-md border border-white/70 bg-white/75 px-4 py-2 dark:border-slate-600/60 dark:bg-slate-900/60"
                         >
                             <div className="flex items-center gap-3">
                                 <span className="text-muted-foreground w-6 text-center text-sm font-medium">

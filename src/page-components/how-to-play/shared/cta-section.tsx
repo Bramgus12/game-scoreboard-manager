@@ -21,14 +21,17 @@ export function CtaSection({
     const { userId } = useAuth();
 
     return (
-        <section className="border-border/70 bg-card/80 rounded-xl border p-6 text-center backdrop-blur-sm md:p-10">
-            <Trophy className="text-primary mx-auto h-10 w-10" />
-            <h2 className="mt-4 text-xl font-semibold md:text-2xl">{title}</h2>
-            <p className="text-muted-foreground mx-auto mt-2 max-w-md text-sm md:text-base">
+        <section className="relative overflow-hidden rounded-xl border-2 border-emerald-200/70 bg-gradient-to-br from-emerald-50 via-white to-sky-50 p-6 text-center backdrop-blur-sm dark:border-emerald-500/30 dark:from-emerald-950/30 dark:via-slate-950 dark:to-sky-950/20 md:p-10">
+            <div className="pointer-events-none absolute -top-14 -right-12 h-36 w-36 rounded-full bg-emerald-300/20 blur-3xl dark:bg-emerald-500/20" />
+            <Trophy className="text-primary relative mx-auto h-10 w-10" />
+            <h2 className="relative mt-4 text-xl font-semibold md:text-2xl">
+                {title}
+            </h2>
+            <p className="text-muted-foreground relative mx-auto mt-2 max-w-md text-sm md:text-base">
                 {description}
             </p>
             {userId ? (
-                <div className="mt-6 flex justify-center">
+                <div className="relative mt-6 flex justify-center">
                     <Button asChild size="lg">
                         <Link href="/scoreboards">
                             <ChartColumnBig />
@@ -37,7 +40,7 @@ export function CtaSection({
                     </Button>
                 </div>
             ) : (
-                <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <div className="relative mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
                     <Button asChild size="lg">
                         <Link href="/sign-in">
                             <ArrowRight />

@@ -10,9 +10,11 @@ import {
     createScoreboard as repoCreateScoreboard,
     deleteScoreboardById as repoDeleteScoreboardById,
     getScoreboardById as repoGetScoreboardById,
+    getScoreboardsStatsForUser as repoGetScoreboardsStatsForUser,
     getScoreboardsForUser as repoGetScoreboardsForUser,
 } from "@/server/repository/scoreboard";
 import { AppCreateBoerenbridgePlayer } from "@/models/app/boerenbridge-player/create-boerenbridge-player";
+import { AppScoreboardsStats } from "@/models/app/scoreboard/scoreboard-stats";
 
 export async function deleteScoreboardById(id: UUID) {
     return repoDeleteScoreboardById(id);
@@ -49,4 +51,8 @@ export async function createBoerenbridgeScoreboardWithGame(
         await repoCreateBoerenbridgeScoreboardWithGame(payload);
 
     return domainToAppScoreboard(createdScoreboard);
+}
+
+export async function getScoreboardsStatsForUser(): Promise<AppScoreboardsStats> {
+    return repoGetScoreboardsStatsForUser();
 }

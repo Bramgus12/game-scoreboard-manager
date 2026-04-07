@@ -22,6 +22,20 @@ const transactionPlayerCreateManyMock = mock(
         count: query.data.length,
     }),
 );
+const queryRawUnsafeMock = mock(
+    async (): Promise<Array<Record<string, unknown>>> => [
+        {
+            klaverjas_game_count: 2,
+            klaverjas_pit_count: 5,
+            klaverjas_avg_points_per_team: "76.5",
+            klaverjas_avg_nat_per_game: "1.25",
+            boerenbridge_game_count: 1,
+            boerenbridge_correct_count: "9",
+            boerenbridge_wrong_count: "4",
+            boerenbridge_avg_points_per_player_per_game: "12.75",
+        },
+    ],
+);
 
 const prismaMock = {
     scoreboard: {
@@ -45,6 +59,7 @@ const prismaMock = {
             },
         }),
     ),
+    $queryRawUnsafe: queryRawUnsafeMock,
 };
 
 const getDatabaseUserMock = mock(async () => createAppUser());
@@ -73,6 +88,7 @@ describe("scoreboard repository", () => {
         transactionScoreboardCreateMock.mockReset();
         transactionGameCreateMock.mockReset();
         transactionPlayerCreateManyMock.mockReset();
+        queryRawUnsafeMock.mockReset();
         prismaMock.scoreboard.findMany.mockReset();
         prismaMock.scoreboard.delete.mockReset();
 
@@ -88,6 +104,18 @@ describe("scoreboard repository", () => {
         transactionPlayerCreateManyMock.mockImplementation(async () => ({
             count: 0,
         }));
+        queryRawUnsafeMock.mockImplementation(async () => [
+            {
+                klaverjas_game_count: 2,
+                klaverjas_pit_count: 5,
+                klaverjas_avg_points_per_team: "76.5",
+                klaverjas_avg_nat_per_game: "1.25",
+                boerenbridge_game_count: 1,
+                boerenbridge_correct_count: "9",
+                boerenbridge_wrong_count: "4",
+                boerenbridge_avg_points_per_player_per_game: "12.75",
+            },
+        ]);
         prismaMock.scoreboard.findMany.mockImplementation(async () => []);
         prismaMock.scoreboard.delete.mockImplementation(async () => undefined);
     });
@@ -234,5 +262,146 @@ describe("scoreboard repository", () => {
                 expect.objectContaining({ name: "Bob" }),
             ],
         });
+    });
+
+    it("returns parsed SQL stats for both game types", async () => {
+        const stats = await scoreboardRepository.getScoreboardsStatsForUser();
+
+        expect(stats).toEqual({
+            klaverjas: {
+                gameCount: 2,
+                pitCount: 5,
+                averagePointsPerTeam: 76.5,
+                averageNatTimesPerGame: 1.25,
+            },
+            boerenbridge: {
+                gameCount: 1,
+                correctGuessCount: 9,
+                wrongGuessCount: 4,
+                averagePointsPerPlayerPerGame: 12.75,
+            },
+        });
+
+        expect(queryRawUnsafeMock).toHaveBeenCalledTimes(1);
+    });
+
+    it("returns zeroed stats when SQL query returns no row", async () => {
+        queryRawUnsafeMock.mockImplementation(async () => []);
+
+        const stats = await scoreboardRepository.getScoreboardsStatsForUser();
+
+        expect(stats).toEqual({
+            klaverjas: {
+                gameCount: 0,
+                pitCount: 0,
+                averagePointsPerTeam: 0,
+                averageNatTimesPerGame: 0,
+            },
+            boerenbridge: {
+                gameCount: 0,
+                correctGuessCount: 0,
+                wrongGuessCount: 0,
+                averagePointsPerPlayerPerGame: 0,
+            },
+        });
+    });
+
+    it("parses bigint SQL aggregates to numbers", async () => {
+        queryRawUnsafeMock.mockImplementation(async () => [
+            {
+                klaverjas_game_count: 2n,
+                klaverjas_pit_count: 5n,
+                klaverjas_avg_points_per_team: 76.5,
+                klaverjas_avg_nat_per_game: 1.25,
+                boerenbridge_game_count: 1n,
+                boerenbridge_correct_count: 9n,
+                boerenbridge_wrong_count: 4n,
+                boerenbridge_avg_points_per_player_per_game: 12.75,
+            },
+        ]);
+
+        const stats = await scoreboardRepository.getScoreboardsStatsForUser();
+
+        expect(stats.klaverjas.gameCount).toBe(2);
+        expect(stats.klaverjas.pitCount).toBe(5);
+        expect(stats.boerenbridge.gameCount).toBe(1);
+        expect(stats.boerenbridge.correctGuessCount).toBe(9);
+        expect(stats.boerenbridge.wrongGuessCount).toBe(4);
+    });
+
+    it("maps invalid numeric strings to zero", async () => {
+        queryRawUnsafeMock.mockImplementation(async () => [
+            {
+                klaverjas_game_count: "abc",
+                klaverjas_pit_count: "5",
+                klaverjas_avg_points_per_team: "76.5",
+                klaverjas_avg_nat_per_game: "1.25",
+                boerenbridge_game_count: "1",
+                boerenbridge_correct_count: "9",
+                boerenbridge_wrong_count: "4",
+                boerenbridge_avg_points_per_player_per_game: "12.75",
+            },
+        ]);
+
+        const stats = await scoreboardRepository.getScoreboardsStatsForUser();
+
+        expect(stats.klaverjas.gameCount).toBe(0);
+        expect(stats.klaverjas.pitCount).toBe(5);
+    });
+
+    it("maps toString numeric objects to numbers", async () => {
+        queryRawUnsafeMock.mockImplementation(async () => [
+            {
+                klaverjas_game_count: { toString: () => "2" },
+                klaverjas_pit_count: { toString: () => "5" },
+                klaverjas_avg_points_per_team: { toString: () => "76.5" },
+                klaverjas_avg_nat_per_game: { toString: () => "1.25" },
+                boerenbridge_game_count: { toString: () => "1" },
+                boerenbridge_correct_count: { toString: () => "9" },
+                boerenbridge_wrong_count: { toString: () => "4" },
+                boerenbridge_avg_points_per_player_per_game: {
+                    toString: () => "12.75",
+                },
+            },
+        ]);
+
+        const stats = await scoreboardRepository.getScoreboardsStatsForUser();
+
+        expect(stats).toEqual({
+            klaverjas: {
+                gameCount: 2,
+                pitCount: 5,
+                averagePointsPerTeam: 76.5,
+                averageNatTimesPerGame: 1.25,
+            },
+            boerenbridge: {
+                gameCount: 1,
+                correctGuessCount: 9,
+                wrongGuessCount: 4,
+                averagePointsPerPlayerPerGame: 12.75,
+            },
+        });
+    });
+
+    it("maps invalid toString objects to zero", async () => {
+        queryRawUnsafeMock.mockImplementation(async () => [
+            {
+                klaverjas_game_count: { toString: () => "NaN" },
+                klaverjas_pit_count: { toString: () => "5" },
+                klaverjas_avg_points_per_team: { toString: () => "76.5" },
+                klaverjas_avg_nat_per_game: { toString: () => "1.25" },
+                boerenbridge_game_count: { toString: () => "1" },
+                boerenbridge_correct_count: { toString: () => "9" },
+                boerenbridge_wrong_count: { toString: () => "4" },
+                boerenbridge_avg_points_per_player_per_game: {
+                    toString: () => "12.75",
+                },
+            },
+        ]);
+
+        const stats = await scoreboardRepository.getScoreboardsStatsForUser();
+
+        expect(stats.klaverjas.gameCount).toBe(0);
+        expect(stats.klaverjas.pitCount).toBe(5);
     });
 });

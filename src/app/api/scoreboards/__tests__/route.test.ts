@@ -17,6 +17,20 @@ const getScoreboardByIdMock = mock(async () => ({
     scoreboardName: "Weekend Match",
 }));
 const deleteScoreboardByIdMock = mock(async () => undefined);
+const getScoreboardsStatsForUserMock = mock(async () => ({
+    klaverjas: {
+        gameCount: 0,
+        pitCount: 0,
+        averagePointsPerTeam: 0,
+        averageNatTimesPerGame: 0,
+    },
+    boerenbridge: {
+        gameCount: 0,
+        correctGuessCount: 0,
+        wrongGuessCount: 0,
+        averagePointsPerPlayerPerGame: 0,
+    },
+}));
 
 const currentUserMock = mock<() => Promise<{ id: string } | null>>(async () => ({
     id: "clerk_user_123",
@@ -29,6 +43,7 @@ mock.module("@/server/service/scoreboard", () => ({
     createScoreboard: createScoreboardMock,
     getScoreboardById: getScoreboardByIdMock,
     deleteScoreboardById: deleteScoreboardByIdMock,
+    getScoreboardsStatsForUser: getScoreboardsStatsForUserMock,
 }));
 
 mock.module("@clerk/nextjs/server", () => ({
@@ -50,6 +65,7 @@ describe("/api/scoreboards route", () => {
         getPosthogClientMock.mockReset();
         getScoreboardByIdMock.mockReset();
         deleteScoreboardByIdMock.mockReset();
+        getScoreboardsStatsForUserMock.mockReset();
 
         getScoreboardsForUserMock.mockImplementation(
             async (): Promise<Array<Record<string, unknown>>> => [],
@@ -68,6 +84,20 @@ describe("/api/scoreboards route", () => {
             scoreboardName: "Weekend Match",
         }));
         deleteScoreboardByIdMock.mockImplementation(async () => undefined);
+        getScoreboardsStatsForUserMock.mockImplementation(async () => ({
+            klaverjas: {
+                gameCount: 0,
+                pitCount: 0,
+                averagePointsPerTeam: 0,
+                averageNatTimesPerGame: 0,
+            },
+            boerenbridge: {
+                gameCount: 0,
+                correctGuessCount: 0,
+                wrongGuessCount: 0,
+                averagePointsPerPlayerPerGame: 0,
+            },
+        }));
         getPosthogClientMock.mockImplementation(() => ({
             capture: posthogCaptureMock,
         }));

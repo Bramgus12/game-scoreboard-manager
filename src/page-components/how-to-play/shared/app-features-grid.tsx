@@ -22,10 +22,10 @@ export function AppFeaturesGrid({
                 {features.map((feature, index) => (
                     <div
                         key={index}
-                        className="border-border/70 bg-card/70 rounded-xl border p-5 backdrop-blur-sm"
+                        className="relative overflow-hidden rounded-xl border-2 border-indigo-200/70 bg-gradient-to-br from-indigo-50/80 via-white to-sky-50/70 p-5 backdrop-blur-sm dark:border-indigo-500/30 dark:from-indigo-950/20 dark:via-slate-950 dark:to-sky-950/20"
                     >
                         <div
-                            className={`flex h-10 w-10 items-center justify-center rounded-lg ${feature.bg}`}
+                            className={`flex h-10 w-10 items-center justify-center rounded-lg border border-white/70 bg-white/80 dark:border-slate-600/60 dark:bg-slate-900/70 ${feature.bg}`}
                         >
                             <feature.icon size={20} className={feature.color} />
                         </div>

@@ -28,17 +28,19 @@ export default async function PublicHome() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
             />
-            <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,rgba(120,119,198,0.14),transparent_55%),radial-gradient(ellipse_at_bottom,rgba(16,185,129,0.12),transparent_50%)]" />
+            <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.16),transparent_55%),radial-gradient(ellipse_at_bottom,rgba(14,165,233,0.14),transparent_55%)]" />
             <div className="container flex max-w-5xl flex-col gap-10 md:gap-14">
-                <section className="border-border/70 bg-card/80 rounded-xl border p-6 backdrop-blur-sm md:p-10">
-                    <span className="border-border/70 bg-secondary inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium tracking-wide uppercase">
+                <section className="relative overflow-hidden rounded-xl border-2 border-emerald-200/70 bg-gradient-to-br from-emerald-50 via-white to-sky-50 p-6 backdrop-blur-sm dark:border-emerald-500/30 dark:from-emerald-950/30 dark:via-slate-950 dark:to-sky-950/20 md:p-10">
+                    <div className="pointer-events-none absolute -top-14 -right-14 h-40 w-40 rounded-full bg-emerald-300/20 blur-3xl dark:bg-emerald-500/20" />
+                    <div className="pointer-events-none absolute -bottom-14 -left-12 h-32 w-32 rounded-full bg-sky-300/20 blur-3xl dark:bg-sky-500/20" />
+                    <span className="relative inline-flex items-center gap-2 rounded-full border border-emerald-300/70 bg-white/80 px-3 py-1 text-xs font-medium tracking-wide uppercase dark:border-emerald-500/40 dark:bg-slate-950/70">
                         <Gamepad2 size={14} />
                         {t("hero.badge")}
                     </span>
-                    <h1 className="mt-4 max-w-3xl text-3xl leading-tight font-semibold md:text-5xl md:leading-tight">
+                    <h1 className="relative mt-4 max-w-3xl text-3xl leading-tight font-semibold md:text-5xl md:leading-tight">
                         {t("hero.title")}
                     </h1>
-                    <p className="text-muted-foreground mt-4 max-w-2xl text-base md:text-lg">
+                    <p className="text-muted-foreground relative mt-4 max-w-2xl text-base md:text-lg">
                         {t("hero.description")}
                     </p>
                     <HomeHeroCta
@@ -63,7 +65,8 @@ export default async function PublicHome() {
                 </section>
 
                 <section className="grid gap-4 md:grid-cols-2">
-                    <article className="border-border/70 bg-card/70 rounded-xl border p-5 md:p-6">
+                    <article className="relative overflow-hidden rounded-xl border-2 border-sky-200/70 bg-gradient-to-br from-sky-50 via-white to-indigo-50 p-5 dark:border-sky-500/30 dark:from-sky-950/30 dark:via-slate-950 dark:to-indigo-950/20 md:p-6">
+                        <div className="pointer-events-none absolute -top-12 -right-12 h-28 w-28 rounded-full bg-sky-300/20 blur-3xl dark:bg-sky-500/20" />
                         <div className="flex items-start justify-between gap-4">
                             <h2 className="text-xl font-semibold md:text-2xl">
                                 {t("availableGames.title")}
@@ -126,24 +129,25 @@ export default async function PublicHome() {
                         </div>
                     </article>
 
-                    <article className="border-border/70 bg-card/70 rounded-xl border p-5 md:p-6">
+                    <article className="relative overflow-hidden rounded-xl border-2 border-emerald-200/70 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-5 dark:border-emerald-500/30 dark:from-emerald-950/30 dark:via-slate-950 dark:to-teal-950/20 md:p-6">
+                        <div className="pointer-events-none absolute -bottom-12 -left-10 h-28 w-28 rounded-full bg-emerald-300/20 blur-3xl dark:bg-emerald-500/20" />
                         <h2 className="text-xl font-semibold md:text-2xl">
                             {t("howItWorks.title")}
                         </h2>
                         <div className="mt-4 space-y-3">
-                            <div className="border-border/70 bg-background/70 flex items-start gap-3 rounded-lg border p-3">
+                            <div className="flex items-start gap-3 rounded-lg border border-emerald-300/70 bg-emerald-100/70 p-3 dark:border-emerald-500/40 dark:bg-emerald-900/25">
                                 <Plus className="mt-0.5" size={18} />
                                 <p className="text-sm md:text-base">
                                     {t("howItWorks.step1")}
                                 </p>
                             </div>
-                            <div className="border-border/70 bg-background/70 flex items-start gap-3 rounded-lg border p-3">
+                            <div className="flex items-start gap-3 rounded-lg border border-sky-300/70 bg-sky-100/70 p-3 dark:border-sky-500/40 dark:bg-sky-900/25">
                                 <Rows3 className="mt-0.5" size={18} />
                                 <p className="text-sm md:text-base">
                                     {t("howItWorks.step2")}
                                 </p>
                             </div>
-                            <div className="border-border/70 bg-background/70 flex items-start gap-3 rounded-lg border p-3">
+                            <div className="flex items-start gap-3 rounded-lg border border-indigo-300/70 bg-indigo-100/70 p-3 dark:border-indigo-500/40 dark:bg-indigo-900/25">
                                 <ListChecks className="mt-0.5" size={18} />
                                 <p className="text-sm md:text-base">
                                     {t("howItWorks.step3")}

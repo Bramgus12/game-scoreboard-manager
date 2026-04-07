@@ -32,7 +32,7 @@ export function KlaverjasScoring({
             </h2>
 
             {/* Normal scoring */}
-            <div className="border-border/70 bg-card/70 rounded-xl border p-5 backdrop-blur-sm">
+            <div className="rounded-xl border-2 border-emerald-200/70 bg-gradient-to-br from-emerald-50 via-white to-sky-50 p-5 backdrop-blur-sm dark:border-emerald-500/30 dark:from-emerald-950/20 dark:via-slate-950 dark:to-sky-950/20">
                 <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10">
                         <Check size={20} className="text-emerald-500" />
@@ -45,7 +45,7 @@ export function KlaverjasScoring({
             </div>
 
             {/* Nat */}
-            <div className="border-border/70 bg-card/70 rounded-xl border p-5 backdrop-blur-sm">
+            <div className="rounded-xl border-2 border-rose-200/70 bg-gradient-to-br from-rose-50 via-white to-amber-50 p-5 backdrop-blur-sm dark:border-rose-500/30 dark:from-rose-950/20 dark:via-slate-950 dark:to-amber-950/20">
                 <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-500/10">
                         <X size={20} className="text-red-500" />
@@ -58,7 +58,7 @@ export function KlaverjasScoring({
             </div>
 
             {/* Pit */}
-            <div className="border-border/70 bg-card/70 rounded-xl border p-5 backdrop-blur-sm">
+            <div className="rounded-xl border-2 border-amber-200/70 bg-gradient-to-br from-amber-50 via-white to-rose-50 p-5 backdrop-blur-sm dark:border-amber-500/30 dark:from-amber-950/20 dark:via-slate-950 dark:to-rose-950/20">
                 <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-500/10">
                         <Sparkles size={20} className="text-amber-500" />
@@ -71,7 +71,7 @@ export function KlaverjasScoring({
             </div>
 
             {/* Last trick */}
-            <div className="border-border/70 bg-card/70 rounded-xl border p-5 backdrop-blur-sm">
+            <div className="rounded-xl border-2 border-sky-200/70 bg-gradient-to-br from-sky-50 via-white to-indigo-50 p-5 backdrop-blur-sm dark:border-sky-500/30 dark:from-sky-950/20 dark:via-slate-950 dark:to-indigo-950/20">
                 <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/10">
                         <Star size={20} className="text-purple-500" />
@@ -84,7 +84,7 @@ export function KlaverjasScoring({
             </div>
 
             {/* Strategy tip */}
-            <div className="border-border/70 bg-card/70 rounded-xl border border-amber-500/30 p-5 backdrop-blur-sm md:col-span-2">
+            <div className="rounded-xl border-2 border-amber-300/70 bg-gradient-to-br from-amber-50 via-white to-emerald-50 p-5 backdrop-blur-sm dark:border-amber-500/40 dark:from-amber-950/20 dark:via-slate-950 dark:to-emerald-950/20 md:col-span-2">
                 <div className="flex items-start gap-3">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-500/10">
                         <Crown size={20} className="text-amber-500" />

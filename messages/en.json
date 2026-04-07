@@ -86,6 +86,32 @@
             "boerenbridge": "Oh Hell",
             "gameTypeDescription": "Select the type of game you want to keep scores of.",
             "confirmButton": "Create Game"
+        },
+        "overview": {
+            "badge": "Game hub",
+            "title": "Your game desk",
+            "description": "Track activity across your scoreboards and jump back into any match."
+        },
+        "stats": {
+            "subtitle": "Quick stats",
+            "title": "Game type snapshot",
+            "description": "Showing stats for {gameType}",
+            "empty": "No {gameType} games yet. Create one to start tracking.",
+            "loading": "Loading stats...",
+            "error": "Could not load stats right now.",
+            "fromGames": "Across {count} games",
+            "klaverjasPitCount": "Total pit",
+            "klaverjasAveragePointsPerTeam": "Avg points per team",
+            "klaverjasAverageNatPerGame": "Avg nat per game",
+            "boerenbridgeCorrectGuesses": "Correct guesses",
+            "boerenbridgeWrongGuesses": "Wrong guesses",
+            "boerenbridgeAveragePointsPerPlayerPerGame": "Avg points per player per game",
+            "totalGames": "Games",
+            "share": "{percent}% of all your games",
+            "lastCreated": "Last created",
+            "lastUpdated": "Last updated",
+            "activity": "Active in last 7 days",
+            "since": "Tracking since {value}"
         }
     },
     "scoreboard": {

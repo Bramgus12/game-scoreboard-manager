@@ -27,14 +27,15 @@ export function RoundStructureSection({
     maxRound: number;
 }) {
     return (
-        <section className="border-border/70 bg-card/80 rounded-xl border p-6 backdrop-blur-sm md:p-8">
+        <section className="relative overflow-hidden rounded-xl border-2 border-sky-200/70 bg-gradient-to-br from-sky-50 via-white to-indigo-50 p-6 backdrop-blur-sm dark:border-sky-500/30 dark:from-sky-950/30 dark:via-slate-950 dark:to-indigo-950/20 md:p-8">
+            <div className="pointer-events-none absolute -top-12 -right-12 h-32 w-32 rounded-full bg-sky-300/20 blur-3xl dark:bg-sky-500/20" />
             <h2 className="text-xl font-semibold md:text-2xl">{title}</h2>
             <p className="text-muted-foreground mt-2 text-sm md:text-base">
                 {description}
             </p>
 
             {/* Pyramid visualization */}
-            <div className="bg-background/50 mt-6 rounded-lg border p-4 md:p-6">
+            <div className="relative mt-6 rounded-lg border border-white/70 bg-white/75 p-4 dark:border-slate-600/60 dark:bg-slate-900/60 md:p-6">
                 <div className="mb-3 flex flex-wrap items-center justify-center gap-4 text-xs">
                     <div className="flex items-center gap-1.5">
                         <ChevronsUp size={14} className="text-emerald-500" />
@@ -60,7 +61,7 @@ export function RoundStructureSection({
             <p className="text-muted-foreground mt-4 text-sm">{maxCards}</p>
 
             {/* No trump info */}
-            <div className="mt-4 flex items-start gap-3 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4">
+            <div className="mt-4 flex items-start gap-3 rounded-lg border border-amber-300/70 bg-amber-100/60 p-4 dark:border-amber-500/40 dark:bg-amber-900/20">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-500/20">
                     <Crown
                         size={16}

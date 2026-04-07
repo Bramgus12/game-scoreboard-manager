@@ -16,7 +16,7 @@ export function ScoringExample({
         : -Math.abs(predicted - actual) * pointsPerTrick;
 
     return (
-        <div className="border-border/70 bg-background/70 flex items-center gap-4 rounded-lg border p-3 sm:p-4">
+        <div className="flex items-center gap-4 rounded-lg border border-white/70 bg-white/75 p-3 dark:border-slate-600/60 dark:bg-slate-900/60 sm:p-4">
             <div
                 className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${
                     isCorrect

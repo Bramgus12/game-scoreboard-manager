@@ -193,8 +193,9 @@ export default function BoerenbridgeTable(props: Props) {
                             </Link>
                         </Button>
                     </div>
-                    <Paper className="flex items-center justify-between p-4 text-2xl">
-                        <div className="flex items-center gap-4">
+                    <Paper className="relative flex items-center justify-between gap-4 overflow-hidden border-2 border-emerald-200/70 bg-gradient-to-br from-emerald-50 via-white to-sky-50 p-4 text-2xl dark:border-emerald-500/30 dark:from-emerald-950/30 dark:via-slate-950 dark:to-sky-950/20">
+                        <div className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-emerald-300/20 blur-3xl dark:bg-emerald-500/20" />
+                        <div className="relative flex items-center gap-4">
                             <div className="flex flex-col gap-1">
                                 <span>{scoreboard?.scoreboardName}</span>
                                 <span className="text-muted-foreground text-sm font-normal">
@@ -212,10 +213,13 @@ export default function BoerenbridgeTable(props: Props) {
                                 <Loader2Icon className="animate-spin" />
                             ) : null}
                         </div>
-                        <CreateBoerenbridgeRoundButton scoreboardId={scoreboardId} />
+                        <div className="relative">
+                            <CreateBoerenbridgeRoundButton scoreboardId={scoreboardId} />
+                        </div>
                     </Paper>
                     {rounds.length === 0 ? (
-                        <Paper className="flex flex-col items-center justify-center gap-3 p-12 text-center">
+                        <Paper className="relative overflow-hidden border-2 border-sky-200/70 bg-gradient-to-br from-sky-50 via-white to-indigo-50 p-12 text-center dark:border-sky-500/30 dark:from-sky-950/30 dark:via-slate-950 dark:to-indigo-950/20">
+                            <div className="pointer-events-none absolute -top-12 -right-12 h-32 w-32 rounded-full bg-sky-300/20 blur-3xl dark:bg-sky-500/20" />
                             <ClipboardList className="text-muted-foreground h-12 w-12" />
                             <h3 className="text-lg font-semibold">
                                 {t("boerenbridge.emptyState.title")}
@@ -227,10 +231,11 @@ export default function BoerenbridgeTable(props: Props) {
                     ) : (
                         <>
                             <StandingsPodium scoreboardId={scoreboardId} />
-                            <Paper className="overflow-x-auto p-4">
+                            <Paper className="relative overflow-hidden border-2 border-indigo-200/70 bg-gradient-to-br from-indigo-50 via-white to-sky-50 p-4 dark:border-indigo-500/30 dark:from-indigo-950/30 dark:via-slate-950 dark:to-sky-950/20">
+                                <div className="pointer-events-none absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-indigo-300/15 blur-3xl dark:bg-indigo-500/15" />
                                 <Table>
                                     <TableHeader>
-                                        <TableRow>
+                                        <TableRow className="bg-white/70 dark:bg-slate-950/40">
                                             <TableHead className="w-[100px] font-bold">
                                                 #
                                             </TableHead>
@@ -247,7 +252,7 @@ export default function BoerenbridgeTable(props: Props) {
                                                 {t("boerenbridge.table.actions")}
                                             </TableHead>
                                         </TableRow>
-                                        <TableRow>
+                                        <TableRow className="bg-white/60 dark:bg-slate-950/30">
                                             <TableHead className="font-medium">
                                                 {t("boerenbridge.table.cards")}
                                             </TableHead>
