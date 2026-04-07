@@ -21,9 +21,10 @@ import { Button } from "@/components/ui/button";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+    createBoerenbridgeGameSchema,
+    CreateBoerenbridgeGameForm,
+    CreateBoerenbridgeGameFormInput,
     createBoerenbridgeScoreboardSchema,
-    CreateBoerenbridgeScoreboardForm,
-    CreateBoerenbridgeScoreboardFormInput,
 } from "@/validation/create-boerenbridge-scoreboard-schema";
 import { useTranslations } from "next-intl";
 import { Plus, Trash } from "lucide-react";
@@ -49,13 +50,12 @@ export default function CreateBoerenbridgeScoreboardDialog(props: Props) {
     const t = useTranslations("boerenbridge.createGameDialog");
     const createMutation = useCreateBoerenbridgeScoreboardWithGameMutation();
 
-    const form = useForm<CreateBoerenbridgeScoreboardFormInput>({
+    const form = useForm<CreateBoerenbridgeGameFormInput>({
         mode: "onBlur",
-        resolver: zodResolver(createBoerenbridgeScoreboardSchema, undefined, {
+        resolver: zodResolver(createBoerenbridgeGameSchema, undefined, {
             raw: true,
         }),
         defaultValues: {
-            scoreboardName: "",
             pointsPerCorrectGuess: "2",
             players: defaultPlayers,
         },
@@ -68,20 +68,21 @@ export default function CreateBoerenbridgeScoreboardDialog(props: Props) {
 
     function handleClose(createdScoreboardId: UUID | null) {
         form.reset({
-            scoreboardName: "",
             pointsPerCorrectGuess: "2",
             players: defaultPlayers,
         });
         onClose(createdScoreboardId);
     }
 
-    async function handleSubmit(data: CreateBoerenbridgeScoreboardFormInput) {
-        const parsedData: CreateBoerenbridgeScoreboardForm =
-            createBoerenbridgeScoreboardSchema.parse({
-                ...data,
-                scoreboardName,
-            });
-        const createdScoreboard = await createMutation.mutateAsync(parsedData);
+    async function handleSubmit(data: CreateBoerenbridgeGameFormInput) {
+        const parsedData: CreateBoerenbridgeGameForm =
+            createBoerenbridgeGameSchema.parse(data);
+
+        const payload = createBoerenbridgeScoreboardSchema.parse({
+            ...parsedData,
+            scoreboardName,
+        });
+        const createdScoreboard = await createMutation.mutateAsync(payload);
 
         handleClose(createdScoreboard.id);
     }
