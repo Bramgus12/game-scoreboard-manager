@@ -3,22 +3,20 @@
 import { useUser } from "@clerk/nextjs";
 import posthog from "posthog-js";
 import { useEffect, useState } from "react";
-
-type ConsentStatus = "pending" | "granted" | "denied";
+import { getConsentStatus, type ConsentStatus } from "@/lib/posthog-consent";
 
 export default function PostHogIdentify() {
     const { user, isLoaded } = useUser();
     const [consentStatus, setConsentStatus] = useState<ConsentStatus>(() =>
-        typeof window === "undefined"
-            ? "pending"
-            : posthog.get_explicit_consent_status(),
+        getConsentStatus(),
     );
 
     useEffect(() => {
         const handleConsentChanged = () => {
-            setConsentStatus(posthog.get_explicit_consent_status());
+            setConsentStatus(getConsentStatus());
         };
 
+        handleConsentChanged();
         window.addEventListener("posthog-consent-updated", handleConsentChanged);
 
         return () => {
