@@ -5,14 +5,11 @@ import { useTranslations } from "next-intl";
 import posthog from "posthog-js";
 import { Cookie, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-type ConsentStatus = "pending" | "granted" | "denied";
+import { getConsentStatus, type ConsentStatus } from "@/lib/posthog-consent";
 
 export default function CookieConsentBanner() {
-    const initialConsentStatusRef = useRef<ConsentStatus>(
-        typeof window === "undefined"
-            ? "pending"
-            : posthog.get_explicit_consent_status(),
+    const [consentStatus, setConsentStatus] = useState<ConsentStatus>(() =>
+        getConsentStatus(),
     );
     const [isRendered, setIsRendered] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
@@ -37,13 +34,23 @@ export default function CookieConsentBanner() {
     };
 
     useEffect(() => {
+        const syncConsentStatus = () => {
+            const nextConsentStatus = getConsentStatus();
+            setConsentStatus(nextConsentStatus);
+            if (nextConsentStatus !== "pending") {
+                closeBanner();
+            }
+        };
+
         const handleOpenBanner = () => {
             openBanner();
         };
 
+        window.addEventListener("posthog-consent-updated", syncConsentStatus);
         window.addEventListener("posthog-open-consent-banner", handleOpenBanner);
 
         return () => {
+            window.removeEventListener("posthog-consent-updated", syncConsentStatus);
             window.removeEventListener(
                 "posthog-open-consent-banner",
                 handleOpenBanner,
@@ -55,7 +62,7 @@ export default function CookieConsentBanner() {
     }, []);
 
     useEffect(() => {
-        if (initialConsentStatusRef.current === "pending") {
+        if (consentStatus === "pending") {
             openRafRef.current = window.requestAnimationFrame(() => {
                 openBanner();
                 openRafRef.current = null;
@@ -67,7 +74,7 @@ export default function CookieConsentBanner() {
                 window.cancelAnimationFrame(openRafRef.current);
             }
         };
-    }, []);
+    }, [consentStatus]);
 
     const handleAccept = () => {
         posthog.opt_in_capturing();
@@ -107,11 +114,11 @@ export default function CookieConsentBanner() {
                                 <Cookie className="size-3.5" />
                                 {t("badge")}
                             </div>
-                            <h2 className="flex items-center gap-2 break-words text-base font-semibold text-slate-900 sm:text-lg dark:text-slate-100">
+                            <h2 className="flex items-center gap-2 text-base font-semibold break-words text-slate-900 sm:text-lg dark:text-slate-100">
                                 <ShieldCheck className="size-4 text-teal-700 dark:text-teal-300" />
                                 {t("title")}
                             </h2>
-                            <p className="max-w-2xl break-words text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                            <p className="max-w-2xl text-sm leading-relaxed break-words text-slate-700 dark:text-slate-300">
                                 {t("description")}
                             </p>
                         </div>
