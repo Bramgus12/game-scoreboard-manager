@@ -11,6 +11,7 @@ Live app: `https://www.game-scoreboard-manager.com`
 - Current supported games:
     - Klaverjas / Klaverjassen
     - Boerenbridge / Oh Hell
+    - Mahjong (NTS style)
 - Built with Next.js 16, React 19, TypeScript, Prisma, Clerk auth, TanStack Query, Tailwind CSS.
 
 ## Features
@@ -25,6 +26,7 @@ Live app: `https://www.game-scoreboard-manager.com`
 
 - Klaverjas rules: `docs/klaverjas.md`
 - Boerenbridge rules: `docs/boerenbridge.md`
+- Mahjong rules: `docs/mahjong.md`
 
 ## Run locally
 

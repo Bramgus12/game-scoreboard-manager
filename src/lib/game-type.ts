@@ -2,7 +2,11 @@ import { GAME_TYPE } from "@/constants/gameType";
 import { AppGameType } from "@/models/app/scoreboard/game-type";
 
 export function isAppGameType(value: string): value is AppGameType {
-    return value === GAME_TYPE.KLAVERJAS || value === GAME_TYPE.BOERENBRIDGE;
+    return (
+        value === GAME_TYPE.KLAVERJAS ||
+        value === GAME_TYPE.BOERENBRIDGE ||
+        value === GAME_TYPE.MAHJONG
+    );
 }
 
 export function parseAppGameType(value: string): AppGameType {

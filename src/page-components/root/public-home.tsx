@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { CardVisual } from "@/page-components/how-to-play/shared/card-visual";
+import { MahjongStoneVisual } from "@/page-components/how-to-play/shared/mahjong-stone-visual";
 import { HomeHeroCta } from "@/page-components/root/home-hero-cta";
 import HomeFooter from "@/page-components/root/home-footer";
 import { BookOpen, Gamepad2, ListChecks, Plus, Rows3 } from "lucide-react";
@@ -30,7 +31,7 @@ export default async function PublicHome() {
             />
             <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.16),transparent_55%),radial-gradient(ellipse_at_bottom,rgba(14,165,233,0.14),transparent_55%)]" />
             <div className="container flex max-w-5xl flex-col gap-10 md:gap-14">
-                <section className="relative overflow-hidden rounded-xl border-2 border-emerald-200/70 bg-gradient-to-br from-emerald-50 via-white to-sky-50 p-6 backdrop-blur-sm dark:border-emerald-500/30 dark:from-emerald-950/30 dark:via-slate-950 dark:to-sky-950/20 md:p-10">
+                <section className="relative overflow-hidden rounded-xl border-2 border-emerald-200/70 bg-gradient-to-br from-emerald-50 via-white to-sky-50 p-6 backdrop-blur-sm md:p-10 dark:border-emerald-500/30 dark:from-emerald-950/30 dark:via-slate-950 dark:to-sky-950/20">
                     <div className="pointer-events-none absolute -top-14 -right-14 h-40 w-40 rounded-full bg-emerald-300/20 blur-3xl dark:bg-emerald-500/20" />
                     <div className="pointer-events-none absolute -bottom-14 -left-12 h-32 w-32 rounded-full bg-sky-300/20 blur-3xl dark:bg-sky-500/20" />
                     <span className="relative inline-flex items-center gap-2 rounded-full border border-emerald-300/70 bg-white/80 px-3 py-1 text-xs font-medium tracking-wide uppercase dark:border-emerald-500/40 dark:bg-slate-950/70">
@@ -61,11 +62,21 @@ export default async function PublicHome() {
                         <div className="origin-bottom translate-y-1 rotate-9">
                             <CardVisual suit="spade" value="K" />
                         </div>
+                        <div className="origin-bottom translate-y-1 rotate-6">
+                            <MahjongStoneVisual kind="wind" value="E" tone="amber" />
+                        </div>
+                        <div className="origin-bottom rotate-12">
+                            <MahjongStoneVisual
+                                kind="dragon"
+                                value="F"
+                                tone="emerald"
+                            />
+                        </div>
                     </div>
                 </section>
 
                 <section className="grid gap-4 md:grid-cols-2">
-                    <article className="relative overflow-hidden rounded-xl border-2 border-sky-200/70 bg-gradient-to-br from-sky-50 via-white to-indigo-50 p-5 dark:border-sky-500/30 dark:from-sky-950/30 dark:via-slate-950 dark:to-indigo-950/20 md:p-6">
+                    <article className="relative overflow-hidden rounded-xl border-2 border-sky-200/70 bg-gradient-to-br from-sky-50 via-white to-indigo-50 p-5 md:p-6 dark:border-sky-500/30 dark:from-sky-950/30 dark:via-slate-950 dark:to-indigo-950/20">
                         <div className="pointer-events-none absolute -top-12 -right-12 h-28 w-28 rounded-full bg-sky-300/20 blur-3xl dark:bg-sky-500/20" />
                         <div className="flex items-start justify-between gap-4">
                             <h2 className="text-xl font-semibold md:text-2xl">
@@ -77,6 +88,14 @@ export default async function PublicHome() {
                                 </div>
                                 <div className="origin-bottom rotate-6">
                                     <CardVisual suit="heart" value="Q" small />
+                                </div>
+                                <div className="origin-bottom translate-y-0.5 rotate-12">
+                                    <MahjongStoneVisual
+                                        kind="circle"
+                                        value="1"
+                                        tone="sky"
+                                        small
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -118,18 +137,27 @@ export default async function PublicHome() {
                                     {t("availableGames.availableNow")}
                                 </span>
                             </div>
-                            <div className="flex items-center justify-between rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3">
-                                <span className="font-medium">
-                                    {t("availableGames.mahjong")}
-                                </span>
-                                <span className="rounded-full bg-amber-500/20 px-2.5 py-1 text-xs font-semibold text-amber-700 dark:text-amber-300">
-                                    {t("availableGames.comingSoon")}
+                            <div className="flex items-center justify-between rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3">
+                                <div className="flex items-center gap-2">
+                                    <span className="font-medium">
+                                        {t("availableGames.mahjong")}
+                                    </span>
+                                    <Link
+                                        href="/how-to-play/mahjong"
+                                        className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-xs underline-offset-2 transition-colors hover:underline"
+                                    >
+                                        <BookOpen size={12} />
+                                        {t("availableGames.learnToPlay")}
+                                    </Link>
+                                </div>
+                                <span className="rounded-full bg-emerald-500/20 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+                                    {t("availableGames.availableNow")}
                                 </span>
                             </div>
                         </div>
                     </article>
 
-                    <article className="relative overflow-hidden rounded-xl border-2 border-emerald-200/70 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-5 dark:border-emerald-500/30 dark:from-emerald-950/30 dark:via-slate-950 dark:to-teal-950/20 md:p-6">
+                    <article className="relative overflow-hidden rounded-xl border-2 border-emerald-200/70 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-5 md:p-6 dark:border-emerald-500/30 dark:from-emerald-950/30 dark:via-slate-950 dark:to-teal-950/20">
                         <div className="pointer-events-none absolute -bottom-12 -left-10 h-28 w-28 rounded-full bg-emerald-300/20 blur-3xl dark:bg-emerald-500/20" />
                         <h2 className="text-xl font-semibold md:text-2xl">
                             {t("howItWorks.title")}

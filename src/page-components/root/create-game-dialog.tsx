@@ -41,7 +41,9 @@ const createGameValidationSchema = z.object({
         .optional()
         .refine(
             (value) =>
-                value === GAME_TYPE.BOERENBRIDGE || value === GAME_TYPE.KLAVERJAS,
+                value === GAME_TYPE.BOERENBRIDGE ||
+                value === GAME_TYPE.KLAVERJAS ||
+                value === GAME_TYPE.MAHJONG,
             { error: "Invalid game type" },
         ),
 });
@@ -53,12 +55,14 @@ type Props = {
     onClose: (open: boolean) => void;
     onGameCreated?: (scoreboardId: UUID, gameType: AppGameType) => void;
     onBoerenbridgeCreationRequested?: (scoreboardName: string) => void;
+    onMahjongCreationRequested?: (scoreboardName: string) => void;
 };
 
 function toAppModel(data: CreateGameForm): AppCreateScoreboard {
     if (
         data.gameType !== GAME_TYPE.BOERENBRIDGE &&
-        data.gameType !== GAME_TYPE.KLAVERJAS
+        data.gameType !== GAME_TYPE.KLAVERJAS &&
+        data.gameType !== GAME_TYPE.MAHJONG
     ) {
         throw new Error("Invalid game type");
     }
@@ -70,11 +74,21 @@ function toAppModel(data: CreateGameForm): AppCreateScoreboard {
 }
 
 function isAppGameType(value: string | undefined): value is AppGameType {
-    return value === GAME_TYPE.BOERENBRIDGE || value === GAME_TYPE.KLAVERJAS;
+    return (
+        value === GAME_TYPE.BOERENBRIDGE ||
+        value === GAME_TYPE.KLAVERJAS ||
+        value === GAME_TYPE.MAHJONG
+    );
 }
 
 export default function CreateGameDialog(props: Props) {
-    const { open, onClose, onGameCreated, onBoerenbridgeCreationRequested } = props;
+    const {
+        open,
+        onClose,
+        onGameCreated,
+        onBoerenbridgeCreationRequested,
+        onMahjongCreationRequested,
+    } = props;
 
     const t = useTranslations("gamesTable.createGameDialog");
     const createScoreboardMutation = useCreateScoreboardMutation();
@@ -98,6 +112,13 @@ export default function CreateGameDialog(props: Props) {
     async function handleSubmitNewGame(data: CreateGameForm) {
         if (data.gameType === GAME_TYPE.BOERENBRIDGE) {
             onBoerenbridgeCreationRequested?.(data.name);
+            handleOpenChange(false);
+
+            return;
+        }
+
+        if (data.gameType === GAME_TYPE.MAHJONG) {
+            onMahjongCreationRequested?.(data.name);
             handleOpenChange(false);
 
             return;
@@ -181,6 +202,11 @@ export default function CreateGameDialog(props: Props) {
                                                     value={GAME_TYPE.BOERENBRIDGE}
                                                 >
                                                     {t("boerenbridge")}
+                                                </SelectItem>
+                                                <SelectItem
+                                                    value={GAME_TYPE.MAHJONG}
+                                                >
+                                                    {t("mahjong")}
                                                 </SelectItem>
                                             </SelectContent>
                                         </Select>

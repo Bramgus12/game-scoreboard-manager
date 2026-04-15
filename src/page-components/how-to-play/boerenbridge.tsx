@@ -1,4 +1,5 @@
 import { CardVisual } from "@/page-components/how-to-play/shared/card-visual";
+import { MahjongStoneVisual } from "@/page-components/how-to-play/shared/mahjong-stone-visual";
 import { AppFeaturesGrid } from "@/page-components/how-to-play/shared/app-features-grid";
 import { BackNavigation } from "@/page-components/how-to-play/shared/back-navigation";
 import { CtaSection } from "@/page-components/how-to-play/shared/cta-section";
@@ -96,6 +97,9 @@ export default async function HowToPlayBoerenbridge() {
                         </div>
                         <div className="rotate-12">
                             <CardVisual suit="heart" value="10" />
+                        </div>
+                        <div className="translate-y-1 rotate-[16deg]">
+                            <MahjongStoneVisual kind="wind" value="E" tone="amber" />
                         </div>
                     </>
                 }

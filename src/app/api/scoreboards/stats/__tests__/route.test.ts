@@ -13,6 +13,12 @@ const getScoreboardsStatsForUserMock = mock(async () => ({
         wrongGuessCount: 4,
         averagePointsPerPlayerPerGame: 18.25,
     },
+    mahjong: {
+        gameCount: 3,
+        winningHandCount: 22,
+        remiseCount: 2,
+        averageWinningPoints: 41.5,
+    },
 }));
 
 mock.module("@/server/service/scoreboard", () => ({
@@ -37,6 +43,12 @@ describe("/api/scoreboards/stats route", () => {
                 wrongGuessCount: 4,
                 averagePointsPerPlayerPerGame: 18.25,
             },
+            mahjong: {
+                gameCount: 3,
+                winningHandCount: 22,
+                remiseCount: 2,
+                averageWinningPoints: 41.5,
+            },
         }));
     });
 
@@ -60,6 +72,12 @@ describe("/api/scoreboards/stats route", () => {
                 wrongGuessCount: 4,
                 averagePointsPerPlayerPerGame: 18.25,
             },
+            mahjong: {
+                gameCount: 3,
+                winningHandCount: 22,
+                remiseCount: 2,
+                averageWinningPoints: 41.5,
+            },
         });
     });
 
@@ -71,6 +89,8 @@ describe("/api/scoreboards/stats route", () => {
         const response = await routeModule.GET();
 
         expect(response.status).toBe(500);
-        await expect(response.text()).resolves.toBe("Failed to fetch scoreboards stats");
+        await expect(response.text()).resolves.toBe(
+            "Failed to fetch scoreboards stats",
+        );
     });
 });

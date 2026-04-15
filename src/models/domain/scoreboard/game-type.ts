@@ -1,1 +1,1 @@
-export type DomainGameType = "klaverjas" | "boerenbridge";
+export type DomainGameType = "klaverjas" | "boerenbridge" | "mahjong";

@@ -1,4 +1,5 @@
 import { CardVisual } from "@/page-components/how-to-play/shared/card-visual";
+import { MahjongStoneVisual } from "@/page-components/how-to-play/shared/mahjong-stone-visual";
 import { AppFeaturesGrid } from "@/page-components/how-to-play/shared/app-features-grid";
 import { BackNavigation } from "@/page-components/how-to-play/shared/back-navigation";
 import { CtaSection } from "@/page-components/how-to-play/shared/cta-section";
@@ -92,6 +93,13 @@ export default async function HowToPlayKlaverjas() {
                         </div>
                         <div className="rotate-9">
                             <CardVisual suit="diamond" value="K" />
+                        </div>
+                        <div className="translate-y-1 rotate-12">
+                            <MahjongStoneVisual
+                                kind="dragon"
+                                value="F"
+                                tone="emerald"
+                            />
                         </div>
                     </>
                 }

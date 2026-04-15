@@ -11,6 +11,11 @@ const QUERY_KEY = {
     BOERENBRIDGE_TOTALS_FOR_SCOREBOARD: "boerenbridge_totals_for_scoreboard",
     BOERENBRIDGE_ROUND_NUMBER_FOR_SCOREBOARD:
         "boerenbridge_round_number_for_scoreboard",
+    MAHJONG_GAME_FOR_SCOREBOARD: "mahjong_game_for_scoreboard",
+    MAHJONG_PLAYERS_FOR_SCOREBOARD: "mahjong_players_for_scoreboard",
+    MAHJONG_HANDS_FOR_SCOREBOARD: "mahjong_hands_for_scoreboard",
+    MAHJONG_TOTALS_FOR_SCOREBOARD: "mahjong_totals_for_scoreboard",
+    MAHJONG_HAND_STATE_FOR_SCOREBOARD: "mahjong_hand_state_for_scoreboard",
 };
 
 export default QUERY_KEY;
