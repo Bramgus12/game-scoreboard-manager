@@ -1,5 +1,13 @@
+import { Zen_Maru_Gothic } from "next/font/google";
+
 type MahjongStoneKind = "character" | "bamboo" | "circle" | "wind" | "dragon";
 type MahjongStoneTone = "emerald" | "sky" | "rose" | "amber" | "indigo";
+
+const zenMaruGothic = Zen_Maru_Gothic({
+    subsets: ["latin"],
+    weight: ["500", "700"],
+    display: "swap",
+});
 
 const CHINESE_NUMERAL_BY_DIGIT: Record<string, string> = {
     "1": "一",
@@ -24,6 +32,12 @@ const DRAGON_GLYPH_BY_VALUE: Record<string, string> = {
     C: "中",
     F: "發",
     P: "白",
+};
+
+const DRAGON_CORNER_MARK_BY_VALUE: Record<string, string> = {
+    C: "C",
+    F: "F",
+    P: "P",
 };
 
 const CIRCLE_POSITIONS: Record<number, Array<[number, number]>> = {
@@ -214,44 +228,28 @@ export function MahjongStoneVisual({
     const chineseNumeral = CHINESE_NUMERAL_BY_DIGIT[value] ?? value;
     const windGlyph = WIND_GLYPH_BY_VALUE[value] ?? value;
     const dragonGlyph = DRAGON_GLYPH_BY_VALUE[value] ?? value;
+    const cornerMark =
+        kind === "dragon" ? (DRAGON_CORNER_MARK_BY_VALUE[value] ?? value) : value;
 
     return (
         <div
-            className={`flex shrink-0 flex-col items-center rounded-md border px-1 py-1 shadow-sm dark:border-slate-600/60 dark:bg-slate-900 ${toneClass} ${small ? "w-10" : "w-14"}`}
+            className={`box-border flex shrink-0 flex-col items-center rounded-md border shadow-sm dark:border-slate-600/60 dark:bg-slate-900 ${toneClass} ${small ? "w-10" : "w-14"}`}
         >
             <svg
                 viewBox="0 0 64 88"
-                className={`${small ? "h-9 w-7" : "h-12 w-10"} rounded-sm border border-amber-200/70 bg-amber-50`}
+                className={`${small ? "h-14 w-10" : "h-20 w-14"} -m-px rounded-sm border border-amber-200/70 bg-amber-50`}
                 aria-hidden="true"
             >
-                <rect
-                    x="2"
-                    y="2"
-                    width="60"
-                    height="84"
-                    rx="6"
-                    fill="#fff9e8"
-                    stroke="#e7d3a6"
-                />
-
-                <rect
-                    x="4"
-                    y="4"
-                    width="16"
-                    height="12"
-                    rx="2"
-                    fill="#ffffff"
-                    stroke="#d1c3a2"
-                />
                 <text
                     x="12"
                     y="14"
                     textAnchor="middle"
-                    fontSize="10"
+                    fontSize="18"
                     fill="#334155"
                     fontWeight="700"
+                    className={zenMaruGothic.className}
                 >
-                    {value}
+                    {cornerMark}
                 </text>
 
                 {kind === "circle" && Number.isInteger(numericValue) ? (
@@ -263,63 +261,43 @@ export function MahjongStoneVisual({
                 ) : null}
 
                 {kind === "character" ? (
-                    <>
-                        <text
-                            x="32"
-                            y="40"
-                            textAnchor="middle"
-                            fontSize="22"
-                            fill="#b42318"
-                            fontWeight="700"
-                        >
-                            {chineseNumeral}
-                        </text>
-                        <text
-                            x="32"
-                            y="62"
-                            textAnchor="middle"
-                            fontSize="16"
-                            fill="#7a2e1d"
-                            fontWeight="700"
-                        >
-                            萬
-                        </text>
-                    </>
+                    <text
+                        x="32"
+                        y="56"
+                        textAnchor="middle"
+                        fontSize="28"
+                        fill="#b42318"
+                        fontWeight="700"
+                        className={zenMaruGothic.className}
+                    >
+                        {chineseNumeral}
+                    </text>
                 ) : null}
 
                 {kind === "wind" ? (
                     <text
                         x="32"
-                        y="52"
+                        y="56"
                         textAnchor="middle"
                         fontSize="28"
                         fill="#5b4b2e"
                         fontWeight="700"
+                        className={zenMaruGothic.className}
                     >
                         {windGlyph}
                     </text>
                 ) : null}
 
                 {kind === "dragon" ? (
-                    value === "P" ? (
-                        <rect
-                            x="18"
-                            y="30"
-                            width="28"
-                            height="28"
-                            rx="4"
-                            fill="#f8fafc"
-                            stroke="#475569"
-                            strokeWidth="2"
-                        />
-                    ) : (
+                    value === "P" ? null : (
                         <text
                             x="32"
-                            y="52"
+                            y="56"
                             textAnchor="middle"
                             fontSize="28"
                             fill={value === "C" ? "#b42318" : "#1f9d5a"}
                             fontWeight="700"
+                            className={zenMaruGothic.className}
                         >
                             {dragonGlyph}
                         </text>
