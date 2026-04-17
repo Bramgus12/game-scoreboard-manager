@@ -6,6 +6,7 @@ import prisma from "@/utils/prisma";
 import { GAME_TYPE } from "@/constants/gameType";
 import { AppCreateBoerenbridgePlayer } from "@/models/app/boerenbridge-player/create-boerenbridge-player";
 import { AppScoreboardsStats } from "@/models/app/scoreboard/scoreboard-stats";
+import { AppMahjongRuleProfile } from "@/models/app/mahjong/rule-profile";
 
 type RawScoreboardsStatsRow = {
     klaverjas_game_count: number | string | bigint | { toString(): string } | null;
@@ -22,10 +23,39 @@ type RawScoreboardsStatsRow = {
         | bigint
         | { toString(): string }
         | null;
-    boerenbridge_game_count: number | string | bigint | { toString(): string } | null;
-    boerenbridge_correct_count: number | string | bigint | { toString(): string } | null;
-    boerenbridge_wrong_count: number | string | bigint | { toString(): string } | null;
+    boerenbridge_game_count:
+        | number
+        | string
+        | bigint
+        | { toString(): string }
+        | null;
+    boerenbridge_correct_count:
+        | number
+        | string
+        | bigint
+        | { toString(): string }
+        | null;
+    boerenbridge_wrong_count:
+        | number
+        | string
+        | bigint
+        | { toString(): string }
+        | null;
     boerenbridge_avg_points_per_player_per_game:
+        | number
+        | string
+        | bigint
+        | { toString(): string }
+        | null;
+    mahjong_game_count: number | string | bigint | { toString(): string } | null;
+    mahjong_winning_hand_count:
+        | number
+        | string
+        | bigint
+        | { toString(): string }
+        | null;
+    mahjong_remise_count: number | string | bigint | { toString(): string } | null;
+    mahjong_avg_winning_points:
         | number
         | string
         | bigint
@@ -88,6 +118,14 @@ type CreateBoerenbridgeScoreboardWithGamePayload = {
     players: Array<AppCreateBoerenbridgePlayer>;
 };
 
+type CreateMahjongScoreboardWithGamePayload = {
+    scoreboardName: string;
+    players: Array<{ name: string }>;
+    handLimit: number;
+    pointsLimit: number;
+    ruleProfile: AppMahjongRuleProfile;
+};
+
 export async function createBoerenbridgeScoreboardWithGame(
     payload: CreateBoerenbridgeScoreboardWithGamePayload,
 ) {
@@ -126,6 +164,57 @@ export async function createBoerenbridgeScoreboardWithGame(
                 created_at: new Date(),
                 updated_at: new Date(),
                 name: player.name,
+            })),
+        });
+
+        return scoreboard;
+    });
+}
+
+export async function createMahjongScoreboardWithGame(
+    payload: CreateMahjongScoreboardWithGamePayload,
+) {
+    const user = await getDatabaseUser();
+
+    if (payload.players.length !== 4) {
+        throw new Error("Mahjong requires exactly 4 players");
+    }
+
+    return await prisma.$transaction(async (transaction) => {
+        const scoreboardId = randomUUID();
+        const gameId = randomUUID();
+
+        const scoreboard = await transaction.scoreboard.create({
+            data: {
+                id: scoreboardId,
+                user_id: user.id,
+                created_at: new Date(),
+                updated_at: new Date(),
+                game_type: GAME_TYPE.MAHJONG,
+                scoreboard_name: payload.scoreboardName,
+            },
+        });
+
+        await transaction.mahjong_game.create({
+            data: {
+                id: gameId,
+                scoreboard_id: scoreboardId,
+                created_at: new Date(),
+                updated_at: new Date(),
+                points_limit: payload.pointsLimit,
+                hand_limit: payload.handLimit,
+                rule_profile: payload.ruleProfile,
+            },
+        });
+
+        await transaction.mahjong_player.createMany({
+            data: payload.players.map((player, index) => ({
+                id: randomUUID(),
+                game_id: gameId,
+                created_at: new Date(),
+                updated_at: new Date(),
+                name: player.name,
+                seat_index: index,
             })),
         });
 
@@ -243,6 +332,28 @@ export async function getScoreboardsStatsForUser(): Promise<AppScoreboardsStats>
                 INNER JOIN boerenbridge_games bg ON bg.id = bp.game_id
                 LEFT JOIN boerenbridge_round br ON br.player_id = bp.id
                 GROUP BY bp.id
+            ),
+            mahjong_games AS (
+                SELECT mg.id
+                FROM mahjong_game mg
+                INNER JOIN user_scoreboards us ON us.id = mg.scoreboard_id
+                WHERE us.game_type = 'mahjong'
+            ),
+            mahjong_hand_stats AS (
+                SELECT
+                    COUNT(*) FILTER (WHERE mh.win_type <> 'remise') AS winning_hand_count,
+                    COUNT(*) FILTER (WHERE mh.win_type = 'remise') AS remise_count,
+                    COALESCE(
+                        AVG(
+                            CASE
+                                WHEN mh.win_type <> 'remise' THEN mh.winner_points::double precision
+                                ELSE NULL
+                            END
+                        ),
+                        0
+                    )::double precision AS avg_winning_points
+                FROM mahjong_hand mh
+                INNER JOIN mahjong_games mg ON mg.id = mh.game_id
             )
             SELECT
                 (SELECT COUNT(*) FROM klaverjas_scoreboards) AS klaverjas_game_count,
@@ -252,7 +363,11 @@ export async function getScoreboardsStatsForUser(): Promise<AppScoreboardsStats>
                 (SELECT COUNT(*) FROM boerenbridge_games) AS boerenbridge_game_count,
                 COALESCE((SELECT correct_count FROM boerenbridge_guess_counts), 0) AS boerenbridge_correct_count,
                 COALESCE((SELECT wrong_count FROM boerenbridge_guess_counts), 0) AS boerenbridge_wrong_count,
-                COALESCE((SELECT AVG(total_points)::double precision FROM boerenbridge_player_totals), 0)::double precision AS boerenbridge_avg_points_per_player_per_game
+                COALESCE((SELECT AVG(total_points)::double precision FROM boerenbridge_player_totals), 0)::double precision AS boerenbridge_avg_points_per_player_per_game,
+                (SELECT COUNT(*) FROM mahjong_games) AS mahjong_game_count,
+                COALESCE((SELECT winning_hand_count FROM mahjong_hand_stats), 0) AS mahjong_winning_hand_count,
+                COALESCE((SELECT remise_count FROM mahjong_hand_stats), 0) AS mahjong_remise_count,
+                COALESCE((SELECT avg_winning_points FROM mahjong_hand_stats), 0)::double precision AS mahjong_avg_winning_points
         `,
         user.id,
     );
@@ -273,6 +388,12 @@ export async function getScoreboardsStatsForUser(): Promise<AppScoreboardsStats>
                 wrongGuessCount: 0,
                 averagePointsPerPlayerPerGame: 0,
             },
+            mahjong: {
+                gameCount: 0,
+                winningHandCount: 0,
+                remiseCount: 0,
+                averageWinningPoints: 0,
+            },
         };
     }
 
@@ -290,6 +411,12 @@ export async function getScoreboardsStatsForUser(): Promise<AppScoreboardsStats>
             averagePointsPerPlayerPerGame: toNumber(
                 row.boerenbridge_avg_points_per_player_per_game,
             ),
+        },
+        mahjong: {
+            gameCount: toNumber(row.mahjong_game_count),
+            winningHandCount: toNumber(row.mahjong_winning_hand_count),
+            remiseCount: toNumber(row.mahjong_remise_count),
+            averageWinningPoints: toNumber(row.mahjong_avg_winning_points),
         },
     };
 }

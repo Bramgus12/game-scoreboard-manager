@@ -10,7 +10,11 @@ import { getPostHogClient } from "@/lib/posthog-server";
 
 const createScoreboardSchema = z.object({
     scoreboardName: z.string().min(1),
-    gameType: z.enum([GAME_TYPE.KLAVERJAS, GAME_TYPE.BOERENBRIDGE]),
+    gameType: z.enum([
+        GAME_TYPE.KLAVERJAS,
+        GAME_TYPE.BOERENBRIDGE,
+        GAME_TYPE.MAHJONG,
+    ]),
 });
 
 export async function GET() {

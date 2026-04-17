@@ -13,6 +13,7 @@ import {
     Target,
     Check,
     X,
+    Minus,
 } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import CreateGameDialog from "@/page-components/root/create-game-dialog";
@@ -24,8 +25,10 @@ import { useRouter } from "@/i18n/navigation";
 import CreateBoerenbridgeScoreboardDialog from "@/page-components/root/create-boerenbridge-scoreboard-dialog";
 import Paper from "@/components/paper";
 import { CardVisual } from "@/page-components/how-to-play/shared/card-visual";
+import { MahjongStoneVisual } from "@/page-components/how-to-play/shared/mahjong-stone-visual";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { AppGameType } from "@/models/app/scoreboard/game-type";
+import CreateMahjongScoreboardDialog from "@/page-components/root/create-mahjong-scoreboard-dialog";
 
 export default function Games() {
     const { data, isPending, isError, isRefetching } = useScoreboardsQuery();
@@ -38,8 +41,9 @@ export default function Games() {
     const t = useTranslations("gamesTable");
     const format = useFormatter();
 
-    const [selectedStatsType, setSelectedStatsType] =
-        useState<AppGameType>(GAME_TYPE.BOERENBRIDGE);
+    const [selectedStatsType, setSelectedStatsType] = useState<AppGameType>(
+        GAME_TYPE.BOERENBRIDGE,
+    );
     const [isCreateGameDialogOpen, setIsCreateGameDialogOpen] = useState(false);
     const [createKlaverjasGameDialogState, setCreateKlaverjasGameDialogState] =
         useState<{ open: boolean; scoreboardId: UUID | null }>({
@@ -53,19 +57,22 @@ export default function Games() {
         open: false,
         scoreboardName: "",
     });
+    const [
+        createMahjongScoreboardDialogState,
+        setCreateMahjongScoreboardDialogState,
+    ] = useState<{ open: boolean; scoreboardName: string }>({
+        open: false,
+        scoreboardName: "",
+    });
 
-    const sortedScoreboards = useMemo(
-        () => {
-            const scoreboards = data ?? [];
+    const sortedScoreboards = useMemo(() => {
+        const scoreboards = data ?? [];
 
-            return [...scoreboards].sort(
-                (scoreboardA, scoreboardB) =>
-                    scoreboardB.createdAt.valueOf() -
-                    scoreboardA.createdAt.valueOf(),
-            );
-        },
-        [data],
-    );
+        return [...scoreboards].sort(
+            (scoreboardA, scoreboardB) =>
+                scoreboardB.createdAt.valueOf() - scoreboardA.createdAt.valueOf(),
+        );
+    }, [data]);
 
     const scoreboardsByType = useMemo(
         () => ({
@@ -74,6 +81,9 @@ export default function Games() {
             ),
             [GAME_TYPE.KLAVERJAS]: sortedScoreboards.filter(
                 (scoreboard) => scoreboard.gameType === GAME_TYPE.KLAVERJAS,
+            ),
+            [GAME_TYPE.MAHJONG]: sortedScoreboards.filter(
+                (scoreboard) => scoreboard.gameType === GAME_TYPE.MAHJONG,
             ),
         }),
         [sortedScoreboards],
@@ -91,7 +101,11 @@ export default function Games() {
             return GAME_TYPE.BOERENBRIDGE;
         }
 
-        return GAME_TYPE.KLAVERJAS;
+        if (scoreboardsByType[GAME_TYPE.KLAVERJAS].length > 0) {
+            return GAME_TYPE.KLAVERJAS;
+        }
+
+        return GAME_TYPE.MAHJONG;
     }, [scoreboardsByType, selectedStatsType, sortedScoreboards.length]);
 
     const selectedScoreboards = scoreboardsByType[activeStatsType];
@@ -130,13 +144,26 @@ export default function Games() {
                             <div className="flex items-end gap-2">
                                 <div className="hidden items-end gap-1 sm:flex">
                                     <div className="origin-bottom -rotate-10">
-                                        <CardVisual suit="club" value="J" small isTrump />
+                                        <CardVisual
+                                            suit="club"
+                                            value="J"
+                                            small
+                                            isTrump
+                                        />
                                     </div>
                                     <div className="origin-bottom -rotate-2">
                                         <CardVisual suit="diamond" value="A" small />
                                     </div>
                                     <div className="origin-bottom rotate-8">
                                         <CardVisual suit="heart" value="10" small />
+                                    </div>
+                                    <div className="origin-bottom translate-y-0.5 rotate-10">
+                                        <MahjongStoneVisual
+                                            kind="wind"
+                                            value="E"
+                                            tone="amber"
+                                            small
+                                        />
                                     </div>
                                 </div>
                                 <Button
@@ -195,6 +222,19 @@ export default function Games() {
                                 >
                                     {t("klaverjas")}
                                 </Button>
+                                <Button
+                                    size="sm"
+                                    variant={
+                                        activeStatsType === GAME_TYPE.MAHJONG
+                                            ? "default"
+                                            : "outline"
+                                    }
+                                    onClick={() =>
+                                        setSelectedStatsType(GAME_TYPE.MAHJONG)
+                                    }
+                                >
+                                    {t("mahjong")}
+                                </Button>
                             </ButtonGroup>
                         </div>
 
@@ -226,7 +266,9 @@ export default function Games() {
                                                 {t("stats.klaverjasPitCount")}
                                             </div>
                                             <p className="text-2xl font-semibold">
-                                                {format.number(stats.klaverjas.pitCount)}
+                                                {format.number(
+                                                    stats.klaverjas.pitCount,
+                                                )}
                                             </p>
                                             <p className="text-muted-foreground text-xs">
                                                 {t("stats.fromGames", {
@@ -238,11 +280,14 @@ export default function Games() {
                                         <div className="rounded-lg border border-sky-300/70 bg-sky-100/60 p-3 dark:border-sky-500/40 dark:bg-sky-900/25">
                                             <div className="mb-1 flex items-center gap-1 text-xs">
                                                 <TrendingUp size={12} />
-                                                {t("stats.klaverjasAveragePointsPerTeam")}
+                                                {t(
+                                                    "stats.klaverjasAveragePointsPerTeam",
+                                                )}
                                             </div>
                                             <p className="text-2xl font-semibold">
                                                 {format.number(
-                                                    stats.klaverjas.averagePointsPerTeam,
+                                                    stats.klaverjas
+                                                        .averagePointsPerTeam,
                                                     {
                                                         maximumFractionDigits: 2,
                                                     },
@@ -258,11 +303,14 @@ export default function Games() {
                                         <div className="rounded-lg border border-indigo-300/70 bg-indigo-100/60 p-3 dark:border-indigo-500/40 dark:bg-indigo-900/25">
                                             <div className="mb-1 flex items-center gap-1 text-xs">
                                                 <Target size={12} />
-                                                {t("stats.klaverjasAverageNatPerGame")}
+                                                {t(
+                                                    "stats.klaverjasAverageNatPerGame",
+                                                )}
                                             </div>
                                             <p className="text-2xl font-semibold">
                                                 {format.number(
-                                                    stats.klaverjas.averageNatTimesPerGame,
+                                                    stats.klaverjas
+                                                        .averageNatTimesPerGame,
                                                     {
                                                         maximumFractionDigits: 2,
                                                     },
@@ -275,19 +323,25 @@ export default function Games() {
                                             </p>
                                         </div>
                                     </div>
-                                ) : (
+                                ) : activeStatsType === GAME_TYPE.BOERENBRIDGE ? (
                                     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                                         <div className="rounded-lg border border-emerald-300/70 bg-emerald-100/60 p-3 dark:border-emerald-500/40 dark:bg-emerald-900/25">
                                             <div className="mb-1 flex items-center gap-1 text-xs">
                                                 <Check size={12} />
-                                                {t("stats.boerenbridgeCorrectGuesses")}
+                                                {t(
+                                                    "stats.boerenbridgeCorrectGuesses",
+                                                )}
                                             </div>
                                             <p className="text-2xl font-semibold">
-                                                {format.number(stats.boerenbridge.correctGuessCount)}
+                                                {format.number(
+                                                    stats.boerenbridge
+                                                        .correctGuessCount,
+                                                )}
                                             </p>
                                             <p className="text-muted-foreground text-xs">
                                                 {t("stats.fromGames", {
-                                                    count: stats.boerenbridge.gameCount,
+                                                    count: stats.boerenbridge
+                                                        .gameCount,
                                                 })}
                                             </p>
                                         </div>
@@ -298,11 +352,15 @@ export default function Games() {
                                                 {t("stats.boerenbridgeWrongGuesses")}
                                             </div>
                                             <p className="text-2xl font-semibold">
-                                                {format.number(stats.boerenbridge.wrongGuessCount)}
+                                                {format.number(
+                                                    stats.boerenbridge
+                                                        .wrongGuessCount,
+                                                )}
                                             </p>
                                             <p className="text-muted-foreground text-xs">
                                                 {t("stats.fromGames", {
-                                                    count: stats.boerenbridge.gameCount,
+                                                    count: stats.boerenbridge
+                                                        .gameCount,
                                                 })}
                                             </p>
                                         </div>
@@ -310,11 +368,9 @@ export default function Games() {
                                         <div className="rounded-lg border border-sky-300/70 bg-sky-100/60 p-3 dark:border-sky-500/40 dark:bg-sky-900/25">
                                             <div className="mb-1 flex items-center gap-1 text-xs">
                                                 <TrendingUp size={12} />
-                                                {
-                                                    t(
-                                                        "stats.boerenbridgeAveragePointsPerPlayerPerGame",
-                                                    )
-                                                }
+                                                {t(
+                                                    "stats.boerenbridgeAveragePointsPerPlayerPerGame",
+                                                )}
                                             </div>
                                             <p className="text-2xl font-semibold">
                                                 {format.number(
@@ -327,7 +383,67 @@ export default function Games() {
                                             </p>
                                             <p className="text-muted-foreground text-xs">
                                                 {t("stats.fromGames", {
-                                                    count: stats.boerenbridge.gameCount,
+                                                    count: stats.boerenbridge
+                                                        .gameCount,
+                                                })}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                                        <div className="rounded-lg border border-emerald-300/70 bg-emerald-100/60 p-3 dark:border-emerald-500/40 dark:bg-emerald-900/25">
+                                            <div className="mb-1 flex items-center gap-1 text-xs">
+                                                <BarChart3 size={12} />
+                                                {t("stats.mahjongWinningHands")}
+                                            </div>
+                                            <p className="text-2xl font-semibold">
+                                                {format.number(
+                                                    stats.mahjong.winningHandCount,
+                                                )}
+                                            </p>
+                                            <p className="text-muted-foreground text-xs">
+                                                {t("stats.fromGames", {
+                                                    count: stats.mahjong.gameCount,
+                                                })}
+                                            </p>
+                                        </div>
+
+                                        <div className="rounded-lg border border-sky-300/70 bg-sky-100/60 p-3 dark:border-sky-500/40 dark:bg-sky-900/25">
+                                            <div className="mb-1 flex items-center gap-1 text-xs">
+                                                <Minus size={12} />
+                                                {t("stats.mahjongRemises")}
+                                            </div>
+                                            <p className="text-2xl font-semibold">
+                                                {format.number(
+                                                    stats.mahjong.remiseCount,
+                                                )}
+                                            </p>
+                                            <p className="text-muted-foreground text-xs">
+                                                {t("stats.fromGames", {
+                                                    count: stats.mahjong.gameCount,
+                                                })}
+                                            </p>
+                                        </div>
+
+                                        <div className="rounded-lg border border-indigo-300/70 bg-indigo-100/60 p-3 dark:border-indigo-500/40 dark:bg-indigo-900/25">
+                                            <div className="mb-1 flex items-center gap-1 text-xs">
+                                                <TrendingUp size={12} />
+                                                {t(
+                                                    "stats.mahjongAverageWinningPoints",
+                                                )}
+                                            </div>
+                                            <p className="text-2xl font-semibold">
+                                                {format.number(
+                                                    stats.mahjong
+                                                        .averageWinningPoints,
+                                                    {
+                                                        maximumFractionDigits: 2,
+                                                    },
+                                                )}
+                                            </p>
+                                            <p className="text-muted-foreground text-xs">
+                                                {t("stats.fromGames", {
+                                                    count: stats.mahjong.gameCount,
                                                 })}
                                             </p>
                                         </div>
@@ -342,14 +458,18 @@ export default function Games() {
                         <div className="pointer-events-none absolute -bottom-10 -left-8 h-24 w-24 rounded-full bg-sky-300/20 blur-3xl dark:bg-sky-500/20" />
                         <div className="relative flex flex-row items-center gap-4 border-b border-b-emerald-200/70 bg-white/70 px-4 py-2 dark:border-b-emerald-500/30 dark:bg-slate-950/60">
                             <div className="flex flex-col">
-                                <span className="text-lg font-medium">{t("yourGames")}</span>
+                                <span className="text-lg font-medium">
+                                    {t("yourGames")}
+                                </span>
                                 <span className="text-xs">
                                     {t("numberOfTotalGames", {
                                         count: sortedScoreboards.length,
                                     })}
                                 </span>
                             </div>
-                            {isRefetching ? <Loader2Icon className="animate-spin" /> : null}
+                            {isRefetching ? (
+                                <Loader2Icon className="animate-spin" />
+                            ) : null}
                         </div>
                         {sortedScoreboards.length === 0 ? (
                             <div className="flex flex-col items-center justify-center gap-5 py-20">
@@ -365,7 +485,9 @@ export default function Games() {
                             return (
                                 <GameItem
                                     scoreboard={scoreboard}
-                                    isLastItem={index === sortedScoreboards.length - 1}
+                                    isLastItem={
+                                        index === sortedScoreboards.length - 1
+                                    }
                                     key={scoreboard.id}
                                 />
                             );
@@ -396,6 +518,12 @@ export default function Games() {
                         scoreboardName,
                     });
                 }}
+                onMahjongCreationRequested={(scoreboardName) => {
+                    setCreateMahjongScoreboardDialogState({
+                        open: true,
+                        scoreboardName,
+                    });
+                }}
             />
             <CreateKlaverjasGameDialog
                 scoreboardId={createKlaverjasGameDialogState.scoreboardId}
@@ -422,6 +550,20 @@ export default function Games() {
                 }
                 onClose={(createdScoreboardId) => {
                     setCreateBoerenbridgeScoreboardDialogState({
+                        open: false,
+                        scoreboardName: "",
+                    });
+
+                    if (createdScoreboardId != null) {
+                        router.push(`/scoreboard/${createdScoreboardId}`);
+                    }
+                }}
+            />
+            <CreateMahjongScoreboardDialog
+                open={createMahjongScoreboardDialogState.open}
+                scoreboardName={createMahjongScoreboardDialogState.scoreboardName}
+                onClose={(createdScoreboardId) => {
+                    setCreateMahjongScoreboardDialogState({
                         open: false,
                         scoreboardName: "",
                     });

@@ -30,6 +30,12 @@ const getScoreboardsStatsForUserMock = mock(async () => ({
         wrongGuessCount: 0,
         averagePointsPerPlayerPerGame: 0,
     },
+    mahjong: {
+        gameCount: 0,
+        winningHandCount: 0,
+        remiseCount: 0,
+        averageWinningPoints: 0,
+    },
 }));
 
 const currentUserMock = mock<() => Promise<{ id: string } | null>>(async () => ({
@@ -96,6 +102,12 @@ describe("/api/scoreboards route", () => {
                 correctGuessCount: 0,
                 wrongGuessCount: 0,
                 averagePointsPerPlayerPerGame: 0,
+            },
+            mahjong: {
+                gameCount: 0,
+                winningHandCount: 0,
+                remiseCount: 0,
+                averageWinningPoints: 0,
             },
         }));
         getPosthogClientMock.mockImplementation(() => ({

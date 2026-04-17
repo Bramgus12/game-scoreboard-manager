@@ -15,4 +15,10 @@ export type AppBoerenbridgeScoreboardStats = {
 export type AppScoreboardsStats = {
     klaverjas: AppKlaverjasScoreboardStats;
     boerenbridge: AppBoerenbridgeScoreboardStats;
+    mahjong: {
+        gameCount: number;
+        winningHandCount: number;
+        remiseCount: number;
+        averageWinningPoints: number;
+    };
 };

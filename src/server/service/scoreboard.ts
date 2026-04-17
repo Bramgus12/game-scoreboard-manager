@@ -7,6 +7,7 @@ import { UUID } from "crypto";
 import { AppCreateScoreboard } from "@/models/app/scoreboard/create-scoreboard";
 import {
     createBoerenbridgeScoreboardWithGame as repoCreateBoerenbridgeScoreboardWithGame,
+    createMahjongScoreboardWithGame as repoCreateMahjongScoreboardWithGame,
     createScoreboard as repoCreateScoreboard,
     deleteScoreboardById as repoDeleteScoreboardById,
     getScoreboardById as repoGetScoreboardById,
@@ -15,6 +16,7 @@ import {
 } from "@/server/repository/scoreboard";
 import { AppCreateBoerenbridgePlayer } from "@/models/app/boerenbridge-player/create-boerenbridge-player";
 import { AppScoreboardsStats } from "@/models/app/scoreboard/scoreboard-stats";
+import { AppMahjongRuleProfile } from "@/models/app/mahjong/rule-profile";
 
 export async function deleteScoreboardById(id: UUID) {
     return repoDeleteScoreboardById(id);
@@ -49,6 +51,22 @@ export async function createBoerenbridgeScoreboardWithGame(
 ) {
     const createdScoreboard =
         await repoCreateBoerenbridgeScoreboardWithGame(payload);
+
+    return domainToAppScoreboard(createdScoreboard);
+}
+
+type CreateMahjongScoreboardWithGamePayload = {
+    scoreboardName: string;
+    players: Array<{ name: string }>;
+    handLimit: number;
+    pointsLimit: number;
+    ruleProfile: AppMahjongRuleProfile;
+};
+
+export async function createMahjongScoreboardWithGame(
+    payload: CreateMahjongScoreboardWithGamePayload,
+) {
+    const createdScoreboard = await repoCreateMahjongScoreboardWithGame(payload);
 
     return domainToAppScoreboard(createdScoreboard);
 }

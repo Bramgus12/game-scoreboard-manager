@@ -33,6 +33,10 @@ const queryRawUnsafeMock = mock(
             boerenbridge_correct_count: "9",
             boerenbridge_wrong_count: "4",
             boerenbridge_avg_points_per_player_per_game: "12.75",
+            mahjong_game_count: 3,
+            mahjong_winning_hand_count: 22,
+            mahjong_remise_count: 2,
+            mahjong_avg_winning_points: "41.5",
         },
     ],
 );
@@ -114,6 +118,10 @@ describe("scoreboard repository", () => {
                 boerenbridge_correct_count: "9",
                 boerenbridge_wrong_count: "4",
                 boerenbridge_avg_points_per_player_per_game: "12.75",
+                mahjong_game_count: 3,
+                mahjong_winning_hand_count: 22,
+                mahjong_remise_count: 2,
+                mahjong_avg_winning_points: "41.5",
             },
         ]);
         prismaMock.scoreboard.findMany.mockImplementation(async () => []);
@@ -280,6 +288,12 @@ describe("scoreboard repository", () => {
                 wrongGuessCount: 4,
                 averagePointsPerPlayerPerGame: 12.75,
             },
+            mahjong: {
+                gameCount: 3,
+                winningHandCount: 22,
+                remiseCount: 2,
+                averageWinningPoints: 41.5,
+            },
         });
 
         expect(queryRawUnsafeMock).toHaveBeenCalledTimes(1);
@@ -303,6 +317,12 @@ describe("scoreboard repository", () => {
                 wrongGuessCount: 0,
                 averagePointsPerPlayerPerGame: 0,
             },
+            mahjong: {
+                gameCount: 0,
+                winningHandCount: 0,
+                remiseCount: 0,
+                averageWinningPoints: 0,
+            },
         });
     });
 
@@ -317,6 +337,10 @@ describe("scoreboard repository", () => {
                 boerenbridge_correct_count: 9n,
                 boerenbridge_wrong_count: 4n,
                 boerenbridge_avg_points_per_player_per_game: 12.75,
+                mahjong_game_count: 3n,
+                mahjong_winning_hand_count: 22n,
+                mahjong_remise_count: 2n,
+                mahjong_avg_winning_points: 41.5,
             },
         ]);
 
@@ -327,6 +351,8 @@ describe("scoreboard repository", () => {
         expect(stats.boerenbridge.gameCount).toBe(1);
         expect(stats.boerenbridge.correctGuessCount).toBe(9);
         expect(stats.boerenbridge.wrongGuessCount).toBe(4);
+        expect(stats.mahjong.gameCount).toBe(3);
+        expect(stats.mahjong.winningHandCount).toBe(22);
     });
 
     it("maps invalid numeric strings to zero", async () => {
@@ -340,6 +366,10 @@ describe("scoreboard repository", () => {
                 boerenbridge_correct_count: "9",
                 boerenbridge_wrong_count: "4",
                 boerenbridge_avg_points_per_player_per_game: "12.75",
+                mahjong_game_count: "3",
+                mahjong_winning_hand_count: "22",
+                mahjong_remise_count: "2",
+                mahjong_avg_winning_points: "41.5",
             },
         ]);
 
@@ -362,6 +392,10 @@ describe("scoreboard repository", () => {
                 boerenbridge_avg_points_per_player_per_game: {
                     toString: () => "12.75",
                 },
+                mahjong_game_count: { toString: () => "3" },
+                mahjong_winning_hand_count: { toString: () => "22" },
+                mahjong_remise_count: { toString: () => "2" },
+                mahjong_avg_winning_points: { toString: () => "41.5" },
             },
         ]);
 
@@ -380,6 +414,12 @@ describe("scoreboard repository", () => {
                 wrongGuessCount: 4,
                 averagePointsPerPlayerPerGame: 12.75,
             },
+            mahjong: {
+                gameCount: 3,
+                winningHandCount: 22,
+                remiseCount: 2,
+                averageWinningPoints: 41.5,
+            },
         });
     });
 
@@ -396,6 +436,10 @@ describe("scoreboard repository", () => {
                 boerenbridge_avg_points_per_player_per_game: {
                     toString: () => "12.75",
                 },
+                mahjong_game_count: { toString: () => "3" },
+                mahjong_winning_hand_count: { toString: () => "22" },
+                mahjong_remise_count: { toString: () => "2" },
+                mahjong_avg_winning_points: { toString: () => "41.5" },
             },
         ]);
 
